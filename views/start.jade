@@ -1,4 +1,25 @@
-extends layout
+html
+    head
+        title 홈 화면
+        script(src="https://apis.google.com/js/platform.js" async defer)
+        meta(name="google-signin-client_id" content="900287629097-jgh7e8bj0s43t46qi6l5jm1jaaao4rjc.apps.googleusercontent.com")
+        style.
+            d
+    body
+        h1 Login Test 화면
+        //Login
+        div(class="signBox" style='margin-left : 800px;width : 400px; height : 300px; border:solid; color : grey; border-radius:5px; box-shadow : 1px 1px 2px 0px;')
+            div(class="g-signin2" data-onsuccess="onSignIn" style='display:inline-block; width : 300px; margin-left : 50px; margin-Top:50px')
+            button(style='display:inline-block; border-radius : 5px; border-color : grey;width : 300px; height : 30px; margin-left : 50px; margin-Top:50px; background-color : white;')
+                text() Register
+    script(type="text/javascript").
+        function onSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
-block content
-    <input type = "Button" value = "Test Button">
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log(id_token);
+        }
