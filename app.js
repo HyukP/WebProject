@@ -113,4 +113,17 @@ app.get('/auth/SignUp',async function (request, response) {
     }
   })
 })
+
+app.get('/auth/SignIn',async function (request, response) {
+  var query = request.query;
+  connection.query('SELECT * FROM user WHERE email = ? AND password = ?', [query.email, query.password], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      response.send({status : 200, message : "로그인에 성공"});
+    } else {
+      response.send({status : 500, message : "로그인에 실패"});
+    }
+  })
+})
+
 module.exports = app;

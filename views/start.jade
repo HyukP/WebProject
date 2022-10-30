@@ -2,6 +2,7 @@ html
     head
         title 홈 화면
         link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
     body
       div(class="wrap")
         div(class="myText") Login Test를 위해 임시로 남겨둔 Text 공간입니다.
@@ -9,7 +10,7 @@ html
             h2 Login Test
             li
                 script(src="https://accounts.google.com/gsi/client" async defer)
-                div(id="g_id_onload" data-client_id="224091167033-surtm8gh2ikripcn329dvvju3is63sp5.apps.googleusercontent.com" data-callback="onSignIn")
+                div(id="g_id_onload" data-client_id="224091167033-surtm8gh2ikripcn329dvvju3is63sp5.apps.googleusercontent.com" data-callback="onSignUp")
                     div(div class="g_id_signin" data-type="standard" style = "margin-left : 50px; margin-Top : 100px;")          
             div(class="login_id")
                 h4 E-mail
@@ -24,10 +25,10 @@ html
                 div(class="forgot_pw")
                     a(href='') Forgot Password?
             div(class="submit")
-                input(type='submit' value='Login')
+                input(type='submit' value='Login' onClick='onSignIn()')
       
     script(type="text/javascript").
-        function onSignIn(response) {
+        function onSignUp(response) {
            const responsePayload = response.credential;
            var base64Payload = responsePayload.split('.')[1];
            var base64 = base64Payload.replace(/-/g, '+').replace(/_/g, '/');
@@ -36,4 +37,25 @@ html
            }).join(''));
            console.log(result);
            document.location.href="./Register?email=" + JSON.parse(result).email;
+        }
+        function onSignIn() {
+            const email = document.querySelector("div.login_id input").value;
+            const password = document.querySelector("div.login_pw input").value;
+            console.log(email, password);
+            axios.get('http://localhost:3000/auth/SignIn',{
+                method: 'POST',
+                params: {
+                    email : email,
+                    password : password,
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                console.log(response.data);
+                if(response.data.status==200)
+                    document.location.href="./trans";
+                else
+                    alert("로그인 실패");
+            })
         }
