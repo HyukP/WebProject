@@ -2,15 +2,96 @@ html
     head
         title Register 
         link(rel='stylesheet', href='/stylesheets/Resgister.css')
+    script(type = "text/javascript").
+        let tutorState = false, tuteeState = false;
+        let role = "null";
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
     body
         div(class="wrap")
             div(class="register")
+                div(class="")
+                    h4 회원가입
+                h4(style ="margin-right:auto; margin-left:40px;") User Type
+                div(class="area1")
+                    div(class="tutor")
+                        button(onClick="changeState(tutorState,tuteeState)") Tutor
+                    div(class="tutee")
+                        button(onClick="changeState2(tutorState,tuteeState)") Tutee
+                div(class="password")
+                        h4 password
+                        input(type="password" placeholder="password")
                 div(class="name")
                     h4 name
                     input(type="name" placeholder="name")
                 div(class="nickname")
                     h4 nickname
                     input(type="nickname" placeholder="nickname")
-                div(class="phone")
-                    h4 phone_number
-                    input(type="phone_number" placeholder="phone_number")
+                div(class="country")
+                    h4 country
+                    select(type="country")
+                        option(value="0") French
+                        option(value="1") Vietnam
+                        option(value="2") China
+                        option(value="3") Korea
+                div(class="signUp")
+                    button(onClick="testLoad(tutorState, tuteeState)") SignUp
+    script(type = "text/javascript").
+        const testLoad = (tutorState, tuteeState) => {
+            const url = document.location.href;
+            const qs = url.substring(url.indexOf('?')+1).split('=');
+            const email = qs[1];
+            const password = document.querySelector("div.password input").value;
+            const name = document.querySelector("div.name input").value;
+            const nickname = document.querySelector("div.nickname input").value;
+            const country = document.querySelector("div.country select");
+            console.log(tutorState, tuteeState);
+            if(tutorState==true) role = "TUTOR";
+            else role = "TUTEE";
+            const User = {
+                email : email,
+                password : password,
+                name : name,
+                nickname : nickname,
+                country : country,
+                role : role
+            }
+            axios.get('http://localhost:3000/auth/SignUp',{
+                method: 'POST',
+                params: {
+                    email : User.email,
+                    password : User.password,
+                    name : User.name,
+                    nickname : User.nickname,
+                    country : User.country[User.country.selectedIndex].text,
+                    role : User.role
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                console.log(response.data);
+            })
+        }
+        const changeState = async (tutorState, tuteeState) => {
+            const name = document.querySelector("div.tutor button");
+            const newstyle = name.style;
+            name.style.backgroundColor = "black";
+            name.style.color = "white";
+            const name2 = document.querySelector("div.tutee button");
+            name2.style.backgroundColor = "white";
+            name2.style.color = "black";
+            document.tutorState = true;
+            document.tuteeState = false;
+        }
+        const changeState2 = async (tutorState, tuteeState) => {
+            const name = document.querySelector("div.tutee button");
+            const newstyle = name.style;
+            name.style.backgroundColor = "black";
+            name.style.color = "white";
+            const name2 = document.querySelector("div.tutor button");
+            name2.style.backgroundColor = "white";
+            name2.style.color = "black";
+            document.tutorState = false;
+            document.tuteeState = true;
+        }    
+                

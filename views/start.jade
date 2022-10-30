@@ -10,7 +10,7 @@ html
             li
                 script(src="https://accounts.google.com/gsi/client" async defer)
                 div(id="g_id_onload" data-client_id="224091167033-surtm8gh2ikripcn329dvvju3is63sp5.apps.googleusercontent.com" data-callback="onSignIn")
-                    div(div class="g_id_signin" data-type="standard" style = "margin-left : 100px; margin-Top : 100px;")          
+                    div(div class="g_id_signin" data-type="standard" style = "margin-left : 50px; margin-Top : 100px;")          
             div(class="login_id")
                 h4 E-mail
                 input(type='email' name='' id='' placeholder='Email')
@@ -35,5 +35,5 @@ html
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
            }).join(''));
            console.log(result);
-           document.location.href="./Register"
+           document.location.href="./Register?email=" + JSON.parse(result).email;
         }

@@ -3,19 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var db = require('mysql');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var pageRouter = require('./routes/start');
 var registerRouter = require('./routes/Register');
 var translater = require('./public/javascripts/translate');
+const { response } = require('express');
 
 var client_id = '7HK9tPsLi9yFUjvwDzx1';
 var client_secret = '6uWchEawHA';
-var query = "승인";
-
 var app = express();
-
+let status = 0;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -31,23 +30,24 @@ app.use('/users', usersRouter);
 app.use('/start', pageRouter);
 app.use('/Register',registerRouter);
 app.use('/trans',translater);
-// catch 404 and forward to error handler
-/*
-app.use(function(req, res, next) {
-  next(createError(404));
-});
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+var db_info = {
+  host : 'localhost',
+  port : '3306',
+  user : 'root',
+  password : '@Altmxpfl12',
+  database : 'Autor'
+};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-*/
+var connection = db.createConnection(db_info);
+  connection.connect((err)=> {
+    if(err) {
+      console.log(err);
+      return;
+    }
+    console.log("my sql connected");
+  })
+
 app.get('/start', function(req, res) {
   res.render('start.js')
 })
@@ -98,4 +98,19 @@ app.get('/detect', function (req, res) {
      }
    });
  });
+app.get('/auth/SignUp',async function (request, response) {
+  var query = request.query;
+  connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
+    if(err) throw err;
+    if(results.length <= 0) {
+      connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage) VALUES(?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null"], function(err, data){
+        status = 200;
+        response.send({status : 200, message : "가입에 성공했습니다."});
+      })
+    } else {
+        status = 500;
+        response.send({status : 500, message : "가입에 실패했습니다."});
+    }
+  })
+})
 module.exports = app;
