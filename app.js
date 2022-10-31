@@ -70,7 +70,10 @@ app.get('/home',function(req, res) {
 })
 
 app.get('/home/post',function(req, res) {
-  res.render('post');
+  connection.query('SELECT title, content, nickname, count FROM post', function(err, rows){
+    if(err) throw err;
+    res.render('post', {rows:rows});
+  })
 })
 
 app.get('/home/post/write',function(req, res) {
@@ -138,7 +141,6 @@ app.get('/board/write', function (request, response) {
   }
 )
 })
-
 app.get('/auth/SignUp',async function (request, response) {
   var query = request.query;
   connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {

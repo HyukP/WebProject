@@ -12,6 +12,14 @@ html
                 a(href="") Tutoring List
                 a(href="") Call List
         div(class="postBox")
-            button(class="write")
-                a(href="./post/write") Write
+            div(class="postArea")
+                for item in rows
+                    div(class="postList")
+                        td #{item.title}
+                        td #{item.content}
+                        td #{item.nickname}
+            div(class="writeArea")
+                button(class="write")
+                    a(href="./post/write") Write
+            
     script(type="text/javascript").

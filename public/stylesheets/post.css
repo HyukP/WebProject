@@ -45,7 +45,7 @@
     border-radius: 20px;
     display: flex;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
 }
 .write {
     border : 0.25px white;
@@ -94,4 +94,24 @@
     height : 50px;
     margin-left: auto;
     margin-right: 450px;
+}
+.postList {
+    width: 750px;
+    height: 140px;
+    margin : auto;
+    margin-top: 10px;
+    background: white;
+    border : 0.25px solid silver;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.writeArea {
+    margin-left: auto;
+    margin-bottom: auto;
+}
+.postArea {
+    margin-left: auto;
+    margin-bottom: auto;
 }
