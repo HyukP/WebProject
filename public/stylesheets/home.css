@@ -14,13 +14,17 @@
 		text-transform: capitalize;
         font-family:Georgia, 'Times New Roman', Times, serif;
   }
-  
+  .line {
+    width:100%; 
+    border:1px solid black
+  }
   .nav {
     background:white;
-    align-items: inherit;
     margin-top: 2%;
     padding: 8px 12px;
     flex-direction: row;
+    width:100%; 
+    border-bottom:1px solid silver
   }
   .navbar__menu {
     display: flex;

@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  
+  a {
+		width: 100%;
+		padding: 2px;
+        text-decoration: none;
+        color: black;
+		text-align: center;
+		text-transform: capitalize;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+  .line {
+    width:100%; 
+    border:1px solid black
+  }
+  .nav {
+    background:white;
+    margin-top: 2%;
+    padding: 8px 12px;
+    flex-direction: row;
+    width:100%; 
+    border-bottom:1px solid silver
+  }
+  .navbar__menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0px;
+}
+.navbar__menu :hover {
+    background: burlywood;
+    border-radius: 4px;
+}
+.postBox {
+    width: 99%;
+    height: 870px;
+    margin : auto;
+    margin-top: 10px;
+    background: white;
+    border : 0.25px solid silver;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.write {
+    border : 0.25px white;
+    background: skyblue;
+    border-radius: 10px;
+    margin-top : 10px;
+    width : 100px;
+    height : 50px;
+    margin-left: auto;
+    margin-right: 40px;
+}
+.title {
+    margin-top: 10px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.title textarea {
+  width: 1000px;
+  height: 30px;
+  margin-top: 10px;
+  padding: 0px 10px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+.content {
+    margin-top: 10px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.content textarea {
+    width: 1000px;
+    height: 500px;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 0px 10px;
+    border: 1px solid lightgray;
+    outline: none; 
+}
+.submit {
+    border : 0.25px white;
+    background: skyblue;
+    border-radius: 10px;
+    margin-top : 20px;
+    width : 100px;
+    height : 50px;
+    margin-left: auto;
+    margin-right: 450px;
+}

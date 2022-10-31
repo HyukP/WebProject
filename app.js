@@ -2,6 +2,8 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var Storage = require('memorystore')(session);
 var logger = require('morgan');
 var db = require('mysql');
 var indexRouter = require('./routes/index');
@@ -10,11 +12,23 @@ var pageRouter = require('./routes/start');
 var registerRouter = require('./routes/Register');
 var translater = require('./public/javascripts/translate');
 const { response } = require('express');
+const { MemoryStore } = require('express-session');
 
 var client_id = '7HK9tPsLi9yFUjvwDzx1';
 var client_secret = '6uWchEawHA';
 var app = express();
 let status = 0;
+
+var sessionObject = {
+  secret : 'Jello',
+  resave : false,
+  saveUninitialized : true,
+  store : new MemoryStore({ checkPeriod : 1000 * 60}),
+  cookie : {
+    maxAge : 1000 * 60,
+  }
+};
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -24,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session(sessionObject));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/start', pageRouter);
@@ -35,7 +49,7 @@ var db_info = {
   host : 'localhost',
   port : '3306',
   user : 'root',
-  password : '@ahtmxmwpem12',
+  password : '@Altmxpfl12',
   database : 'Autor'
 };
 
@@ -53,6 +67,14 @@ app.get('/start', function(req, res) {
 })
 app.get('/home',function(req, res) {
   res.render('home');
+})
+
+app.get('/home/post',function(req, res) {
+  res.render('post');
+})
+
+app.get('/home/post/write',function(req, res) {
+  res.render('post_write');
 })
 
 app.get('/Register', function(req, res) {
@@ -82,7 +104,6 @@ app.get('/translate', function (req, res) {
     }
   });
 });
-
 app.get('/detect', function (req, res) {
    var api_url = 'https://openapi.naver.com/v1/papago/detectLangs';
    var request = require('request');
@@ -101,6 +122,23 @@ app.get('/detect', function (req, res) {
      }
    });
  });
+app.get('/board/write', function (request, response) {
+  var username= request.session.user.nickname;
+
+  connection.query('SELECT * FROM user WHERE nickname = ?', [username], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      connection.query('INSERT INTO post (nickname, title, content, count) VALUES(?,?,?,?)',[username, request.query.title, request.query.content, 0], function(err, data){
+        status = 200;
+        response.send({status : 200, message : "게시글 작성 성공!"});
+      })
+    } else {
+      response.send({status : 500, message : "정보가 확인되지 않은 User가 접근했습니다!"});
+    }
+  }
+)
+})
+
 app.get('/auth/SignUp',async function (request, response) {
   var query = request.query;
   connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
@@ -122,7 +160,9 @@ app.get('/auth/SignIn',async function (request, response) {
   connection.query('SELECT * FROM user WHERE email = ? AND password = ?', [query.email, query.password], function(err, results, field) {
     if(err) throw err;
     if(results.length > 0) {
+      request.session.user = results[0];
       response.send({status : 200, message : "로그인에 성공"});
+      console.log(request.session);
     } else {
       response.send({status : 500, message : "로그인에 실패"});
     }
