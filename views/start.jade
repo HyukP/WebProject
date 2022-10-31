@@ -1,24 +1,39 @@
 html
     head
         title 홈 화면
-        script(src="https://apis.google.com/js/platform.js" async defer)
-        meta(name="google-signin-client_id" content="900287629097-jgh7e8bj0s43t46qi6l5jm1jaaao4rjc.apps.googleusercontent.com")
-        style.
-            d
+        link(rel='stylesheet', href='/stylesheets/style.css')
     body
-        h1 Login Test 화면
-        //Login
-        div(class="signBox" style='margin-left : 800px;width : 400px; height : 300px; border:solid; color : grey; border-radius:5px; box-shadow : 1px 1px 2px 0px;')
-            div(class="g-signin2" data-onsuccess="onSignIn" style='display:inline-block; width : 300px; margin-left : 50px; margin-Top:50px')
-            button(style='display:inline-block; border-radius : 5px; border-color : grey;width : 300px; height : 30px; margin-left : 50px; margin-Top:50px; background-color : white;')
-                text() Register
+      div(class="wrap")
+        div(class="myText") Login Test를 위해 임시로 남겨둔 Text 공간입니다.
+        div(class="login")
+            h2 Login Test
+            li
+                script(src="https://accounts.google.com/gsi/client" async defer)
+                div(id="g_id_onload" data-client_id="224091167033-surtm8gh2ikripcn329dvvju3is63sp5.apps.googleusercontent.com" data-callback="onSignIn")
+                    div(div class="g_id_signin" data-type="standard" style = "margin-left : 100px; margin-Top : 100px;")          
+            div(class="login_id")
+                h4 E-mail
+                input(type='email' name='' id='' placeholder='Email')
+            div(class="login_pw")
+                h4 Password
+                input(type='password' name='' id='' placeholder='Password')
+            div(class="login_etc")
+                div(class="checkbox")
+                    input(type='checkbox' name='' id='')
+                    |  Remember Me?
+                div(class="forgot_pw")
+                    a(href='') Forgot Password?
+            div(class="submit")
+                input(type='submit' value='Login')
+      
     script(type="text/javascript").
-        function onSignIn(googleUser) {
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log(id_token);
+        function onSignIn(response) {
+           const responsePayload = response.credential;
+           var base64Payload = responsePayload.split('.')[1];
+           var base64 = base64Payload.replace(/-/g, '+').replace(/_/g, '/');
+           var result = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+           }).join(''));
+           console.log(result);
+           document.location.href="./Register"
         }

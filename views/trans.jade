@@ -1,0 +1,43 @@
+html
+    head
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    body 
+        button(name = "vi" type="button" onClick="test('vi');") VietNam
+        button(name = "zh-CN" onClick="test('zh-CN')") China
+        button(name = "fr" onClick="test('fr')") French
+        h3(class="TestText") Test를 위한 번역 텍스트
+     script(type="text/javascript").
+        function test(request, response) {
+                let input = document.getElementsByClassName("TestText")[0];
+           axios.get('http://localhost:3000/translate',{
+                method: 'POST',
+                params: {
+                        text : input.innerText,
+                        target : request
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                let x = document.getElementsByClassName("TestText")[0];
+                x.innerText = response.data.message.result.translatedText;
+
+                alert(response.data.message.result.translatedText);
+            })
+        }
+        function test2(request, response) {
+                let input = document.getElementsByClassName("TestText")[0];
+           axios.get('http://localhost:3000/detect',{
+                method: 'POST',
+                params : {
+                    text : input.innetText
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                let x = document.getElementsByClassName("TestText")[0];
+                alert(response.data.message.result.translatedText);
+            })
+        }
+
