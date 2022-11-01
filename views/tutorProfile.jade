@@ -1,0 +1,45 @@
+html
+    head 
+        title tutorProfile Information 
+        link(rel='stylesheet', href='/stylesheets/tutorProfile.css')
+    body
+        div(class="wrap")
+            div(class="profile")
+                div(class="")
+                    h4 tutorProfile Information
+                    div(class="Introduce")
+                        h4 Introduce
+                        textarea(type="Introduce")
+                    div(class="tutorSector")
+                        h4 tutorSector
+                        textarea(type="tutorSector")
+                    div(class="preferenceCountry")
+                        h4 preferenceCountry
+                        select(type="preferenceCountry")
+                            option(value="0") French
+                            option(value="1") Vietnam
+                            option(value="2") China
+                            option(value="3") Korea
+                        select(type="preferenceCountry")
+                            option(value="0") French
+                            option(value="1") Vietnam
+                            option(value="2") China
+                            option(value="3") Korea
+                    div(class="tutorDates")
+                        h4 tutoringDate
+                        button(class="show")                    
+                        div(class="background") 
+                                div(class="window")
+                                    div(class="popup")
+                                        button(class="close")
+                                    div()
+    script(type = "text/javascript").
+        const show = () => {
+            document.querySelector('.background').className = "background show";
+        }
+        const close = () => {
+            document.querySelector('.background').className = "background"
+        }
+        document.querySelector(".show").addEventListener("click",show());
+        document.querySelector(".close").addEventListener("click",close());
+        console.log(document.querySelector(".show"));    

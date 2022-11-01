@@ -1,0 +1,125 @@
+.wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    border-color: black;
+    justify-content: center;
+    background: rgba(87, 170, 221, 0.1);
+  }
+  .profile {
+    width: 30%;
+    height: 900px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+h4 {
+    margin-right: 140px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.Introduce {
+    margin-top: 0px;
+    width: 80%;    
+}
+.Introduce textarea {
+    width: 80%;
+    height: 60px;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 0px 10px;
+    border: 1px solid lightgray;
+    outline: none; 
+}
+.tutorSector {
+    margin-top: 0px;
+    width: 80%;
+}
+.tutorSector textarea {
+    width: 80%;
+    height: 60px;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 0px 10px;
+    border: 1px solid lightgray;
+    outline: none; 
+}
+.preferenceCountry {
+    margin-top: 0px;
+    width: 80%;
+}
+.preferenceCountry select {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.tutorDates {
+    margin-top: 0px;
+    width: 80%;
+}
+.tutorDates select {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.tutorDates input {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+
+    /* 숨기기 */
+    z-index: -1;
+    opacity: 0;
+}
+  .show {
+    opacity: 1;
+    z-index: 1000;
+    transition: all 0.5s;
+  }
+  .close {
+    opacity: 0;
+    z-index: 1000;
+    transition: all 0.5s;
+  }
+
+  .window {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+
+    /* 임시 지정 */
+    width: 100px;
+    height: 100px;
+
+    /* 초기에 약간 아래에 배치 */
+    transform: translate(-50%, -40%);
+  }
+
+  .show .popup {
+    transform: translate(-50%, -50%);
+    transition: all 0.5s;
+  }

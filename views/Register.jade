@@ -55,27 +55,32 @@ html
                 country : country,
                 role : role
             }
-            axios.get('http://localhost:3000/auth/SignUp',{
-                method: 'POST',
-                params: {
-                    email : User.email,
-                    password : User.password,
-                    name : User.name,
-                    nickname : User.nickname,
-                    country : User.country[User.country.selectedIndex].text,
-                    role : User.role
-                },
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }).then(response => {
-                console.log(response.data);
-                if(response.data.status==200) {
-                    document.location.href = './start';
-                }
-                else
-                    alert("가입 실패!");
-            })
+            if(role=="TUTEE") {
+                axios.get('http://localhost:3000/auth/SignUp',{
+                    method: 'POST',
+                    params: {
+                        email : User.email,
+                        password : User.password,
+                        name : User.name,
+                        nickname : User.nickname,
+                        country : User.country[User.country.selectedIndex].text,
+                        role : User.role
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    console.log(response.data);
+                    if(response.data.status==200) {
+                        alert("가입 성공!");
+                        document.location.href = './start';
+                    }
+                    else
+                        alert("가입 실패!");
+                })
+            } else {
+                document.location.href = './tutorProfile?User='+User;
+            }
         }
         const changeState = async (tutorState, tuteeState) => {
             const name = document.querySelector("div.tutor button");
@@ -87,6 +92,7 @@ html
             name2.style.color = "black";
             document.tutorState = true;
             document.tuteeState = false;
+            document.querySelector("div.signUp button").innerText = "Next";
         }
         const changeState2 = async (tutorState, tuteeState) => {
             const name = document.querySelector("div.tutee button");
@@ -98,5 +104,6 @@ html
             name2.style.color = "black";
             document.tutorState = false;
             document.tuteeState = true;
+            document.querySelector("div.signUp button").innerText = "SignUp";
         }    
                 

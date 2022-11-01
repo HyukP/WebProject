@@ -84,6 +84,10 @@ app.get('/Register', function(req, res) {
   res.render('Register.js')
 })
 
+app.get('/Register/tutorProfile',function(req,res) {
+  res.render('tutorProfile')
+})
+
 app.get('/trans', function (req, res) {
   res.render('translate.js')
 });
