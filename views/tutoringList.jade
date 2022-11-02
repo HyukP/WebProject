@@ -1,0 +1,26 @@
+html 
+    head 
+        title request List
+        link(rel='stylesheet', href='/stylesheets/requestList.css')
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    body
+        nav(class="nav")
+            ul(class="navbar__menu")
+                a(href="../tutorList/") TutorList
+                a(href="../post/") question Post
+                a(href="") Find Post
+                a(href="./") Tutoring List
+                a(href="../requestList/") request List
+        div(class="requestBox")
+            -if(rows!=null) 
+                -for(var i=0;i<rows.length;i++)
+                    div(class="requestList")
+                        div(id="UserArea #{i}" class="UserArea")
+                            td Tutee : 
+                            td #{rows[i].sendUser}
+                            br
+                            td Tutor : 
+                            td #{rows[i].targetUser}
+                        div(id="Content #{i}" class="ContentArea")
+                            td Content : 
+                            td #{rows[i].content}
