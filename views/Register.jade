@@ -79,7 +79,7 @@ html
                         alert("가입 실패!");
                 })
             } else {
-                document.location.href = './tutorProfile?User='+User;
+                document.location.href = './Register/tutorProfile?email='+User.email+"&password="+User.password+"&name="+User.name+"&nickname="+User.nickname+"&country="+User.country[User.country.selectedIndex].text+"&role="+User.role;
             }
         }
         const changeState = async (tutorState, tuteeState) => {

@@ -1,0 +1,55 @@
+html 
+    head
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        title tutor List
+        link(rel='stylesheet', href='/stylesheets/tutorList.css')
+    body 
+        nav(class="nav")
+            ul(class="navbar__menu")
+                a(href="./") TutorList
+                a(href="../post/") question Post
+                a(href="") Find Post
+                a(href="") Tutoring List
+                a(href="") Call List    
+        div(class="profileBox")
+            div(class="profileArea")
+                -for(var i = 0; i<rows.length;i++)
+                    button(id="#{i}" class="profileCard" onClick="showDetailPage(id)")
+                        div(class="area1")
+                            tr()
+                                td() nickname : #{rows[i].nickname}
+                                br()                           
+                                td() name :  #{rows[i].name}
+                                br()
+                                td() email : #{rows[i].email}
+                                br()
+                                td() country : #{rows[i].country}
+
+    script(type="text/javascript").
+        let id;
+        const showDetailPage = (id) => {
+            const btn = document.getElementById(id).querySelector("div.area1");
+            const data = btn.innerText.split('\n');
+            for(var i=0;i<data.length;i++){
+                data[i] = data[i].split(': ')[1];
+            }
+            const email = {
+                nickname : data[0],
+                name : data[1],
+                email : data[2],
+                country : data[3],
+            }
+             axios.get('http://localhost:3000/user/getUserId',{
+                    method: 'POST',
+                    params: {
+                        email : email.email,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }}).then(response => {
+                    document.location.href="./tutorDetail?userId="+response.data.User_id;
+            })
+            console.log(id.User_id);
+        }
+
+            

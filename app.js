@@ -65,14 +65,28 @@ var connection = db.createConnection(db_info);
 app.get('/start', function(req, res) {
   res.render('start.js')
 })
-app.get('/home',function(req, res) {
+app.get('/home/',function(req, res) {
   res.render('home');
 })
 
-app.get('/home/post',function(req, res) {
+app.get('/home/post/',function(req, res) {
   connection.query('SELECT title, content, nickname, count FROM post', function(err, rows){
     if(err) throw err;
     res.render('post', {rows:rows});
+  })
+})
+app.get('/home/tutorList/',function(req, res) {
+  connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
+    if(err) throw err;
+    res.render('tutorList', {rows:rows});
+  })
+})
+
+app.get('/home/tutorList/tutorDetail', function(req, res) {
+  const user_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
+  connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
+    if(err) throw err;
+    res.render('tutorDetail',{rows:rows});
   })
 })
 
@@ -129,6 +143,38 @@ app.get('/detect', function (req, res) {
      }
    });
  });
+
+app.get('/user/getUserId', function(request, response) {
+  var email = request.query.email;
+
+  connection.query('SELECT id FROM user WHERE email = ?',[email], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      response.send({status : 200, User_id : results[0].id});
+    } else {
+      response.send({status : 500, message : '조회 실패!'});
+    }
+  })
+})
+
+app.get('/tutoring/request', function(request, response) {
+  var query = request.query;
+  console.log(query);
+  connection.query('SELECT * from user WHERE id = ?',[query.targetUser], function(err,results,field) {
+    if(err) throw err;
+    if(results.length > 0){
+      connection.query('INSERT INTO tutoringRequest (sendUser_id, targetUser_id, content) VALUES(?,?,?)',[request.session.user.id, query.targetUser, query.comment], function(err, data){
+        status = 200;
+        response.send({status : status, message : "요청 성공"});
+      })
+    } else {
+        status = 500;
+        response.send({status : status, message : "요청 실패"});
+    }
+    }
+  )
+})
+
 app.get('/board/write', function (request, response) {
   var username= request.session.user.nickname;
 
@@ -147,19 +193,53 @@ app.get('/board/write', function (request, response) {
 })
 app.get('/auth/SignUp',async function (request, response) {
   var query = request.query;
+    connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
+      if(err) throw err;
+      if(results.length <= 0) {
+        connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null",query.role], function(err, data){
+          status = 200;
+          response.send({status : 200, message : "사용자 정보 생성 완료"});
+        })
+      } else {
+          status = 500;
+          response.send({status : 500, message : "생성 실패"});
+      }
+    })
+    connection.query('SELECT id FROM user WHERE email = ?', [query.email], function(err, results, field) {
+      if(err) throw err;
+      if(results.length > 0) {
+        console.log(results);
+      }})
+})
+
+app.get('/auth/SignUp2',async function (request, response) {
+  var query = request.query;
+  
   connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
     if(err) throw err;
     if(results.length <= 0) {
       connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null",query.role], function(err, data){
         status = 200;
-        response.send({status : 200, message : "가입에 성공했습니다."});
       })
     } else {
         status = 500;
-        response.send({status : 500, message : "가입에 실패했습니다."});
     }
   })
+  connection.query('SELECT id FROM user WHERE email = ?', [query.email], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      console.log("이거 맞냐?");
+      connection.query('INSERT INTO tutorProfile (profileUser_id, introduce, tutorSector, preferenceCountry, tutorDates) VALUES(?,?,?,?,?)',[results[0].id, query.Introduce, query.tutorSector, query.preferenceCountry, "null"], function(err, data){
+        status = 200;
+        response.send({status : 200, message : "사용자 정보 생성 완료"});
+      })
+    } else {
+      status = 500;
+      response.send({status : 500, message : "생성 실패"});
+    }  
+  })
 })
+
 
 app.get('/auth/SignIn',async function (request, response) {
   var query = request.query;

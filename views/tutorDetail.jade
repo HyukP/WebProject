@@ -1,0 +1,78 @@
+html 
+    head
+        title Tutor Profile Detail
+        link(rel='stylesheet', href='/stylesheets/tutorDetail.css')
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    body
+        nav(class="nav")
+             ul(class="navbar__menu")
+                a(href="../tutorList/") TutorList
+                a(href="../post/") question Post
+                a(href="") Find Post
+                a(href="") Tutoring List
+                a(href="") Call List
+        div(class="nextLine")
+            div(class="area") 
+                div(class="area1")
+                    div(class="nickname")
+                        td() #{rows[0].nickname}
+                    div(class="email")
+                        td() email : 
+                        td() #{rows[0].email}
+                    div(class="country")
+                        td() country : 
+                        td() #{rows[0].country}
+                div(class="area2")
+                    div(class="title")
+                        td() Introduce
+                    br()
+                    div(class="Introduce")
+                        td() #{rows[0].Introduce}
+                div(class="area3")
+                    div(class="title")
+                        td() tutorSector
+                    br()
+                    div(class="Introduce")
+                        td() #{rows[0].tutorSector}
+            div(class="request")
+                button(id="requestBtn" onClick="openModal()") Send
+        div(id="modal" class="modal-overlay")
+                div(class="modal-window")
+                    div(class="modal-top")
+                        div(class="modal-textarea")
+                            h4 comment
+                            textarea(id="modal-text")
+                        div(class="close-area" onClick="closeModal()") X
+                    div(class="modal-bottom")
+                        button(onClick="sendMatching()") Send
+    script(type="text/javascript").
+        const openModal = () => {
+            const modal = document.getElementById("modal");
+            modal.style.display = "flex";
+        }
+        const closeModal = () => {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+
+        const sendMatching = () => {
+            const targetUser = document.location.href.substring(document.location.href.indexOf('?')+1).split('=')[1];
+            const comment = document.getElementById('modal-text').value;
+            axios.get('http://localhost:3000/tutoring/request',{
+                    method: 'POST',
+                    params: {
+                        targetUser : targetUser,
+                        comment : comment
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+            }).then(response => {
+                if(response.data.status==200) {
+                    const modal = document.getElementById("modal");
+                    modal.style.display = "none";
+                    alert('send success!');
+                    document.location.href = './';
+                }
+            })
+        }

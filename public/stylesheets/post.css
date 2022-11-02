@@ -47,6 +47,18 @@
     align-items: center;
     flex-direction: row;
 }
+.writeBox {
+    width: 99%;
+    height: 870px;
+    margin : auto;
+    margin-top: 10px;
+    background: white;
+    border : 0.25px solid silver;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
 .write {
     border : 0.25px white;
     background: skyblue;
