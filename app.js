@@ -106,6 +106,19 @@ app.get('/trans', function (req, res) {
   res.render('translate.js')
 });
 
+app.get('/home/requestList/',function(req,res) {
+  var user_id = req.session.user.id;
+  console.log(user_id);
+  connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoringRequest A left join user B on ? = B.id left join user C on A.sendUser_id = C.id WHERE A.sendUser_id != ?;',[user_id,user_id],function(err,results,field){
+    if(err) throw err;
+    if(results.length>0) {
+      res.render('requestList',{rows:results});
+    } else {
+      res.render('requestList');
+    }
+  })
+})
+
 app.get('/translate', function (req, res) {
   var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
   var request = require('request');
@@ -157,6 +170,24 @@ app.get('/user/getUserId', function(request, response) {
   })
 })
 
+app.get('/tutoring/request/accept', function(request, response){
+  var targetUser = request.session.user.id;
+
+  connection.query("SELECT id FROM user WHERE nickname = ?",[request.query.sendUser], function(err, results, field){
+    if(err) throw err;
+    if(results.length > 0){
+      console.log(targetUser, results[0].id, request.query.content);
+      connection.query('INSERT INTO tutoring (tutorUser_id, tuteeUser_id, content) VALUES(?,?,?)',[targetUser, results[0].id, request.query.content], function(err, data){
+        status = 200;
+        response.send({status : status, message : "요청 성공"});
+      })
+      connection.query('DELETE FROM tutoringRequest WHERE targetUser_id = ?',[targetUser]);
+    } else {
+        status = 500;
+        response.send({status : status, message : "요청 실패"});
+    }
+  })
+})
 app.get('/tutoring/request', function(request, response) {
   var query = request.query;
   console.log(query);

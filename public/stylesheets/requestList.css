@@ -1,0 +1,178 @@
+Y
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  
+  a {
+		width: 100%;
+		padding: 2px;
+        text-decoration: none;
+        color: black;
+		text-align: center;
+		text-transform: capitalize;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+  .line {
+    width:100%; 
+    border:1px solid black
+  }
+  .nav {
+    background:white;
+    margin-top: 2%;
+    padding: 8px 12px;
+    flex-direction: row;
+    width:100%; 
+    border-bottom:1px solid silver
+  }
+  .navbar__menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0px;
+}
+
+.navbar__menu :hover {
+    background: burlywood;
+    border-radius: 4px;
+}
+
+.requestList {
+    width: 750px;
+    height: 140px;
+    margin : auto;
+    margin-top: 10px;
+    background: white;
+    border : 0.25px solid silver;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.UserArea {
+    margin-right : 50px;
+    margin-left : 50px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.ContentArea {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.buttonArea {
+    margin-left: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.buttonArea button {
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom : 20px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    background-color: white;
+    outline: none;
+}
+.buttonArea button:hover {
+    background-color: silver;
+    border-radius: 5px;
+}
+.requestBox {
+    width: 99%;
+    height: 870px;
+    margin : auto;
+    margin-top: 10px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+#modal.modal-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  #modal .modal-window {
+    background: white;
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    width: 400px;
+    height: 500px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    top: -100px;
+    padding: 10px;
+  }
+  .modal-top {
+    display: flex;
+    flex-direction: row;
+  }
+  .modal-bottom {
+    margin-top: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .modal-bottom button {
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 30px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    background-color: white;
+    outline: none;
+  }
+  .modal-bottom button:hover {
+    background-color: silver;
+    border-radius: 5px;
+  }
+  #modal .title {
+    padding-left: 10px;
+    display: inline;
+    text-shadow: 1px 1px 2px gray;
+    color: black;
+    
+  }
+  #modal .title h2 {
+    display: inline;
+  }
+  .modal-top textarea{
+    margin-top:10px;
+    width: 300px;
+    height : 150px;
+  }
+  
+  #modal .close-area {
+    display: inline;
+    float: right;
+    padding-right: 10px;
+    cursor: pointer;
+    margin-left: auto;
+    text-shadow: 1px 1px 2px gray;
+    color: black;
+  }
+  #modal .content {
+    margin-top: 20px;
+    padding: 0px 10px;
+    text-shadow: 1px 1px 2px gray;
+    color: black;
+  }

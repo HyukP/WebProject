@@ -1,0 +1,77 @@
+html 
+    head 
+        title request List
+        link(rel='stylesheet', href='/stylesheets/requestList.css')
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    body
+        nav(class="nav")
+            ul(class="navbar__menu")
+                a(href="../tutorList/") TutorList
+                a(href="../post/") question Post
+                a(href="") Find Post
+                a(href="") Tutoring List
+                a(href="./") request List
+        div(class="requestBox")
+            -if(rows!=null) 
+                -for(var i=0;i<rows.length;i++)
+                    div(class="requestList")
+                        div(id="UserArea #{i}" class="UserArea")
+                            td SendUser : 
+                            td #{rows[i].sendUser}
+                            br
+                            td targetUser : 
+                            td #{rows[i].targetUser}
+                        div(id="Content #{i}" class="ContentArea")
+                            td Content : 
+                            td #{rows[i].content}
+                        div(class="buttonArea")
+                            button(id="" onClick='testLoad(id)') Detail 
+                    div(id="modal" class="modal-overlay")
+                            div(class="modal-window")
+                                div(class="modal-top")
+                                    div(class="close-area" onClick="closeModal()") X
+                                h4(style="margin-left:auto; margin-right:auto;") 해당 요청을 수락하시겠습니까?
+                                div(class="modal-bottom")
+                                    button(id="#{i}" onClick="Accept(id)") Accept
+                                    button(id="#{i}" onClick="Ignore(id)") Ignore
+    script(type="text/javascript").
+        const testLoad = (id) => {
+            const modal = document.getElementById("modal");
+            modal.style.display = "flex";
+        }
+         const closeModal = () => {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+        const Accept = (id) => {
+            const sendUser = document.getElementById('UserArea '+id).innerText.split('\n');
+            for(var i=0;i<sendUser.length;i++) {
+                sendUser[i] = sendUser[i].split(': ')[1];
+            }
+            const content = document.getElementById('Content '+id).innerText.split('\n');
+            console.log(content[0].split(': ')[1]);
+            axios.get('http://localhost:3000/tutoring/request/accept',{
+                    method: 'POST',
+                    params: {
+                        sendUser : sendUser[0],
+                        content : content[0].split(': ')[1]
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+            }).then(response => {
+                if(response.data.status==200) {
+                    const modal = document.getElementById("modal");
+                    modal.style.display = "none";
+                    alert('send success!');
+                    document.location.href = './';
+                }
+            })
+        }
+        const Ignore = (id) => {
+             const sendUser = document.getElementById('UserArea '+id).innerText.split('\n');
+            for(var i=0;i<sendUser.length;i++) {
+                sendUser[i] = sendUser[i].split(': ')[1];
+            }
+            
+        }
