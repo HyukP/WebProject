@@ -70,9 +70,33 @@ app.get('/home/',function(req, res) {
 })
 
 app.get('/home/post/',function(req, res) {
-  connection.query('SELECT title, content, nickname, count FROM post', function(err, rows){
+  connection.query('SELECT id, title, content, nickname, count FROM post', function(err, rows){
     if(err) throw err;
     res.render('post', {rows:rows});
+  })
+})
+app.get('/home/findPost/',function(req,res){
+  connection.query('SELECT id, title, content, nickname, count FROM post2',function(err, rows){
+    if(err) throw err;
+    res.render('findPost',{rows:rows});
+  })
+})
+app.get('/home/post/postDetail',function(req,res) {
+  var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
+  console.log(post_id);
+  connection.query('SELECT title, content, nickname, count FROM post WHERE id = ?',[post_id], function(err, rows){
+    if(err) throw err;
+    console.log(rows);
+    res.render('post_Detail',{rows:rows});
+  })
+})
+app.get('/home/findPost/postDetail',function(req,res) {
+  var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
+  console.log(post_id);
+  connection.query('SELECT title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
+    if(err) throw err;
+    console.log(rows);
+    res.render('post_Detail',{rows:rows});
   })
 })
 app.get('/home/tutorList/',function(req, res) {
@@ -92,6 +116,9 @@ app.get('/home/tutorList/tutorDetail', function(req, res) {
 
 app.get('/home/post/write',function(req, res) {
   res.render('post_write');
+})
+app.get('/home/findPost/write',function(req, res) {
+  res.render('findPost_write');
 })
 
 app.get('/Register', function(req, res) {
@@ -226,6 +253,22 @@ app.get('/board/write', function (request, response) {
     if(err) throw err;
     if(results.length > 0) {
       connection.query('INSERT INTO post (nickname, title, content, count) VALUES(?,?,?,?)',[username, request.query.title, request.query.content, 0], function(err, data){
+        status = 200;
+        response.send({status : 200, message : "게시글 작성 성공!"});
+      })
+    } else {
+      response.send({status : 500, message : "정보가 확인되지 않은 User가 접근했습니다!"});
+    }
+  }
+)
+})
+app.get('/board2/write', function (request, response) {
+  var username= request.session.user.nickname;
+
+  connection.query('SELECT * FROM user WHERE nickname = ?', [username], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      connection.query('INSERT INTO post2 (nickname, title, content, count) VALUES(?,?,?,?)',[username, request.query.title, request.query.content, 0], function(err, data){
         status = 200;
         response.send({status : 200, message : "게시글 작성 성공!"});
       })

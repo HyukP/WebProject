@@ -1,41 +1,39 @@
-Y
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Noto Sans KR", sans-serif;
-  }
-  
-  a {
-		width: 100%;
-		padding: 2px;
-        text-decoration: none;
-        color: black;
-		text-align: center;
-		text-transform: capitalize;
-        font-family:Georgia, 'Times New Roman', Times, serif;
-  }
-  .line {
-    width:100%; 
-    border:1px solid black
-  }
-  .nav {
-    background:white;
-    margin-top: 2%;
-    padding: 8px 12px;
-    flex-direction: row;
-    width:100%; 
-    border-bottom:1px solid silver
-  }
-  .navbar__menu {
-    display: flex;
-    list-style: none;
-    padding-left: 0px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
+a {
+  width: 100%;
+  padding: 2px;
+      text-decoration: none;
+      color: black;
+  text-align: center;
+  text-transform: capitalize;
+      font-family:Georgia, 'Times New Roman', Times, serif;
+}
+.line {
+  width:100%; 
+  border:1px solid black
+}
+.nav {
+  background:white;
+  margin-top: 2%;
+  padding: 8px 12px;
+  flex-direction: row;
+  width:100%; 
+  border-bottom:1px solid silver
+}
+.navbar__menu {
+  display: flex;
+  list-style: none;
+  padding-left: 0px;
+}
 .navbar__menu :hover {
-    background: burlywood;
-    border-radius: 4px;
+  background: burlywood;
+  border-radius: 4px;
 }
 
 .requestList {

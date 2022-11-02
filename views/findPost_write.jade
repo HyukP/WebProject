@@ -1,0 +1,42 @@
+html
+    link(rel='stylesheet', href='/stylesheets/post.css')
+    head
+        title Post List
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    body
+        nav(class="nav")
+            ul(class="navbar__menu")
+                a(href="../tutorList/") TutorList
+                a(href="../post/") question Post
+                a(href=".") Find Post
+                a(href="../tutoringList/") Tutoring List
+                a(href="../requestList/") request List
+        div(class="writeBox")
+            div(class="title")
+                h4 title
+                textarea(name="", cols="30", rows="10")
+            div(class="content")
+                h4 content
+                textarea(name="", cols="30", rows="10")
+            button(class="submit")
+                a(onClick='writePost()') write 
+    script(type="text/javascript").
+        const writePost = () => {
+            const title = document.querySelector("div.title textarea").value;
+            const content = document.querySelector("div.content textarea").value;
+            axios.get('http://localhost:3000/board2/write',{
+                method: 'POST',
+                params: {
+                    title : title,
+                    content : content,
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                if(response.data.status==200) {
+                    alert(response.data.message);
+                    document.location.href = "./"
+                } else alert(response.data.message);
+            })
+        }

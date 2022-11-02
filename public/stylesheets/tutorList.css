@@ -31,7 +31,6 @@
     list-style: none;
     padding-left: 0px;
 }
-
 .navbar__menu :hover {
     background: burlywood;
     border-radius: 4px;
@@ -61,6 +60,7 @@
     padding: 10px 12px;
     border : 1px solid silver;
     margin-left: 100px;
+    background-color: white;
     display: flex;
     flex-direction: column;
 }

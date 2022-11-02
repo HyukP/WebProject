@@ -1,0 +1,23 @@
+html
+    link(rel='stylesheet', href='/stylesheets/postDetail.css')
+    head
+        title Post List
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    body
+        nav(class="nav")
+            ul(class="navbar__menu")
+                a(href="../tutorList/") TutorList
+                a(href="../post/") question Post
+                a(href="./") Find Post
+                a(href="../tutoringList/") Tutoring List
+                a(href="../requestList/") request List
+        div(class="Post")
+            div(class="titleArea")
+                h4 Question    
+                h4 #{rows[0].title}
+            div(class="contentArea")
+                h4 #{rows[0].content}
+            div(class="otherArea")
+                h4 #{rows[0].nickname}
+
+    script(type="text/javascript").
