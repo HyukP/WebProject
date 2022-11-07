@@ -29,7 +29,7 @@ li {
   background: white;
   border-radius: 20px;
   margin-left: auto;
-  margin-right: 100px;
+  margin-right: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,8 +92,12 @@ h2 {
   border: 0;
   outline: none;
   border-radius: 40px;
-  background: linear-gradient(to left, rgb(29, 69, 143), rgb(123, 218, 255));
+  background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
   color: white;
   font-size: 1.2em;
   letter-spacing: 2px;
+}
+.submit input:hover {
+  border-radius: 40px;
+  background: linear-gradient(to left, rgb(16, 63, 114), rgb(91, 106, 116));
 }

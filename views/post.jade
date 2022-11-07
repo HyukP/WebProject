@@ -23,17 +23,23 @@ html
         div(class="postBox")
             div(style="display:flex;flex-direction:column; width:80%; height:100%; margin-left:auto;margin-right:auto;")
                 div(class="postAct")
-                    input(class="search")
-                    button(class="write")
+                    div(class="SearchAct")
+                        input(class="search")
+                        img(src="https://i.ibb.co/932jcqF/loupe.png" style="width:30px; height:30px; margin-left:4px")
+                    button(class="write" onClick="postWrite()")
                         h2 글쓰기
                 div(class="postArea")
                     for item in rows
                         div(id = "#{item.id}" class="postList" onClick="showDetail(id)")
                             div(class="postTitle")
+                                h1 #{item.title}
                             div(class="postContent")
+                                h2 #{item.content}
                             div(class="postOwner_Count")
                                 div(class="postCount")
+                                    h2 조회 수 #{item.count}
                                 div(class="postOwner")
+                                    h2 작성자 : #{item.nickname}
                 
     script(type="text/javascript").
         const showDetail = (id) => {

@@ -23,9 +23,9 @@ var sessionObject = {
   secret : 'Jello',
   resave : false,
   saveUninitialized : true,
-  store : new MemoryStore({ checkPeriod : 1000 * 60}),
+  store : new MemoryStore({ checkPeriod : 1000 * 6000}),
   cookie : {
-    maxAge : 1000 * 60,
+    maxAge : 1000 * 6000,
   }
 };
 
@@ -49,7 +49,7 @@ var db_info = {
   host : 'localhost',
   port : '3306',
   user : 'root',
-  password : '@ahtmxmwpem12',
+  password : '@Altmxpfl12',
   database : 'Autor'
 };
 
@@ -111,6 +111,17 @@ app.get('/home/tutorList/tutorDetail', function(req, res) {
   connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
     if(err) throw err;
     res.render('tutorDetail',{rows:rows});
+  })
+})
+
+app.get('/user/checkGmail',function(req,res) {
+  const user_email = req.query.email;
+  connection.query('select password from user where email = ?',[user_email], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      res.send({status : 200, password : results[0].password});
+    }
+    else res.send({status : 500});
   })
 })
 

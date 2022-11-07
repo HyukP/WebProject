@@ -5,12 +5,21 @@ html
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
     body
         nav(class="nav")
-             ul(class="navbar__menu")
-                a(href="../tutorList/") TutorList
-                a(href="../post/") question Post
-                a(href="") Find Post
-                a(href="../tutoringList/") Tutoring List
-                a(href="") request List
+            ul(class="navbar__menu")
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="current")
+                        a(href="./") 튜터 찾기
+                    div(class="other")
+                        a(href="../post/") 질문 게시판
+                    div(class="other") 
+                        a(href="../findPost/") 구인 게시판
+                    div(class="other")
+                        a(href="../tutoringList/") 튜터링 목록
+                    div(class="other")
+                        a(href="../requestList/") 요청 목록
         div(class="nextLine")
             div(class="area") 
                 div(class="area1")

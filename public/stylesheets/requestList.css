@@ -1,39 +1,72 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
+@font-face {
+    font-family : 'Jalnan';
+    font-style : 'normal';
+    font-weight: 200;
+    src : url(../fonts/RobotoMono-Light.ttf);
 }
 
-a {
-  width: 100%;
-  padding: 2px;
-      text-decoration: none;
-      color: black;
-  text-align: center;
-  text-transform: capitalize;
-      font-family:Georgia, 'Times New Roman', Times, serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+body {
+    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
 }
-.line {
-  width:100%; 
-  border:1px solid black
-}
-.nav {
-  background:white;
-  margin-top: 2%;
-  padding: 8px 12px;
-  flex-direction: row;
-  width:100%; 
-  border-bottom:1px solid silver
-}
+  a {
+		width: 10%;
+        text-decoration: none;
+        color: black;
+		text-align: center;
+		text-transform: capitalize;
+        font-family: Jalnan;
+        font-weight: bold;
+  }
+  .nav {
+    background: white;
+    margin-top : 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width:98%;
+    height : 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .home {
+    margin-left: 20px;
+    margin-top : 10px;
+    margin-bottom: 20px;
+    width: 15px;
+    height: 15px;
+  }
+  .menu_group {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 40px;
+    width: 80%;
+  }
+  
 .navbar__menu {
-  display: flex;
-  list-style: none;
-  padding-left: 0px;
+    display: flex;
+    list-style: none;
 }
-.navbar__menu :hover {
-  background: burlywood;
-  border-radius: 4px;
+.navbar__menu .current {
+    border-bottom: 4px solid rgb(58, 9, 170);
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other {
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other :hover {
+    border-bottom: 4px solid rgb(58, 9, 170);
 }
 
 .requestList {
@@ -77,12 +110,10 @@ a {
     border-radius: 5px;
 }
 .requestBox {
-    width: 99%;
+    width: 98%;
     height: 870px;
     margin : auto;
-    margin-top: 10px;
-    background: white;
-    border-radius: 20px;
+    background-color: rgba(199, 187, 187, 0.4);
     display: flex;
     align-items: center;
     flex-direction: row;

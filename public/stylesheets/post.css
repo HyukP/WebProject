@@ -11,7 +11,7 @@
     font-family: "Noto Sans KR", sans-serif;
   }
 body {
-    background: linear-gradient(to left, rgb(58, 9, 170), rgb(194, 227, 247));
+    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
 }
   a {
 		width: 10%;
@@ -56,7 +56,7 @@ body {
     list-style: none;
 }
 .navbar__menu .current {
-    border-bottom: 4px solid rgba(16, 39, 66, 0.2);
+    border-bottom: 4px solid rgb(58, 9, 170);
     margin-left: auto;
     margin-right: auto;
 }
@@ -65,7 +65,7 @@ body {
     margin-right: auto;
 }
 .navbar__menu .other :hover {
-    border-bottom: 4px solid rgba(16, 39, 66, 0.2);
+    border-bottom: 4px solid rgb(58, 9, 170);
 }
 
 .postBox {
@@ -84,10 +84,15 @@ body {
     border-radius: 5px;
     height: 100%;
     width : 10%;
-    
+    box-shadow: 1.5px 1.5px gray;
     border : 0;
     margin-left: auto;
     margin-right : 60px;
+}
+.SearchAct {
+    width : 30%;
+    border-radius: 5px;
+    background-color: white;
 }
 .write h2 {
     font-family: Jalnan;
@@ -137,10 +142,11 @@ body {
     margin-right: 450px;
 }
 .postList {
-    width: 100%;
+    width: 1430px;
     height: 250px;
-    margin : auto;
+    margin-bottom: 20px;
     border-radius: 5px;
+    box-shadow: 1.5px 1.5px gray;
     background: white;
     display: flex;
     align-items: center;
@@ -151,7 +157,7 @@ body {
 }
 .search {
     height: 100%;
-    width : 30%;
+    width : 90%;
     background: white;
     border-radius: 5px;
     border : 0px;
@@ -208,16 +214,19 @@ body {
 }
 .postTitle {
     border-radius: 5px;
-    background: aqua;
     margin-right: auto;
     margin-left: 20px;
     margin-top: 10px;
     width: 95%;
     height: 50px;
 }
+.postTitle h1 {
+    font-family: Jalnan;
+    font-size: 20px;
+    font-weight: bold;
+}
 .postOwner_Count {
     border-radius: 5px;
-    background: aqua;
     margin-right: auto;
     display: flex;
     flex-direction: row;
@@ -228,14 +237,13 @@ body {
 }
 .postOwner {
     border-radius: 5px;
-    background: white;
     margin-left: auto;
     width: 400px;
+    margin-top: 40px;
     height: 40px;
 }
 .postContent {
     border-radius: 5px;
-    background: aqua;
     margin-right: auto;
     margin-left: 20px;
     margin-top: 10px;
@@ -244,7 +252,11 @@ body {
 }
 .postCount {
     border-radius: 5px;
-    background: white;
-    width: 50px;
+    width: 100px;
+    margin-top: 40px;
     height: 10px;
+}
+.postCount h2 {
+    font-family: Jalnan;
+    font-size: 12px;
 }

@@ -1,42 +1,54 @@
 html
-    link(rel='stylesheet', href='/stylesheets/post.css')
+    link(rel='stylesheet', href='/stylesheets/post_write.css')
     head
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
     body
         nav(class="nav")
             ul(class="navbar__menu")
-                a(href="../tutorList/") TutorList
-                a(href=".") question Post
-                a(href="") Find Post
-                a(href="../tutoringList/") Tutoring List
-                a(href="../requestList/") request List
-        div(class="writeBox")
-            div(class="title")
-                h4 title
-                textarea(name="", cols="30", rows="10")
-            div(class="content")
-                h4 content
-                textarea(name="", cols="30", rows="10")
-            button(class="submit")
-                a(onClick='writePost()') write 
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="other")
+                        a(href="../tutorList/") 튜터 찾기
+                    div(class="current")
+                        a(href=".") 질문 게시판
+                    div(class="other") 
+                        a(href="") 구인 게시판
+                    div(class="other")
+                        a(href="../tutoringList/") 튜터링 목록
+                    div(class="other")
+                        a(href="../requestList/") 요청 목록
+        div(class="postBox")
+            div(class="writeBox")
+                div(class="boardLine")
+                    h2 질문 게시글 작성
+                    div(class="write" onClick="writePost()")
+                        h2 등록
+                div(class="title")
+                    textarea(name="", cols="30", rows="10" placeholder = "제목을 입력해주세요.")
+                div(class="content")
+                    textarea(name="", cols="30", rows="10" placeholder = "내용을 입력해주세요.")
     script(type="text/javascript").
         const writePost = () => {
             const title = document.querySelector("div.title textarea").value;
             const content = document.querySelector("div.content textarea").value;
-            axios.get('http://localhost:3000/board/write',{
-                method: 'POST',
-                params: {
-                    title : title,
-                    content : content,
-                },
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }).then(response => {
-                if(response.data.status==200) {
-                    alert(response.data.message);
-                    document.location.href = "./"
-                } else alert(response.data.message);
-            })
+            if(title!=null && content != null) {
+                axios.get('http://localhost:3000/board/write',{
+                    method: 'POST',
+                    params: {
+                        title : title,
+                        content : content,
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    if(response.data.status==200) {
+                        alert(response.data.message);
+                        document.location.href = "./"
+                    } else alert(response.data.message);
+                })
+            }
         }

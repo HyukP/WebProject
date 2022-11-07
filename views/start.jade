@@ -6,7 +6,7 @@ html
     body
       div(class="wrap")
         div(class="login")
-            h2 Login Test
+            h2 Login
             li
                 script(src="https://accounts.google.com/gsi/client" async defer)
                 div(id="g_id_onload" data-client_id="224091167033-surtm8gh2ikripcn329dvvju3is63sp5.apps.googleusercontent.com" data-callback="onSignUp")
@@ -17,12 +17,6 @@ html
             div(class="login_pw")
                 h4 Password
                 input(type='password' name='' id='' placeholder='Password')
-            div(class="login_etc")
-                div(class="checkbox")
-                    input(type='checkbox' name='' id='')
-                    |  Remember Me?
-                div(class="forgot_pw")
-                    a(href='') Forgot Password?
             div(class="submit")
                 input(type='submit' value='Login' onClick='onSignIn()')
       
@@ -35,7 +29,34 @@ html
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
            }).join(''));
            console.log(result);
-           document.location.href="./Register?email=" + JSON.parse(result).email;
+           axios.get('http://localhost:3000/user/checkGmail',{
+            method : 'POST',
+            params: {
+                    email : JSON.parse(result).email
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response2 => {
+                if(response2.data.status == 200) {
+                    axios.get('http://localhost:3000/auth/SignIn',{
+                        method: 'POST',
+                        params: {
+                            email : JSON.parse(result).email,
+                            password : response2.data.password,
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response3 => {
+                    console.log(response3.data);
+                        if(response3.data.status==200)
+                            document.location.href="./home/";
+                })
+                } else {
+                    document.location.href="./Register?email=" + JSON.parse(result).email;
+                }
+            })
         }
         function onSignIn() {
             const email = document.querySelector("div.login_id input").value;

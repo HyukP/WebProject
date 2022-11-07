@@ -4,13 +4,22 @@ html
         link(rel='stylesheet', href='/stylesheets/requestList.css')
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
     body
-        nav(class="nav")
+       nav(class="nav")
             ul(class="navbar__menu")
-                a(href="../tutorList/") TutorList
-                a(href="../post/") question Post
-                a(href="../findPost/") Find Post
-                a(href="./") Tutoring List
-                a(href="../requestList/") request List
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="other")
+                        a(href="../tutorList/") 튜터 찾기
+                    div(class="other")
+                        a(href="../post/") 질문 게시판
+                    div(class="other") 
+                        a(href="../findPost/") 구인 게시판
+                    div(class="current")
+                        a(href="./") 튜터링 목록
+                    div(class="other")
+                        a(href="../requestList/") 요청 목록
         div(class="requestBox")
             -if(rows!=null) 
                 -for(var i=0;i<rows.length;i++)
