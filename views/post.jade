@@ -6,26 +6,40 @@ html
     body
         nav(class="nav")
             ul(class="navbar__menu")
-                a(href="../tutorList/") TutorList
-                a(href="./") question Post
-                a(href="../findPost/") Find Post
-                a(href="../tutoringList/") Tutoring List
-                a(href="../requestList/") request List
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="other")
+                        a(href="../tutorList/") 튜터 찾기
+                    div(class="current")
+                        a(href="./") 질문 게시판
+                    div(class="other")
+                        a(href="../findPost/") 구인 게시판
+                    div(class="other")
+                        a(href="../tutoringList/") 튜터링 목록
+                    div(class="other")
+                        a(href="../requestList/") 요청 목록
         div(class="postBox")
-            div(class="postArea")
-                for item in rows
-                    div(id = "#{item.id}" class="postList" onClick="showDetail(id)")
-                        div(class="postline1")
-                            h2 #{item.id}
-                            h4 #{item.title}
-                        div(class="postline2")
-                            h4 #{item.content}
-                            h5 작성자 : #{item.nickname}
-            div(class="writeArea")
-                button(class="write")
-                    a(href="./write") Write
-            
+            div(style="display:flex;flex-direction:column; width:80%; height:100%; margin-left:auto;margin-right:auto;")
+                div(class="postAct")
+                    input(class="search")
+                    button(class="write")
+                        h2 글쓰기
+                div(class="postArea")
+                    for item in rows
+                        div(id = "#{item.id}" class="postList" onClick="showDetail(id)")
+                            div(class="postTitle")
+                            div(class="postContent")
+                            div(class="postOwner_Count")
+                                div(class="postCount")
+                                div(class="postOwner")
+                
     script(type="text/javascript").
         const showDetail = (id) => {
+                console.log(id);
                 document.location.href = "./postDetail?post_id="+id;
-        }   
+        }
+        const postWrite = () => {
+                document.location.href = "./write";
+        }

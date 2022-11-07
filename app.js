@@ -49,7 +49,7 @@ var db_info = {
   host : 'localhost',
   port : '3306',
   user : 'root',
-  password : '@Altmxpfl12',
+  password : '@ahtmxmwpem12',
   database : 'Autor'
 };
 
@@ -248,7 +248,7 @@ app.get('/tutoring/request', function(request, response) {
 
 app.get('/board/write', function (request, response) {
   var username= request.session.user.nickname;
-
+  console.log(username);
   connection.query('SELECT * FROM user WHERE nickname = ?', [username], function(err, results, field) {
     if(err) throw err;
     if(results.length > 0) {
@@ -307,9 +307,11 @@ app.get('/auth/SignUp2',async function (request, response) {
     if(results.length <= 0) {
       connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null",query.role], function(err, data){
         status = 200;
+
       })
     } else {
         status = 500;
+
     }
   })
   connection.query('SELECT id FROM user WHERE email = ?', [query.email], function(err, results, field) {
