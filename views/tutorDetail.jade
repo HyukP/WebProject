@@ -44,16 +44,18 @@ html
                     div(class="Introduce")
                         td() #{rows[0].tutorSector}
             div(class="request")
-                button(id="requestBtn" onClick="openModal()") Send
+                button(id="requestBtn" onClick="openModal()") 
+                    h2 매칭 요청
         div(id="modal" class="modal-overlay")
                 div(class="modal-window")
                     div(class="modal-top")
                         div(class="modal-textarea")
-                            h4 comment
+                            h4 튜터링 요청사항
                             textarea(id="modal-text")
                         div(class="close-area" onClick="closeModal()") X
                     div(class="modal-bottom")
-                        button(onClick="sendMatching()") Send
+                        button(onClick="sendMatching()")
+                            h2 매칭 요청
     script(type="text/javascript").
         const openModal = () => {
             const modal = document.getElementById("modal");

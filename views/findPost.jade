@@ -43,6 +43,17 @@ html
             
     script(type="text/javascript").
         const showDetail = (id) => {
+                axios.get('http://localhost:3000/findpost/updateCount',{
+                    method : 'POST',
+                    params: {
+                        post_id : id
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    console.log(response.data);
+                })
                 document.location.href = "./postDetail?post_id="+id;
         }
         const postWrite = () => {

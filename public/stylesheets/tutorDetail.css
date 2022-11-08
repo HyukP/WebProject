@@ -91,8 +91,12 @@ a {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 .area {
-  margin-left: 25%;
-  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  border-radius: 5px;  
+  width: 70%;
+  height : 90%;
 }
 .area2 {
   margin-top: 10px;
@@ -103,17 +107,28 @@ a {
   border-bottom:1px solid silver;
 }
 .request {
-  margin-left: 10%;
+  margin-left: 10px;
+  margin-right: 20px;
+  border-radius: 5px;
+  background-color: white;
+  width: 20%;
+  height : 90%;
 }
 .request button {
-  width: 100px;
+  width: 120px;
   height: 50px;
   border-radius: 5px;
-  margin-top: 5px;
+  margin-top: 20px;
+  margin-left : 30%;
   padding: 0px 20px;
   border: 1px solid lightgray;
   background-color: white;
   outline: none;
+}
+.request button h2 {
+  font-family: Jalnan;
+  font-weight: bold;
+  font-size: 15px;
 }
 .request button:hover {
   background-color: silver;
@@ -182,7 +197,7 @@ a {
   margin-left: auto;
 }
 .modal-bottom button {
-  width: 100px;
+  width: 120px;
   height: 50px;
   border-radius: 5px;
   margin-top: 5px;
@@ -190,6 +205,11 @@ a {
   border: 1px solid lightgray;
   background-color: white;
   outline: none;
+}
+#modal .modal-bottom button h2 {
+  font-family: Jalnan;
+  font-size: 14px;
+  font-weight: bold;
 }
 .modal-bottom button:hover {
   background-color: silver;
@@ -205,12 +225,17 @@ a {
 #modal .title h2 {
   display: inline;
 }
-.modal-top textarea{
+#modal .modal-top textarea{
   margin-top:10px;
   width: 300px;
   height : 150px;
+  resize :none;
 }
-
+#modal .modal-top h4 {
+  font-size : 14px;
+  font-weight: bold;
+  font-family: Jalnan;
+}
 #modal .close-area {
   display: inline;
   float: right;

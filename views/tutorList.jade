@@ -22,17 +22,20 @@ html
                         a(href="../requestList/") 요청 목록
         div(class="profileBox")
             div(class="profileArea")
-                -for(var i = 0; i<rows.length;i++)
-                    button(id="#{i}" class="profileCard" onClick="showDetailPage(id)")
-                        div(class="area1")
-                            tr()
-                                td() nickname : #{rows[i].nickname}
-                                br()                           
-                                td() name :  #{rows[i].name}
-                                br()
-                                td() email : #{rows[i].email}
-                                br()
-                                td() country : #{rows[i].country}
+                div(class="searchTutor")
+                    h2 검색 조건
+                div(class="profiles")
+                    -for(var i = 0; i<rows.length;i++)
+                        button(id="#{i}" class="profileCard" onClick="showDetailPage(id)")
+                            div(class="area1")
+                                tr()
+                                    td() nickname : #{rows[i].nickname}
+                                    br()                           
+                                    td() name :  #{rows[i].name}
+                                    br()
+                                    td() email : #{rows[i].email}
+                                    br()
+                                    td() country : #{rows[i].country}
 
     script(type="text/javascript").
         let id;

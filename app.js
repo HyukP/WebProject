@@ -49,7 +49,7 @@ var db_info = {
   host : 'localhost',
   port : '3306',
   user : 'root',
-  password : '@Altmxpfl12',
+  password : '@ahtmxmwpem12',
   database : 'Autor'
 };
 
@@ -92,11 +92,13 @@ app.get('/home/post/postDetail',function(req,res) {
 })
 app.get('/home/findPost/postDetail',function(req,res) {
   var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
+  var username = req.session.user.nickname;
+  console.log(username);
   console.log(post_id);
   connection.query('SELECT title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
     if(err) throw err;
     console.log(rows);
-    res.render('post_Detail',{rows:rows});
+    res.render('findPost_Detail',{rows:rows, username : username});
   })
 })
 app.get('/home/tutorList/',function(req, res) {
@@ -154,6 +156,21 @@ app.get('/home/requestList/',function(req,res) {
     } else {
       res.render('requestList');
     }
+  })
+})
+
+app.get('/post/updateCount',function(req,res){
+  var post_id = req.query.post_id;
+  connection.query('UPDATE post SET count = count+1 WHERE id = ?',[post_id],function(err,results,field) {
+    if(err) throw err;
+    console.log(results);
+  })
+})
+app.get('/findpost/updateCount',function(req,res){
+  var post_id = req.query.post_id;
+  connection.query('UPDATE post2 SET count = count+1 WHERE id = ?',[post_id],function(err,results,field) {
+    if(err) throw err;
+    console.log(results);
   })
 })
 
