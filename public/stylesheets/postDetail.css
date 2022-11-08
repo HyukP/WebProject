@@ -147,13 +147,11 @@ body {
 .replyArea h2 {
     font-size: 18px;
     margin-left : 20px;
-    margin-bottom: 30px;
     font-family: Jalnan;
 }
 .reply{
     border : 1px solid silver;
-    background: white;
-    width : 80%;
+    width : 98%;
     height : 50%;
     margin-left: 20px;
     border-radius: 5px;
@@ -163,11 +161,32 @@ body {
     margin-top : 15px;
     font-family: Jalnan;
 }
-.replybox {
-    background-color: blue;
-    margin-bottom: 40px;
+.reply .replybox {
+    margin-bottom: 80px;
+    width : 100%;
+    display: flex;
+    flex-direction: row;
 }
 .replybox input {
     border : 0px;
+    width : 100%;
+    margin-left: 20px;
     outline : none;
+}
+.replybox button {
+    width : 80px;
+    height : 30px;
+    background-color: rgb(48, 137, 232);
+    border : 0px;
+    font-family: Jalnan;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right : 50px;
+    margin-bottom: 10px;
+}
+.replybox button:hover {
+    background-color: rgba(199, 187, 187, 0.4);
+    color: black;
 }

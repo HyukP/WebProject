@@ -70,16 +70,28 @@ body {
 }
 
 .requestList {
-    width: 750px;
-    height: 140px;
+    width: 95%;
+    height: auto;
     margin : auto;
     margin-top: 10px;
-    background: white;
-    border : 0.25px solid silver;
     border-radius: 20px;
     display: flex;
     align-items: center;
     flex-direction: row;
+}
+.request{
+  width: 750px;
+  height: 140px;
+  margin-left : auto;
+  margin-right : auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background: white;
+  border : 0.25px solid silver;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
 }
 .UserArea {
     margin-right : 50px;

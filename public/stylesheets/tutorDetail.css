@@ -71,48 +71,65 @@ a {
 .area1 {
   margin-top: 100px;
   margin-bottom: 30px;
-  border-bottom:1px solid silver;
+  margin-left: auto;
+  margin-right: auto;
+  height : 200px;
+  width: 80%;
+  border:1px solid silver;
 }
 
 .nickname {
   font-weight: bold;
   font-size: 30px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Jalnan;
+  margin-left: 30%;
   margin-bottom: 15px;
 }
 .email {
   font-weight: bold;
   font-size: 15px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin-left: 30%;
+  font-family: Jalnan;
 }
 .country {
   font-weight: bold;
   font-size: 15px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin-left: 30%;
+  font-family: Jalnan;
 }
 .area {
   margin-left: auto;
   margin-right: auto;
+  margin-top:50px;
+  margin-bottom : 50px;
   background-color: white;
   border-radius: 5px;  
   width: 70%;
-  height : 90%;
+  height : auto;
 }
 .area2 {
   margin-top: 10px;
+  width : 95%;
+  margin-left : auto;
+  margin-right: auto;
   border-bottom:1px solid silver;
 }
 .area3 {
   margin-top: 10px;
   border-bottom:1px solid silver;
+  margin-bottom: 20px;
+  width : 95%;
+  margin-left : auto;
+  margin-right: auto;
+  
 }
 .request {
-  margin-left: 10px;
+  margin-left: auto;
   margin-right: 20px;
   border-radius: 5px;
   background-color: white;
   width: 20%;
-  height : 90%;
+  height : auto;
 }
 .request button {
   width: 120px;
@@ -137,13 +154,14 @@ a {
 .Introduce {
   font-weight: bold;
   font-size: 15px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin-bottom: 20px;
+  font-family: Jalnan;
 }
 .title {
   font-weight: bold;
-  font-size: 30px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  margin-bottom: 15px;
+  font-size: 20px;
+  font-family: Jalnan;
+  margin-bottom: 20px;
 }
 .nextLine {
   display: flex;
@@ -152,7 +170,7 @@ a {
   margin : auto;
   background-color: rgba(199, 187, 187, 0.4);
   width: 98%;
-  height: 90%;
+  height: auto;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }

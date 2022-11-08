@@ -11,7 +11,7 @@ var usersRouter = require('./routes/users');
 var pageRouter = require('./routes/start');
 var registerRouter = require('./routes/Register');
 var translater = require('./public/javascripts/translate');
-const { response } = require('express');
+const { response, query } = require('express');
 const { MemoryStore } = require('express-session');
 
 var client_id = '7HK9tPsLi9yFUjvwDzx1';
@@ -49,7 +49,7 @@ var db_info = {
   host : 'localhost',
   port : '3306',
   user : 'root',
-  password : '@ahtmxmwpem12',
+  password : '@Altmxpfl12',
   database : 'Autor'
 };
 
@@ -66,53 +66,61 @@ app.get('/start', function(req, res) {
   res.render('start.js')
 })
 app.get('/home/',function(req, res) {
-  res.render('home');
+  var lang = req.session.user.country;
+  res.render('home',{lang : lang});
 })
 
 app.get('/home/post/',function(req, res) {
+  var lang = req.session.user.country;
   connection.query('SELECT id, title, content, nickname, count FROM post', function(err, rows){
     if(err) throw err;
-    res.render('post', {rows:rows});
+    res.render('post', {rows:rows, lang : lang});
   })
 })
 app.get('/home/findPost/',function(req,res){
+  var lang = req.session.user.country;
   connection.query('SELECT id, title, content, nickname, count FROM post2',function(err, rows){
     if(err) throw err;
-    res.render('findPost',{rows:rows});
+    res.render('findPost',{rows:rows, lang : lang});
   })
 })
 app.get('/home/post/postDetail',function(req,res) {
   var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
+  var username = req.session.user.nickname;
+  var lang = req.session.user.country;
   console.log(post_id);
-  connection.query('SELECT title, content, nickname, count FROM post WHERE id = ?',[post_id], function(err, rows){
+  connection.query('SELECT id, title, content, nickname, count FROM post WHERE id = ?',[post_id], function(err, rows){
     if(err) throw err;
     console.log(rows);
-    res.render('post_Detail',{rows:rows});
+    res.render('post_Detail',{rows:rows, username : username, lang : lang});
   })
 })
 app.get('/home/findPost/postDetail',function(req,res) {
   var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
   var username = req.session.user.nickname;
+  var lang = req.session.user.country;
   console.log(username);
   console.log(post_id);
-  connection.query('SELECT title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
+  connection.query('SELECT id, title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
     if(err) throw err;
     console.log(rows);
-    res.render('findPost_Detail',{rows:rows, username : username});
+    res.render('findPost_Detail',{rows:rows, username : username, lang : lang});
   })
 })
 app.get('/home/tutorList/',function(req, res) {
+  var lang = req.session.user.country;
   connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
     if(err) throw err;
-    res.render('tutorList', {rows:rows});
+    res.render('tutorList', {rows:rows, lang : lang});
   })
 })
 
 app.get('/home/tutorList/tutorDetail', function(req, res) {
   const user_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
+  var lang = req.session.user.country;
   connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
     if(err) throw err;
-    res.render('tutorDetail',{rows:rows});
+    res.render('tutorDetail',{rows:rows, lang : lang});
   })
 })
 
@@ -127,15 +135,31 @@ app.get('/user/checkGmail',function(req,res) {
   })
 })
 
+
 app.get('/home/post/write',function(req, res) {
-  res.render('post_write');
+  var lang = req.session.user.country;
+  res.render('post_write',{lang : lang});
 })
 app.get('/home/findPost/write',function(req, res) {
-  res.render('findPost_write');
+  var lang = req.session.user.country;
+  res.render('findPost_write',{lang : lang});
 })
 
 app.get('/Register', function(req, res) {
-  res.render('Register.js')
+  res.render('Register.js');
+})
+
+app.get('/home/sendList/',function(req,res) {
+  var user_id = req.session.user.id;
+  var lang = req.session.user.country;
+  connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoringRequest A join user B on A.targetUser_id = B.id join user C on A.sendUser_id = C.id where A.sendUser_id = ?',[user_id],function(err,results,field){
+    if(err) throw err;
+    if(results.length > 0) {
+      res.render('sendList',{rows:results, lang : lang});
+    } else {
+      res.render('sendList',{lang : lang});
+    }
+  })
 })
 
 app.get('/Register/tutorProfile',function(req,res) {
@@ -148,14 +172,27 @@ app.get('/trans', function (req, res) {
 
 app.get('/home/requestList/',function(req,res) {
   var user_id = req.session.user.id;
+  var lang = req.session.user.country;
   console.log(user_id);
-  connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoringRequest A left join user B on ? = B.id left join user C on A.sendUser_id = C.id WHERE A.sendUser_id != ?;',[user_id,user_id],function(err,results,field){
+  connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoringRequest A join user B on A.targetUser_id = B.id join user C on A.sendUser_id = C.id where A.targetUser_id = ?',[user_id],function(err,results,field){
     if(err) throw err;
-    if(results.length>0) {
-      res.render('requestList',{rows:results});
+    if(results.length > 0) {
+      res.render('requestList',{rows:results,lang : lang});
     } else {
-      res.render('requestList');
+      res.render('requestList',{lang : lang});
     }
+  })
+})
+
+app.get('/reply/write',function(req,res) {
+  var post_id = req.query.post_id;
+  var username = req.session.user.nickname;
+  var currentTime = new Date();
+  var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
+  console.log(JSON.stringify(currentTime));
+  connection.query('INSERT INTO reply (content,date,nickname,post_id) VALUES(?,?,?,?)',[req.query.content, current, username, post_id], function(err,results,field) {
+    if(err) throw err;
+    res.send({status : 200});
   })
 })
 
@@ -176,12 +213,13 @@ app.get('/findpost/updateCount',function(req,res){
 
 app.get('/home/tutoringList/',function(req,res){
   var user_id = req.session.user.id;
+  var lang = req.session.user.country;
   connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
     if(err) throw err;
     if(results.length>0) {
-      res.render('tutoringList',{rows:results});
+      res.render('tutoringList',{rows:results, lang : lang});
     } else {
-      res.render('tutoringList');
+      res.render('tutoringList',{lang : lang});
     }
   })
 })
