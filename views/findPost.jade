@@ -26,8 +26,7 @@ html
             div(style="display:flex;flex-direction:column; width:80%; height:100%; margin-left:auto;margin-right:auto;")
                 div(class="postAct")
                     div(class="SearchAct")
-                        input(class="search")
-                        img(src="https://i.ibb.co/932jcqF/loupe.png" style="width:30px; height:30px; margin-left:4px")
+                        input(class="search" onkeyup="searchPost()")
                     button(class="write" onClick="postWrite()")
                         h2 글쓰기
                 div(class="postArea")
@@ -49,6 +48,19 @@ html
                                 img(src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi()")
             
     script(type="text/javascript").
+        const searchPost = () => {
+            var keyword = document.querySelector('div.SearchAct input').value;
+            var newlist = document.getElementsByClassName('postList');
+            for(var i = 0;i<newlist.length;i++) {
+                var title = newlist[i].getElementsByClassName('postTitle')
+                var Content = newlist[i].getElementsByClassName('postContent')
+                if(title[0].innerHTML.toLowerCase().indexOf(keyword) != -1 || Content[0].innerHTML.toLowerCase().indexOf(keyword) != -1) {
+                    newlist[i].style.display = "flex";
+                } else {
+                    newlist[i].style.display = "none";
+                }
+            }
+        }
         const showDetail = (id) => {
                 axios.get('http://localhost:3000/findpost/updateCount',{
                     method : 'POST',

@@ -54,7 +54,8 @@ html
             var newlist = document.getElementsByClassName('postList');
             for(var i = 0;i<newlist.length;i++) {
                 var title = newlist[i].getElementsByClassName('postTitle')
-                if(title[0].innerHTML.toLowerCase().indexOf(keyword) != -1) {
+                var Content = newlist[i].getElementsByClassName('postContent')
+                if(title[0].innerHTML.toLowerCase().indexOf(keyword) != -1 || Content[0].innerHTML.toLowerCase().indexOf(keyword) != -1) {
                     newlist[i].style.display = "flex";
                 } else {
                     newlist[i].style.display = "none";
