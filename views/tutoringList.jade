@@ -1,6 +1,6 @@
 html 
     head 
-        title request List
+        title tutoring List
         link(rel='stylesheet', href='/stylesheets/requestList.css')
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
     body
@@ -40,7 +40,102 @@ html
                                 button(class="tutoringButton") 
                                     a(href="./meeting?meeting_id=#{rows[i].id}&targetUser_id=#{rows[i].targetUser}") 미팅 요청
                                 button(class="tutoringButton") 채팅
+                                button(class="meeting" onClick="printData(#{rows[i].id})") 미팅 정보
+                div(class="meetingInfo")
+                    div(class="Place")
+                        img(src="" style="margin-left:80px;margin-right:auto;")
+                        div(class="place2")
+                            h4 장소 :   
+                            h2 
+                    div(class="Date")
+                        div(class="date2")
+                            h4 날짜 :
+                            h2
+                    div(class="Content")
+                        div(class="content2")
+                            h4 요청 사항 :
+                            h2
+                    div(class="User")
+                    div(class="close")
+                        button(id="status")
+                        button(id="tutorAccept" onClick="acceptMeeting()") 수락
+                        button(id="tutorExit" onClick="endMeeting()") 종료
+                        button(id="closeBtn" onClick="closeInfo()") 닫기
+                    
+                                
     script(type="text/javascript").
+        const closeInfo = () => {
+            document.querySelector("div.meetingInfo").style.display = "none";
+        }
+        const acceptMeeting = () => {
+            var data = document.querySelector('div.User').value;
+            console.log(data);
+            axios.get('http://localhost:3000/home/tutoringList/updateMeeting',{
+                method: 'POST',
+                    params: {
+                        id : data
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+            }).then(response => {
+                alert(response.data.message);
+                document.getElementById('status').textContent = "진행중"
+                document.getElementById('tutorAccept').style.display = "none";
+                documnet.location.href="./";
+            })
+        }
+        const endMeeting = () => {
+            var data = document.querySelector('div.User').value;
+            axios.get('http://localhost:3000/home/tutoringList/deleteMeeting',{
+                method: 'POST',
+                    params: {
+                        id : data
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+            }).then(response => {
+                alert(response.data.message);
+                document.querySelector('div.meetingInfo').style.display = "none";
+            })
+        }
+        const printData = (data) => {
+            document.querySelector('div.Place h2').textContent = "";
+            document.querySelector('div.Date h2').textContent = "";
+            document.querySelector('div.Content h2').textContent = "";
+            axios.get('http://localhost:3000/home/tutoringList/getMeeting',{
+                method: 'POST',
+                    params: {
+                        id : data
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+            }).then(response => {
+                if(response.data.status==200) {
+                    var meetingData = response.data.results[0];
+                    document.querySelector('div.User').value = meetingData.tutoring_id;
+                    document.querySelector('div.meetingInfo').style.display = "flex";
+                    document.querySelector('div.Place h2').textContent = document.querySelector('div.Place h2').textContent+ meetingData.meetingPlace;
+                    document.querySelector('div.Date h2').textContent = document.querySelector('div.Date h2').textContent+ meetingData.meetingDate;
+                    document.querySelector('div.Content h2').textContent = document.querySelector('div.Content h2').textContent+ meetingData.meetingContent;
+                    document.querySelector('div.Place img').src = "https://maps.googleapis.com/maps/api/staticmap?center="+meetingData.meetingLocation.split(',')[0] + ',' + meetingData.meetingLocation.split(',')[1]+"&markers=color:red%7Clabel:C%7C"+meetingData.meetingLocation.split(',')[0] + ',' + meetingData.meetingLocation.split(',')[1]+"&zoom=17&size=350x256&maptype=roadmap&key=AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs";
+                    console.log(meetingData);
+                    if(meetingData.targetUser!="#{username}"){
+                        document.getElementById('tutorAccept').style.display = "none";
+                        document.getElementById('tutorExit').style.display = "none";
+                    }
+                    if(meetingData.status=='WAIT') {
+                        document.getElementById('status').textContent = "대기중"
+                    }
+                    if(meetingData.status=='DO') {
+                        document.getElementById('status').textContent = "진행중"
+                        document.getElementById('tutorAccept').style.display = "none";
+                    }
+                }
+            })
+        }
         const testTrans = () => {
             var lang = "#{lang}"
             if(lang=="China") {

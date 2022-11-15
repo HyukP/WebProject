@@ -215,20 +215,59 @@ app.get('/findpost/updateCount',function(req,res){
     console.log(results);
   })
 })
-
+app.get('/home/tutoringList/updateMeeting', function(req,res) {
+  console.log(req.query.id);
+  connection.query('update meeting SET status = "DO" WHERE tutoring_id = ?',[req.query.id], function(err,results) {
+    if(err) throw err;
+    else
+      res.send({status : 200, message : "미팅 요청 수락에 성공했습니다."});
+  })
+})
 app.get('/home/tutoringList/',function(req,res){
   var user_id = req.session.user.id;
+  var username = req.session.user.nickname;
   var lang = req.session.user.country;
   connection.query('select A.id as id, A.tutorUser_id as targetUser, B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
     if(err) throw err;
     if(results.length>0) {
-      res.render('tutoringList',{rows:results, lang : lang});
+          res.render('tutoringList',{rows:results, lang : lang, username : username});
     } else {
-      res.render('tutoringList',{lang : lang});
+      res.render('tutoringList',{lang : lang , username : username});
     }
   })
 })
-
+app.get('/home/tutoringList/getMeeting',function(req,res) {
+  connection.query('select * from meeting where tutoring_id = ?',[req.query.id], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      res.send({status : 200, results : results});
+    } else {
+      res.send({status : 500});
+    }
+  })
+})
+app.get('/searchPost',function(req,res) {
+  var keyword = req.query.keyword;
+  console.log(keyword);
+  var lang = req.session.user.country;
+  connection.query('SELECT id, title, content, nickname, count FROM post where title like ? OR content like ?;',["%"+keyword+"%","%"+keyword+"%"], function(err, results){
+    if(err) throw err;
+    if(results.length > 0){
+      app.get('/home/post',function(req2,res2) {
+        res.render('post', {rows:results, lang : lang});
+      })
+    }
+    else
+      res.render('post',{lang : lang});
+  })
+})
+app.get('/home/tutoringList/deleteMeeting',function(req,res) {
+  connection.query('delete from meeting WHERE tutoring_id = ?',[req.query.id], function(err,results) {
+    if(err) throw err;
+    else
+      res.send({status : 200, message : "미팅 종료에 성공했습니다."});
+  })
+})
 app.get('/translate', function (req, res) {
   var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
   var request = require('request');
