@@ -36,6 +36,10 @@ html
                             div(id="Content #{i}" class="ContentArea")
                                 td Content : 
                                 td #{rows[i].content}
+                            div(id="btns #{i}" class="tutoringArea")
+                                button(class="tutoringButton") 
+                                    a(href="./meeting?meeting_id=#{rows[i].id}&targetUser_id=#{rows[i].targetUser}") 미팅 요청
+                                button(class="tutoringButton") 채팅
     script(type="text/javascript").
         const testTrans = () => {
             var lang = "#{lang}"

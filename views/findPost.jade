@@ -32,16 +32,21 @@ html
                         h2 글쓰기
                 div(class="postArea")
                     for item in rows
-                        div(id = "post #{item.id}" class="postList" onClick="showDetail(id)")
-                            div(class="postTitle")
-                                h1 #{item.title}
-                            div(class="postContent")
-                                h2 #{item.content}
-                            div(class="postOwner_Count")
-                                div(class="postCount")
-                                    h2 조회 수 #{item.count}
-                                div(class="postOwner")
-                                    h2 작성자 : #{item.nickname}
+                        div(id = "post #{item.id}" class="postList")
+                            a(style= "display:flex;flex-direction:column;width:auto;height:auto;margin-right : auto;" href='./postDetail?post_id=#{item.id}')
+                                div(class="postTitle")
+                                    h1 #{item.title}
+                                div(class="postContent")
+                                    h2 #{item.content}
+                                div(class="postOwner_Count")
+                                    div(class="postCount")
+                                        h2 조회 수: #{item.count}
+                                    div(class="postOwner")
+                                        h2 작성자 : #{item.nickname}
+                            div(class="translate" style="margin-left:auto;")
+                                img(src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR()")
+                                img(src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN()")
+                                img(src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi()")
             
     script(type="text/javascript").
         const showDetail = (id) => {
@@ -61,27 +66,98 @@ html
         const postWrite = () => {
                 document.location.href = "./write";
         }
-        const testTrans = () => {
-            var lang = "#{lang}"
-            if(lang=="China") {
-               var text = document.querySelector('div.menu_group').innerText;
+        const transToCN = (data) => {
+                var title = document.querySelector('div.postTitle h1').textContent;
+                var text = document.querySelector('div.postContent h2').textContent;
+                var count = document.querySelector('div.postCount h2').textContent.split(':')[0];
+                var writer = document.querySelector('div.postOwner h2').textContent.split(':')[0];
+                console.log(text);
+                    axios.get('http://localhost:3000/translate',{
+                        method: 'POST',
+                        params: {
+                            target : 'zh-CN',
+                            text : title + '\n' + text + '\n' + count + '\n' + writer
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response=> {
+                        var list = response.data.message.result.translatedText.split('\n');
+                        document.querySelector('div.postTitle h1').textContent = list[0];
+                        document.querySelector('div.postContent h2').textContent = list[1];
+                        document.querySelector('div.postCount h2').textContent = list[2] + ':' + document.querySelector('div.postCount h2').textContent.split(':')[1];
+                        document.querySelector('div.postOwner h2').textContent = list[3] + ':' + document.querySelector('div.postOwner h2').textContent.split(':')[1];
+                })
+            }
+            const transToVi = () => {
+                var title = document.querySelector('div.postTitle h1').textContent;
+                var text = document.querySelector('div.postContent h2').textContent;
+                var count = document.querySelector('div.postCount h2').textContent.split(':')[0];
+                var writer = document.querySelector('div.postOwner h2').textContent.split(':')[0];
+                    axios.get('http://localhost:3000/translate',{
+                        method: 'POST',
+                        params: {
+                            target : 'vi',
+                            text : title + '\n' + text + '\n' + count + '\n' + writer
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response=> {
+                        var list = response.data.message.result.translatedText.split('\n');
+                        document.querySelector('div.postTitle h1').textContent = list[0];
+                        document.querySelector('div.postContent h2').textContent = list[1];
+                        document.querySelector('div.postCount h2').textContent = list[2] + ':' + document.querySelector('div.postCount h2').textContent.split(':')[1];
+                        document.querySelector('div.postOwner h2').textContent = list[3] + ':' + document.querySelector('div.postOwner h2').textContent.split(':')[1];
+                })
+            }
+        const transToFR = () => {
+            var title = document.querySelector('div.postTitle h1').textContent;
+            var text = document.querySelector('div.postContent h2').textContent;
+            var count = document.querySelector('div.postCount h2').textContent.split(':')[0];
+            var writer = document.querySelector('div.postOwner h2').textContent.split(':')[0];
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
-                        target : 'zh-CN',
-                        text : text
+                        target : 'fr',
+                        text : title + '\n' + text + '\n' + count + '\n' + writer
                     },
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }).then(response=> {
                     var list = response.data.message.result.translatedText.split('\n');
+                    document.querySelector('div.postTitle h1').textContent = list[0];
+                    document.querySelector('div.postContent h2').textContent = list[1];
+                    document.querySelector('div.postCount h2').textContent = list[2] + ':' + document.querySelector('div.postCount h2').textContent.split(':')[1];
+                    document.querySelector('div.postOwner h2').textContent = list[3] + ':' + document.querySelector('div.postOwner h2').textContent.split(':')[1];
+            })
+        }
+        const testTrans = () => {
+            var lang = "#{lang}"
+            if(lang=="China") {
+               var text = document.querySelector('div.menu_group').innerText;
+               var writeBtn = document.querySelector('div.postAct button h2').innerText;
+                axios.get('http://localhost:3000/translate',{
+                    method: 'POST',
+                    params: {
+                        target : 'zh-CN',
+                        text : text + '\n' + writeBtn
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response=> {
+                    var list = response.data.message.result.translatedText.split('\n');
+                    console.log(list);
                     for(var i = 1; i<= 6; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
+                    document.querySelector('div.postAct button h2').innerText = list[6];
                 })
             } else if(lang=="French") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var writeBtn = document.querySelector('div.postAct button h2').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -96,9 +172,11 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        document.querySelector('div.postAct button h2').innerText = list[6];
                     })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var writeBtn = document.querySelector('div.postAct button h2').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -113,6 +191,7 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        document.querySelector('div.postAct button h2').innerText = list[6];
                     })
             }
         }

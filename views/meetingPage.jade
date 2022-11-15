@@ -1,0 +1,152 @@
+html 
+    head 
+        title request List
+        link(rel='stylesheet', href='/stylesheets/meeting.css')
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    body
+       nav(class="nav")
+            ul(class="navbar__menu")
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="other")
+                        a(id="1" href="../tutorList/") 튜터 찾기
+                    div(class="other")
+                        a(id="2" href="../post/") 질문/답변
+                    div(class="other") 
+                        a(id="3" href="../findPost/") 찾아요
+                    div(class="current")
+                        a(id="4" href="./") 멘토링 목록
+                    div(class="other")
+                        a(id="5" href="../requestList/") 받은 요청
+                    div(class="other")
+        div(class="requestBox")
+            div(class="meetingBox")
+                div(id="place" value="")
+                div(class="meetingPlace")
+                    h4 장소 선택
+                    input(id = "mapPlace" placeholder="지정된 장소 없음" disabled = true)
+                    button(id="maps button" onClick="showMaps()") 장소 지정
+                div(class="ImagePlace")
+                    img(id="img" src="")
+                div(class="meetingDate")
+                    h4 날짜 선택
+                    input(type="date" id='currentDate')
+                div(class="meetingContent")
+                    h4 미팅 요청사항
+                    textarea(id="meet_text")
+                div(class="buttonArea")
+                    button(id="btn" onClick="sendMeeting()")
+                        h4 미팅 신청
+            div(id="modal" class="modal-overlay")
+                div(class="modal-window")
+                    input(id="maps-search" class="searchMap" placeholder="장소를 검색하세요")
+                    div(id="map")
+                        script(async defer src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs&callback=initMap&region=kr&libraries=places")
+                    button(onClick="closeMaps()")
+                        h4 장소 선택
+    script(type='text/javascript').
+        document.getElementById('currentDate').value = document.getElementById('currentDate').min = new Date().toISOString().substring(0,10);
+        var maxday = new Date();
+        maxday.setDate(maxday.getDate() + 7);
+        document.getElementById('currentDate').max = maxday.toISOString().substring(0,10);
+        let autocomplete;
+        const showMaps = () => {
+            const modal = document.getElementById("modal");
+            modal.style.display = "flex";
+        }
+        const closeMaps = () => {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+        function initMap(){
+            var seoul = { lat: 37.5642135 ,lng: 127.0016985 };
+            var map = new google.maps.Map(
+                document.getElementById('map'), {
+                zoom: 14,
+                center: seoul,
+                mapTypeControl : false,
+                });
+            var input = (document.getElementById('maps-search'));
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.setOptions({draggableCursor:'crosshair'});
+            const options = {
+                fields: ["formatted_address", "geometry", "name"],
+                strictBounds: false,
+                types: ["establishment"],
+            };
+            const marker = new google.maps.Marker({
+                map : map,
+                anchorPoint: new google.maps.Point(0, -29),
+            });
+            var autocomplete = new google.maps.places.Autocomplete(input, options);
+            autocomplete.bindTo("bounds",map);
+            map.addListener("click", (e) => {
+                var location = {
+                    lat : e.latLng.lat(),
+                    lng : e.latLng.lng()
+                }
+                marker.setPosition(location);
+                marker.setVisible(true);
+                fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+                marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString() + '&key=' + 'AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs&callback=initMap&language=ko'
+                ).then((response) => response.json()).then((responseJson) => {
+                    document.querySelector('div.meetingPlace input').value = responseJson.results[0].formatted_address;
+                    document.getElementById('place').value = marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString();
+                    document.querySelector('div.ImagePlace img').src = "https://maps.googleapis.com/maps/api/staticmap?center="+marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString()+"&markers=color:red%7Clabel:C%7C"+marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString()+"&zoom=17&size=600x300&maptype=roadmap&key=AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs";
+                })
+            })
+            autocomplete.addListener("place_changed", () => {
+                marker.setVisible(false);
+                const place = autocomplete.getPlace();
+
+                if(place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);
+                }
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
+                fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+                marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString() + '&key=' + 'AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs&callback=initMap&language=ko'
+                ).then((response) => response.json()).then((responseJson) => {
+                    console.log(responseJson.results[0].formatted_address);
+                    document.querySelector('div.meetingPlace input').value = responseJson.results[0].formatted_address;
+                    document.getElementById('place').value = marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString();
+                    document.querySelector('div.ImagePlace img').src = "https://maps.googleapis.com/maps/api/staticmap?center="+marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString()+"&markers=color:red%7Clabel:C%7C"+marker.getPosition().lat().toString() + ',' + marker.getPosition().lng().toString()+"&zoom=17&size=600x300&maptype=roadmap&key=AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs";
+                })
+            })
+        }
+        const sendMeeting = () => {
+            const meetingLocation = document.getElementById('place').value;
+            const meetingPlace = document.querySelector('div.modal-window input').value;
+            const meetingDate = document.querySelector('div.meetingDate input').value;
+            const meetingContent = document.querySelector('div.meetingContent textarea').value;
+            console.log(meetingPlace, meetingContent);
+            const url = document.location.href;
+            const qs = url.substring(url.indexOf('?')+1).split('&');
+            const tutoring_id = qs[0].split('=')[1];
+            const targetUser = qs[1].split('=')[1];
+            axios.get('http://localhost:3000/home/tutoring/meeting/sendMeeting',{
+                 method : 'POST',
+                    params: {
+                        meetingLocation : meetingLocation,
+                        meetingPlace : meetingPlace,
+                        meetingDate : meetingDate,
+                        meetingContent : meetingContent,
+                        targetUser : targetUser,
+                        tutoring_id : tutoring_id
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    if(response.data.status==200) {
+                        alert(response.data.message);
+                        document.location.href = "./";
+                    }
+            })
+        }

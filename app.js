@@ -145,6 +145,11 @@ app.get('/home/findPost/write',function(req, res) {
   res.render('findPost_write',{lang : lang});
 })
 
+app.get('/home/tutoringList/meeting',function(req, res) {
+  var lang = req.session.user.country;
+  res.render('meetingPage',{lang : lang});
+})
+
 app.get('/Register', function(req, res) {
   res.render('Register.js');
 })
@@ -214,7 +219,7 @@ app.get('/findpost/updateCount',function(req,res){
 app.get('/home/tutoringList/',function(req,res){
   var user_id = req.session.user.id;
   var lang = req.session.user.country;
-  connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
+  connection.query('select A.id as id, A.tutorUser_id as targetUser, B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
     if(err) throw err;
     if(results.length>0) {
       res.render('tutoringList',{rows:results, lang : lang});
@@ -243,12 +248,32 @@ app.get('/translate', function (req, res) {
     }
   });
 });
+app.get('/innerTranslate', function (req, res) {
+  var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+  var request = require('request');
+  console.log(req.query)
+  var options = {
+      url: api_url,
+      form: {'source': req.query.source , 'target': req.query.target, 'text':req.query.text},
+      headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+   };
+  request.post(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+      res.end(body);
+    } else {
+      res.status(response.statusCode).end();
+      console.log('error = ' + response.statusCode);
+    }
+  });
+});
+
 app.get('/detect', function (req, res) {
    var api_url = 'https://openapi.naver.com/v1/papago/detectLangs';
    var request = require('request');
    var options = {
        url: api_url,
-       form: {'query': req.query},
+       form: {'query': req.query.text},
        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
     };
    request.post(options, function (error, response, body) {
@@ -274,7 +299,19 @@ app.get('/user/getUserId', function(request, response) {
     }
   })
 })
-
+app.get('/home/tutoring/meeting/sendMeeting', function(request, response) {
+  var sendUser = request.session.user.nickname;
+  connection.query('SELECT * from meeting where sendUser = ? AND targetUser = ?',[sendUser, request.query.targetUser], function(err, results, field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      response.send({status : 500, message : "이미 요청한 미팅이 존재합니다"});
+    } else {
+      connection.query('Insert into meeting(meetingDate, meetingContent, meetingPlace, meetingLocation, sendUser, targetUser, tutoring_id, status) VALUES(?,?,?,?,?,?,?,?)',[request.query.meetingDate, request.query.meetingContent, request.query.meetingPlace, request.query.meetingLocation, sendUser, request.query.targetUser, request.query.tutoring_id,'WAIT'], function(err, data) {
+        response.send({status : 200, message : "요청 성공!"});
+      })
+    }
+  })
+})
 app.get('/tutoring/request/accept', function(request, response){
   var targetUser = request.session.user.id;
 

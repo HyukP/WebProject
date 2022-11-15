@@ -1,0 +1,257 @@
+@font-face {
+    font-family : 'Jalnan';
+    font-style : 'normal';
+    font-weight: 200;
+    src : url(../fonts/RobotoMono-Light.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+body {
+    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
+}
+  a {
+		width: 10%;
+        text-decoration: none;
+        color: black;
+		text-align: center;
+		text-transform: capitalize;
+        font-family: Jalnan;
+        font-weight: bold;
+  }
+  .nav {
+    background: white;
+    margin-top : 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width:98%;
+    height : 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .home {
+    margin-left: 20px;
+    margin-top : 10px;
+    margin-bottom: 20px;
+    width: 15px;
+    height: 15px;
+  }
+  .menu_group {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 40px;
+    width: 80%;
+  }
+  
+.navbar__menu {
+    display: flex;
+    list-style: none;
+}
+.navbar__menu .current {
+    border-bottom: 4px solid rgb(58, 9, 170);
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other {
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other :hover {
+    border-bottom: 4px solid rgb(58, 9, 170);
+}
+.requestBox {
+    width: 98%;
+    height: auto;
+    margin : auto;
+    background-color: rgba(199, 187, 187, 0.4);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.meetingBox {
+    width: 50%;
+    height: auto;
+    margin-left : auto;
+    margin-right : auto;
+    margin-top : 10%;
+    margin-bottom : 20%;
+    border-radius: 5px;
+    background: white;
+}
+.meetingDate {
+    padding : 15px;
+    margin-top : 50px;
+}
+.meetingContent {
+    padding : 15px;
+    margin-top : 50px;
+}
+.meetingContent h4 {
+    font-family: Jalnan;
+    margin-bottom: 20px;
+}
+.meetingPlace h4 {
+    font-family: Jalnan;
+    margin-bottom: 20px;
+}
+.meetingPlace input {
+    border-radius: 5px;
+    width : 200px;
+    height : 30px;
+    outline : none;
+}
+.ImagePlace {
+    margin-left: 20px;
+}
+.meetingPlace button {
+    margin-left : 20px;
+    border-radius: 5px;
+    width : auto;
+    height : 30px;
+    outline : none;
+    border : 0.5px solid lightgray;
+    background-color: white;
+    font-size: 15px;
+    font-family: Jalnan;
+    font-weight: bold;
+}
+.meetingPlace button:hover {
+    background-color: lightgray;
+}
+.meetingDate h4 {
+    font-family: Jalnan;
+    margin-bottom: 20px;
+}
+.meetingPlace {
+    padding :15px;
+}
+.meetingContent textarea {
+    resize : none;
+    width : 50%;
+    height : 250px;
+    border : 0.5px solid #E1E1E1;
+    border-radius: 5px;
+    outline: none;
+    font-family: Jalnan;
+}
+
+input[type="date"]{
+    position : relative;
+    width : 120px;
+    height : 48px;
+    font-family: Jalnan;
+    border: 1px solid #E1E1E1;
+    outline: none;
+    border-radius: 5px;
+}
+input[type="date"]::-webkit-clear-button {
+     display: none;
+}
+input[type="date"]::-webkit-outer-spin-button {
+    display: none;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    display: block;
+    background: url(https://i.ibb.co/mH7g9bM/calendar.png) no-repeat right 10px center / 10px auto;
+    width: 20px;
+    height: 20px;
+    border-width: thin;
+}
+
+.buttonArea {
+    display: flex;
+    flex-direction: column;
+}
+.buttonArea button {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right : 40px;
+    margin-bottom : 20px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    background-color: white;
+    outline: none;
+}
+.buttonArea button:hover {
+    background-color: lightgray;
+}
+
+#modal.modal-overlay {
+    width: 100%;
+    height: 150%;
+    position: absolute;
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    margin-left:auto;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    border-radius: 10px;
+    top : 100;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  #modal .modal-window {
+    background: white;
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    width: 50%;
+    height: 1050px;
+    display: flex;
+    position: relative;
+    margin-top : auto;
+    margin-bottom : auto;
+    flex-direction: column;
+    padding: 10px;
+  }
+  #modal .modal-window button {
+    background: white;
+    width : 60px;
+    height : 40px;
+    border-radius: 5px;
+    border : 1px solid lightgray;
+    margin-left: auto;
+    margin-top: 20px;
+    margin-right : 10px;
+  }
+  #modal .modal-window button:hover {
+    background-color: lightgray;
+  }
+  #modal #map{
+    width:100%;
+    height: 100%;
+  }
+  .searchMap {
+    background-color: #fff;
+    font-family: Jalnan;
+    font-size: 15px;
+    border-radius: 5px;
+    font-weight: 300;
+    margin-left: 12px;
+    border : 1px solid lightgray;
+    outline : none;
+    padding: 0 11px 0 13px;
+    margin-top:15px;
+    width: 400px;
+    height: 30px;
+  }

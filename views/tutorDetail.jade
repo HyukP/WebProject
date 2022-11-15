@@ -91,13 +91,17 @@ html
         }
         const testTrans = () => {
             var lang = "#{lang}"
+            console.log(requestBtn);
             if(lang=="China") {
                var text = document.querySelector('div.menu_group').innerText;
+               var requestBtn = document.querySelector('div.request button h2').textContent;
+               var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
+               var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text
+                        text : text + '\n' + requestBtn + '\n' + modaltext + '\n' + modalBtn
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -107,9 +111,15 @@ html
                     for(var i = 1; i<= 6; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
+                    requestBtn = document.querySelector('div.request button h2').textContent = list[6];
+                    modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
+                    modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
                 })
             } else if(lang=="French") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var requestBtn = document.querySelector('div.request button h2').textContent;
+                var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
+                var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -121,12 +131,19 @@ html
                         },
                     }).then(response=> {
                         var list = response.data.message.result.translatedText.split('\n');
+                        var requestBtn = document.querySelector('div.request button').textContent;
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        requestBtn = document.querySelector('div.request button h2').textContent = list[6];
+                        modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
+                        modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
                     })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var requestBtn = document.querySelector('div.request button').textContent;
+                var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
+                var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -141,6 +158,9 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        requestBtn = document.querySelector('div.request button h2').textContent = list[6];
+                        modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
+                        modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
                     })
             }
         }
