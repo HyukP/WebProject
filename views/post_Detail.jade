@@ -3,6 +3,7 @@ html
     head
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
     body
          nav(class="nav")
             ul(class="navbar__menu")
@@ -27,7 +28,7 @@ html
                 h4 #{rows[0].title}
                 div(class="otherArea")
                     h2 #{rows[0].nickname}
-                    div(class="translate" style="margin-left:600px;")
+                    div(class="translate" style="margin-left:50%;")
                         img(src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR()")
                         img(src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN()")
                         img(src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi()")
@@ -39,7 +40,8 @@ html
                     h2 #{username}
                     div(class="replybox")
                         input(id="reply" placeholder="댓글을 입력해주세요.")
-                        button(id="replyBtn" onClick="replyWrite()") 등록
+                        button(id="replyBtn" onClick="replyWrite()") 
+                            h4 등록
 
     script(type="text/javascript").
         const replyWrite = () => {
@@ -114,11 +116,14 @@ html
             var lang = "#{lang}"
             if(lang=="China") {
                var text = document.querySelector('div.menu_group').innerText;
+               var reply = document.querySelector('div.replyArea h2').innerText;
+               var replyInput = document.querySelector('div.replybox input').placeholder;
+               var replyBtn = document.querySelector('div.replybox button h4').innerText;
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text
+                        text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -128,9 +133,15 @@ html
                     for(var i = 1; i<= 6; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
+                    document.querySelector('div.replyArea h2').innerText = list[6];
+                    document.querySelector('div.replybox input').placeholder = list[7];
+                    document.querySelector('div.replybox button h4').innerText = list[8];
                 })
             } else if(lang=="French") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var reply = document.querySelector('div.replyArea h2').innerText;
+                var replyInput = document.querySelector('div.replybox input').placeholder;
+                var replyBtn = document.querySelector('div.replybox button h4').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -145,9 +156,15 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        document.querySelector('div.replyArea h2').innerText = list[6];
+                        document.querySelector('div.replybox input').placeholder = list[7];
+                        document.querySelector('div.replybox button h4').innerText = list[8];
                     })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var reply = document.querySelector('div.replyArea h2').innerText;
+                var replyInput = document.querySelector('div.replybox input').placeholder;
+                var replyBtn = document.querySelector('div.replybox button h4').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -162,6 +179,9 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        document.querySelector('div.replyArea h2').innerText = list[6];
+                        document.querySelector('div.replybox input').placeholder = list[7];
+                        document.querySelector('div.replybox button h4').innerText = list[8];
                     })
             }
         }

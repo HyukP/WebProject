@@ -27,7 +27,7 @@ html
                 h4 #{rows[0].title}
                 div(class="otherArea")
                     h2 #{rows[0].nickname}
-                    div(class="translate" style="margin-left:600px;")
+                    div(class="translate" style="margin-left:50%;")
                         img(src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR()")
                         img(src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN()")
                         img(src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi()")
@@ -39,7 +39,8 @@ html
                     h2 #{username}
                     div(class="replybox")
                         input(id="reply" placeholder="댓글을 입력해주세요.")
-                        button(id="replyBtn") 등록
+                        button(id="replyBtn") 
+                            h4 등록
 
     script(type="text/javascript").
         const transToCN = () => {
@@ -76,32 +77,37 @@ html
                 })
             }
         const transToFR = () => {
+            var title = document.querySelector('div.boardLine h4').innerText;
             var text = document.querySelector('div.contentArea h4').innerText;
+            var fullText = title + '\n' + text;
                 console.log(text);
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'fr',
-                        text : text
+                        text : fullText
                     },
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }).then(response=> {
-                    var list = response.data.message.result.translatedText;
-                    console.log(list);
-                    document.querySelector('div.contentArea h4').innerText = list;
+                    var list = response.data.message.result.translatedText.split('\n');
+                    document.querySelector('div.boardLine h4').innerText = list[0];
+                    document.querySelector('div.contentArea h4').innerText = list[1];
             })
         }
         const testTrans = () => {
             var lang = "#{lang}"
             if(lang=="China") {
                var text = document.querySelector('div.menu_group').innerText;
+               var reply = document.querySelector('div.replyArea h2').innerText;
+               var replyInput = document.querySelector('div.replybox input').placeholder;
+               var replyBtn = document.querySelector('div.replybox button h4').innerText;
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text
+                        text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -111,9 +117,15 @@ html
                     for(var i = 1; i<= 6; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
+                    document.querySelector('div.replyArea h2').innerText = list[6];
+                    document.querySelector('div.replybox input').placeholder = list[7];
+                    document.querySelector('div.replybox button h4').innerText = list[8];
                 })
             } else if(lang=="French") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var reply = document.querySelector('div.replyArea h2').innerText;
+                var replyInput = document.querySelector('div.replybox input').placeholder;
+                var replyBtn = document.querySelector('div.replybox button h4').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -128,9 +140,15 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        document.querySelector('div.replyArea h2').innerText = list[6];
+                        document.querySelector('div.replybox input').placeholder = list[7];
+                        document.querySelector('div.replybox button h4').innerText = list[8];
                     })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var reply = document.querySelector('div.replyArea h2').innerText;
+                var replyInput = document.querySelector('div.replybox input').placeholder;
+                var replyBtn = document.querySelector('div.replybox button h4').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -145,6 +163,9 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        document.querySelector('div.replyArea h2').innerText = list[6];
+                        document.querySelector('div.replybox input').placeholder = list[7];
+                        document.querySelector('div.replybox button h4').innerText = list[8];
                     })
             }
         }

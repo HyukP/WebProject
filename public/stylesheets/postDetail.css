@@ -129,6 +129,8 @@ body {
 }
 .otherArea {
     display: flex;
+    width : 100%;
+    height : auto;
     flex-direction: row;
     margin-right: auto;
 }

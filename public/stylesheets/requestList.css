@@ -70,7 +70,7 @@ body {
 }
 
 .requestList {
-    width: 95%;
+    width: 70%;
     height: auto;
     margin : auto;
     margin-top: 10px;
@@ -79,8 +79,104 @@ body {
     align-items: center;
     flex-direction: row;
 }
+.meetingInfo {
+  width: 30%;
+  background-color: white;
+  height: 70%;
+  margin : auto;
+  margin-right : 50px;
+  margin-top: 10px;
+  border-radius: 20px;
+  display: none;
+  flex-direction: column;
+}
+.meetingInfo .Content {
+  margin : 20px;
+}
+.meetingInfo .Content h4{
+  font-family: Jalnan;
+  padding-right: 5px;
+  font-size: 15px;
+}
+.meetingInfo .Date {
+  margin : 20px;
+}
+.meetingInfo .Date h4{
+  font-family: Jalnan;
+  padding-right: 5px;
+  font-size: 15px;
+}
+.meetingInfo .Place {
+  margin : 20px;
+}
+.meetingInfo .Place .place2{
+  display: flex;
+  flex-direction: row;
+}
+.meetingInfo .Date .date2{
+  display: flex;
+  flex-direction: row;
+}
+.meetingInfo .Content .content2{
+  display: flex;
+  flex-direction: row;
+}
+.meetingInfo .Place .place2 h2{
+  font-family: Jalnan;
+  font-size: 15px;
+  margin-top: 40px;
+}
+.meetingInfo .Date .date2 h2{
+  font-family: Jalnan;
+  font-size: 15px;
+}
+.meetingInfo .Content .content2 h2{
+  font-family: Jalnan;
+  font-size: 15px;
+}
+.meetingInfo .Place h4{
+  font-family: Jalnan;
+  font-size: 15px;
+  padding-right: 5px;
+  margin-top: 40px;
+}
+.close {
+  margin-left: auto;
+  margin-right : 20px;
+}
+.close button {
+    width : 70px;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left : 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    background-color: white;
+    outline: none;
+}
+.close #status{
+  width : auto;
+  height: 50px;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-left : 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  background-color: white;
+  outline: none;
+}
+.close #closeBtn:hover {
+  background-color: lightgray;
+}
+.close #tutorAccept:hover {
+  background-color: lightgray;
+}
+.close #tutorExit:hover {
+  background-color: lightgray;
+}
 .request{
-  width: 750px;
+  width: auto;
   height: 140px;
   margin-left : auto;
   margin-right : auto;
@@ -94,11 +190,13 @@ body {
   flex-direction: row;
 }
 .UserArea {
+    width : auto;
     margin-right : 50px;
     margin-left : 50px;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 .ContentArea {
+    width : auto;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 .buttonArea {
@@ -116,6 +214,27 @@ body {
     border: 1px solid lightgray;
     background-color: white;
     outline: none;
+}
+.tutoringArea {
+  width : auto;
+  display: row;
+  margin-left : 20px;
+  flex-direction: row;
+}
+.tutoringArea button {
+    width: auto;
+    margin-right : 20px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 90px;
+    margin-bottom : 20px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    background-color: white;
+    outline: none;
+}
+.tutoringArea button:hover {
+  background-color: lightgray;
 }
 .buttonArea button:hover {
     background-color: silver;
