@@ -42,10 +42,18 @@ html
                         input(id="reply" placeholder="댓글을 입력해주세요.")
                         button(id="replyBtn" onClick="replyWrite()") 
                             h4 등록
+            -if(rows2)
+                for item in rows2
+                    div(class="replyList")
+                        div(class="bottomReply" style = "display:flex;flex-direction:row;")
+                            h4 #{item.nickname}
+                            h3 #{item.date}
+                        h2 #{item.content}
 
     script(type="text/javascript").
         const replyWrite = () => {
             var id = "#{rows[0].id}";
+            console.log(id);
             var content = document.getElementById('reply').value;
             console.log(content);
                 axios.get('http://localhost:3000/reply/write',{
@@ -59,6 +67,7 @@ html
                 },
             }).then(response=>{
                 if(response.data.status == 200) {
+                    alert(response.data.status);
                     document.location.href = document.location.href;
                 }
             })

@@ -91,8 +91,16 @@ app.get('/home/post/postDetail',function(req,res) {
   console.log(post_id);
   connection.query('SELECT id, title, content, nickname, count FROM post WHERE id = ?',[post_id], function(err, rows){
     if(err) throw err;
-    console.log(rows);
-    res.render('post_Detail',{rows:rows, username : username, lang : lang});
+    connection.query('SELECT * from reply where post_id = ?',[post_id], function(err, results2) {
+      if(err) throw err;
+      
+      if(results2.length > 0) {
+        console.log(rows);
+        res.render('post_Detail',{rows:rows, username : username, lang : lang, rows2 : results2});
+      } else {
+        res.render('post_Detail',{rows:rows, username : username, lang : lang});
+      }
+    })
   })
 })
 app.get('/home/findPost/postDetail',function(req,res) {
@@ -103,8 +111,16 @@ app.get('/home/findPost/postDetail',function(req,res) {
   console.log(post_id);
   connection.query('SELECT id, title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
     if(err) throw err;
-    console.log(rows);
-    res.render('findPost_Detail',{rows:rows, username : username, lang : lang});
+    connection.query('SELECT * from reply where post_id = ?',[post_id], function(err, results2) {
+      if(err) throw err;
+      
+      if(results2.length > 0) {
+        console.log(rows);
+        res.render('findPost_Detail',{rows:rows, username : username, lang : lang, rows2 : results2});
+      } else {
+        res.render('findPost_Detail',{rows:rows, username : username, lang : lang});
+      }
+    })
   })
 })
 app.get('/home/tutorList/',function(req, res) {
