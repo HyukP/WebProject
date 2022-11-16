@@ -18,7 +18,8 @@ var client_id = '7HK9tPsLi9yFUjvwDzx1';
 var client_secret = '6uWchEawHA';
 var app = express();
 let status = 0;
-
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var sessionObject = {
   secret : 'Jello',
   resave : false,
@@ -61,6 +62,44 @@ var connection = db.createConnection(db_info);
     }
     console.log("my sql connected");
   })
+io.on('connection', function(socket) {
+  console.log(socket.id);
+  socket.on('join',(room_id) => {
+    socket.join(room_id);
+    console.log(room_id);
+  })
+  socket.on('message',function(chatRoom_id, user_id, msg){
+    var sendUser = user_id;
+    var currentTime = new Date();
+    var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
+    connection.query('Insert into Chat(chatUser_id,chatRoom_id,content,date) VALUES(?,?,?,?)',[sendUser, chatRoom_id, msg,current],function(err,data){
+      if(err) throw err;
+      io.emit('message',msg);
+    })
+  })
+  socket.on('disconnect',function () {
+    socket.rooms.forEach((room) => {
+      socket.to(room).emit("퇴장하셨습니다.");
+    })
+  })
+})
+http.listen(3000,function () {
+  console.log('Server on port : 3300');
+})
+app.get('/home/tutoringList/ChatTest',function(req,res) {
+  var user_id = req.session.user.id;
+  if(req.query.chatroom_id=="null") {
+    connection.query('')
+  }
+  connection.query('Select * from Chat where chatRoom_id = ?',[req.query.chatroom_id],function(err,results,field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      res.render('Chat',{user_id : user_id, rows : results});
+    } else {
+      res.render('Chat',{user_id : user_id});
+    }
+  })
+})
 
 app.get('/start', function(req, res) {
   res.render('start.js')
@@ -243,7 +282,7 @@ app.get('/home/tutoringList/',function(req,res){
   var user_id = req.session.user.id;
   var username = req.session.user.nickname;
   var lang = req.session.user.country;
-  connection.query('select A.id as id, A.tutorUser_id as targetUser, B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
+  connection.query('select A.chatroom_id, A.id as id, A.tutorUser_id as targetUser, B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
     if(err) throw err;
     if(results.length>0) {
           res.render('tutoringList',{rows:results, lang : lang, username : username});
@@ -369,12 +408,14 @@ app.get('/home/tutoring/meeting/sendMeeting', function(request, response) {
 })
 app.get('/tutoring/request/accept', function(request, response){
   var targetUser = request.session.user.id;
+  var currentTime = new Date();
+  var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
 
   connection.query("SELECT id FROM user WHERE nickname = ?",[request.query.sendUser], function(err, results, field){
     if(err) throw err;
     if(results.length > 0){
       console.log(targetUser, results[0].id, request.query.content);
-      connection.query('INSERT INTO tutoring (tutorUser_id, tuteeUser_id, content) VALUES(?,?,?)',[targetUser, results[0].id, request.query.content], function(err, data){
+      connection.query('INSERT INTO tutoring (tutorUser_id, tuteeUser_id, content, chatroom_id, meeting_id, startDate) VALUES(?,?,?,?,?,?)',[targetUser, results[0].id, request.query.content,results.length+1, results.length+1, current], function(err, data){
         if(err) throw err;
         status = 200;
         connection.query('DELETE FROM tutoringRequest WHERE targetUser_id = ?',[targetUser]);
