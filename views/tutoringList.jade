@@ -39,7 +39,7 @@ html
                             div(id="btns #{i}" class="tutoringArea")
                                 button(class="tutoringButton") 
                                     a(href="./meeting?meeting_id=#{rows[i].id}&targetUser_id=#{rows[i].targetUser}") 미팅 요청
-                                button(class="tutoringButton") 채팅
+                                button(id="chatroom #{rows[i].chatroom_id}" class="tutoringButton" onClick="joinChatroom(id)") 채팅
                                 button(class="meeting" onClick="printData(#{rows[i].id})") 미팅 정보
                 div(class="meetingInfo")
                     div(class="Place")
@@ -64,6 +64,10 @@ html
                     
                                 
     script(type="text/javascript").
+        const joinChatroom = (id) => {
+            var id = id.split(' ')[1];
+            document.location.href="./ChatTest?chatroom_id="+id;
+        }
         const closeInfo = () => {
             document.querySelector("div.meetingInfo").style.display = "none";
         }

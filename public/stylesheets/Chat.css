@@ -1,0 +1,167 @@
+@font-face {
+    font-family : 'Jalnan';
+    font-style : 'normal';
+    font-weight: 200;
+    src : url(../fonts/RobotoMono-Light.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+body {
+    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
+}
+  a {
+		width: 10%;
+        text-decoration: none;
+        color: black;
+		text-align: center;
+		text-transform: capitalize;
+        font-family: Jalnan;
+        font-weight: bold;
+  }
+  .nav {
+    background: white;
+    margin-top : 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width:98%;
+    height : 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .home {
+    margin-left: 20px;
+    margin-top : 10px;
+    margin-bottom: 20px;
+    width: 15px;
+    height: 15px;
+  }
+  .menu_group {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 40px;
+    width: 80%;
+  }
+  
+.navbar__menu {
+    display: flex;
+    list-style: none;
+}
+.navbar__menu .current {
+    border-bottom: 4px solid rgb(58, 9, 170);
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other {
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other :hover {
+    border-bottom: 4px solid rgb(58, 9, 170);
+}
+.ChatLine {
+    width: 70%;
+    height: auto;
+    margin : auto;
+    margin-top: 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.ChatBox {
+    width: 98%;
+    height: auto;
+    margin : auto;
+    background-color: rgba(199, 187, 187, 0.4);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.ChatList {
+    width : 35%;
+    height : auto;
+    background-color: rgb(213, 187, 68);
+    margin: auto;
+    border-radius: 5px;
+}
+#messages {
+    background-color: white;
+    height : 220px;
+}
+.ChatList .chatArea {
+    height : 900px;
+}
+.ChatList input {
+    outline : none;
+    width : 100%;
+    border : 0px;
+    height : 220px;
+    resize: none;
+}
+.mymsg {
+    display: inline-block;
+    border-radius: 15px;
+    padding: 7px 15px;
+    margin-bottom: 10px;
+    margin-top : 5px;
+}
+.newmsg {
+    display: inline-block;
+    border-radius: 15px;
+    padding: 7px 15px;
+    margin-bottom: 10px;
+    margin-top : 5px;
+}
+.othermsg {
+    display: inline-block;
+    border-radius: 15px;
+    padding: 7px 15px;
+    margin-bottom: 10px;
+    margin-top : 5px;
+}
+.ChatBubble {
+    width : auto;
+    text-align: right;
+}
+.ChatBubble2 {
+    text-align: left;
+}
+.ChatBubble2 > .othermsg {
+    background-color: #f1f0f0;
+}
+.ChatBubble > .mymsg {
+    background-color: #0084FF;
+    color: #fff;
+}
+.newBubble {
+   text-align: right;
+}
+.newBubble > .newmsg {
+    background-color: #0084FF;
+    color: #fff;
+}
+.newBubble h2 {
+    font-family: Jalnan;
+    font-size: 15px;
+    margin-top : 15px;
+    margin-left: 200px;
+    margin-right: 5px;
+}
+
+.ChatBubble h2 {
+    font-family: Jalnan;
+    font-size: 15px;
+    margin-top : 15px;
+    margin-left: 200px;
+    margin-right: 5px;
+}
