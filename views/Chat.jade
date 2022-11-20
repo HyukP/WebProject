@@ -52,29 +52,40 @@ html
     script(type="text/javascript").
         var socket = io.connect('http://localhost:3000/');
         var room_id = document.location.href.split('=')[1];
-        var user_id = "#{user_id}";
-        console.log(user_id);
+        var currentUser = "#{user_id}";
+        console.log(socket)
+        console.log(socket.on('loadUser'));
+        var messages = document.querySelector('div.chatArea');
+        var messageBubble = document.createElement('div');
+        var messageTag = document.createElement("span");
+        var messageDate = document.createElement("h2");
+        var currentTime = new Date();
+        var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
         socket.emit('join',room_id);
         var form = document.querySelector('form');
-        socket.on('message',(msg) => {
-            var messages = document.querySelector('div.chatArea');
-            var messageBubble = document.createElement('div');
-            var messageTag = document.createElement("span");
-            var messageDate = document.createElement("h2");
-            var currentTime = new Date();
-            var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
-            messageTag.innerText = msg;
-            messageDate.innerText = current;
-            messageTag.className = "newmsg";
-            messageTag.appendChild(messageDate);
-            messageBubble.appendChild(messageTag);
-            messages.appendChild(messageBubble);
-            messageBubble.className = "newBubble";
+        socket.on('resultMessage',(user_id, msg) => {
+            if(currentUser == user_id) {
+                messageTag.innerText = msg;
+                messageDate.innerText = current;
+                messageTag.className = "mymsg";
+                messageTag.appendChild(messageDate);
+                messageBubble.appendChild(messageTag);
+                messages.appendChild(messageBubble);
+                messageBubble.className = "ChatBubble";
+            } else {
+                messageTag.innerText = msg;
+                messageDate.innerText = current;
+                messageTag.className = "othermsg";
+                messageTag.appendChild(messageDate);
+                messageBubble.appendChild(messageTag);
+                messages.appendChild(messageBubble);
+                messageBubble.className = "ChatBubble2";
+            }
         })
         form.onsubmit = (e) => {
             e.preventDefault();
             var msginput = document.getElementById('m');
 
-            socket.emit('message', room_id, user_id, msginput.value);
+            socket.emit('message', room_id, currentUser, msginput.value);
             msginput.value = "";
         }

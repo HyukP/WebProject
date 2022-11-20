@@ -53,6 +53,7 @@ var db_info = {
   password : '@Altmxpfl12',
   database : 'Autor'
 };
+var socketId;
 
 var connection = db.createConnection(db_info);
   connection.connect((err)=> {
@@ -64,6 +65,7 @@ var connection = db.createConnection(db_info);
   })
 io.on('connection', function(socket) {
   console.log(socket.id);
+  socketId = socket.id;
   socket.on('join',(room_id) => {
     socket.join(room_id);
     console.log(room_id);
@@ -74,8 +76,11 @@ io.on('connection', function(socket) {
     var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
     connection.query('Insert into Chat(chatUser_id,chatRoom_id,content,date) VALUES(?,?,?,?)',[sendUser, chatRoom_id, msg,current],function(err,data){
       if(err) throw err;
-      io.emit('message',msg);
+      io.emit('resultMessage',user_id, msg);
     })
+  })
+  socket.on('loadUser',function() {
+    console.log(socket.id);
   })
   socket.on('disconnect',function () {
     socket.rooms.forEach((room) => {
@@ -87,7 +92,8 @@ http.listen(3000,function () {
   console.log('Server on port : 3300');
 })
 app.get('/home/tutoringList/ChatTest',function(req,res) {
-  var user_id = req.session.user.id;
+  var user_id = req.session.displayName.id;
+  console.log(socketId);
   if(req.query.chatroom_id=="null") {
     connection.query('')
   }
@@ -535,8 +541,10 @@ app.get('/auth/SignIn',async function (request, response) {
     if(err) throw err;
     if(results.length > 0) {
       request.session.user = results[0];
+      request.session.displayName = results[0];
+      request.session.save();
       response.send({status : 200, message : "로그인에 성공"});
-      console.log(request.session);
+        console.log(request.session);
     } else {
       response.send({status : 500, message : "로그인에 실패"});
     }
