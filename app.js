@@ -158,6 +158,33 @@ app.get('/home/post/postDetail',function(req,res) {
     })
   })
 })
+
+app.get('/home/post/deletePost',function(req,res){
+  var post_id = req.query.post_id;
+
+  connection.query('DELETE FROM post where id = ?',[post_id], function(err, rows){
+    if(err) throw err;
+    connection.query('DELETE from reply where post_id = ?',[post_id],function(err, rows) {
+      if(err) throw err;
+      else
+        res.send({status : 200, message : "삭제 성공!"});
+    })
+  })
+})
+
+app.get('/home/findPost/deletePost',function(req,res){
+  var post_id = req.query.post_id;
+
+  connection.query('DELETE FROM post2 where id = ?',[post_id], function(err, rows){
+    if(err) throw err;
+    connection.query('DELETE from reply2 where post_id = ?',[post_id],function(err, rows) {
+      if(err) throw err;
+      else
+        res.send({status : 200, message : "삭제 성공!"});
+    })
+  })
+})
+
 app.get('/home/findPost/postDetail',function(req,res) {
   var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
   var username = req.session.user.nickname;
@@ -166,7 +193,7 @@ app.get('/home/findPost/postDetail',function(req,res) {
   console.log(post_id);
   connection.query('SELECT id, title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
     if(err) throw err;
-    connection.query('SELECT * from reply where post_id = ?',[post_id], function(err, results2) {
+    connection.query('SELECT * from reply2 where post_id = ?',[post_id], function(err, results2) {
       if(err) throw err;
       
       if(results2.length > 0) {
@@ -271,6 +298,41 @@ app.get('/reply/write',function(req,res) {
     res.send({status : 200});
   })
 })
+app.get('/reply/delete',function(req,res) {
+  var reply_id = req.query.reply_id;
+
+  connection.query('Delete from reply where id = ?',[reply_id],function(err, rows) {
+    if(err) throw err;
+    else res.send({status : 200, message : "삭제 성공"});
+  })
+})
+
+app.get('/reply2/write',function(req,res) {
+  var post_id = req.query.post_id;
+  var username = req.session.user.nickname;
+  var currentTime = new Date();
+  var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
+  console.log(JSON.stringify(currentTime));
+  connection.query('INSERT INTO reply2 (content,date,nickname,post_id) VALUES(?,?,?,?)',[req.query.content, current, username, post_id], function(err,results,field) {
+    if(err) throw err;
+    res.send({status : 200});
+  })
+})
+
+app.get('/reply2/delete',function(req,res) {
+  var reply_id = req.query.reply_id;
+
+  connection.query('Delete from reply2 where id = ?',[reply_id],function(err, rows) {
+    if(err) throw err;
+    else res.send({status : 200, message : "삭제 성공"});
+  })
+})
+
+app.get('/home/myProfile',function(req,res) {
+  var user = req.session.user;
+  res.render('myProfile',{userData : user});
+})
+
 
 app.get('/post/updateCount',function(req,res){
   var post_id = req.query.post_id;

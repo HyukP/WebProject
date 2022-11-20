@@ -9,7 +9,7 @@ const app = require("../app");
 try {
     fs.readdirSync('upload');
 } catch(err) {
-    console.err('not exist directory');
+    console.log('not exist directory');
     fs.mkdirSync('upload')
 }
 

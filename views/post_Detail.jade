@@ -23,6 +23,8 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
+                    div(class="other")
+                        a(id="7" href="../myProfile/") 내 프로필
         div(id = "post #{rows[0].id}" class="Post")
             div(class="boardLine")
                 h4 #{rows[0].title}
@@ -32,6 +34,9 @@ html
                         img(src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR()")
                         img(src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN()")
                         img(src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi()")
+                    div(class="delete")
+                        button(id="#{rows[0].id}" class="deleteBtn" onClick="deletePost(this.id)")
+                            h4 삭제
             div(class="contentArea")
                 h4(id="conetentText") #{rows[0].content}
             div(class="replyArea")
@@ -51,6 +56,29 @@ html
                         h2 #{item.content}
 
     script(type="text/javascript").
+        const validUser = () => {
+            var username = "#{username}";
+            var postuser = "#{rows[0].nickname}";
+            if(username!=postuser) {
+                document.querySelector("div.delete").style.display = "none";
+            }
+        }
+        const deletePost = (id) => {
+            axios.get('http://localhost:3000/home/post/deletePost',{
+                 method: 'POST',
+                    params: {
+                        post_id : id
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+            }).then(response => {
+                if(response.data.status==200) {
+                    alert(response.data.message);
+                    document.location.href = "./";
+                }
+            })
+        }
         const replyWrite = () => {
             var id = "#{rows[0].id}";
             console.log(id);
@@ -195,3 +223,4 @@ html
             }
         }
         testTrans();
+        validUser();
