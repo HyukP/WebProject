@@ -38,7 +38,7 @@
   }
   .wrap {
     width: 100%;
-    height: 100vh;
+    height : auto;
     display: flex;
     align-items: center;
     border-color: black;
@@ -47,9 +47,11 @@
   }
   .register {
     width: 30%;
-    height: 900px;
+    height: auto;
     background: white;
-    border-radius: 20px;
+    margin-top : 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -86,6 +88,39 @@
     border: 1px solid lightgray;
     outline: none;
   }
+  .mountImage {
+    width : 128; 
+    height : 128; 
+    margin-left : auto;
+    margin-right : auto;
+    border : 0.5px solid lightgray;
+    display : flex;
+    border-radius: 70px;
+    -moz-border-radius: 70px;
+    -khtml-border-radius: 70px;
+    -webkit-border-radius: 70px;
+  }
+  .submit{
+    height: 40px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    background-color: white;
+    outline: none;
+  }
+  .submit:hover {
+    background-color: lightgray;
+  }
+  .passCheck {
+    margin-left: auto;
+    margin-right: 30px;
+  }
+  .passCheck h4 {
+    font-style: Jalnan;
+    font-size: 15px;
+  }
   .nickname {
     margin-top: 20px;
     width: 80%;
@@ -106,6 +141,7 @@
   .signUp button {
     width: 100%;
     height: 50px;
+    margin-bottom: 50px;
     border-radius: 5px;
     margin-top: 5px;
     padding: 0px 20px;
@@ -113,4 +149,17 @@
     background-color: white;
     outline: none;
   }
+  .signUp Button:hover {
+    background-color: lightgray;
+  }
 
+  .departmentSector select {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  .departmentSector {
+    margin-top: 0px;
+    width: 80%;
+  }

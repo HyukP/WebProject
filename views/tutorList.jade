@@ -30,6 +30,7 @@ html
                     -for(var i = 0; i<rows.length;i++)
                         button(id="btn #{i}" class="profileCard" onClick="showDetailPage(id)")
                             div(class="area1")
+                                img(src="http://localhost:3000/"+"#{rows[i].profileImage}" class="mountImage")
                                 tr()
                                     td() nickname : #{rows[i].nickname}
                                     br()                           
@@ -41,6 +42,7 @@ html
 
     script(type="text/javascript").
         let id;
+        console.log("#{rows[0].profileImage}");
         const showDetailPage = (id) => {
             const btn = document.getElementById(id).querySelector("div.area1");
             const data = btn.innerText.split('\n');

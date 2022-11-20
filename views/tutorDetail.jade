@@ -28,14 +28,17 @@ html
                     button(id="requestBtn" onClick="openModal()") 
                         h2 매칭 요청
                 div(class="area1")
-                    div(class="nickname")
-                        td() #{rows[0].nickname}
-                    div(class="email")
-                        td() email : 
-                        td() #{rows[0].email}
-                    div(class="country")
-                        td() country : 
-                        td() #{rows[0].country}
+                    div(class="profileImage")
+                        img(src="http://localhost:3000/"+"#{rows[0].profileImage}" class="mountImage")
+                    div(class="userInformation")
+                        div(class="nickname")
+                            td() #{rows[0].nickname}
+                        div(class="email")
+                            td() email : 
+                            td() #{rows[0].email}
+                        div(class="country")
+                            td() country : 
+                            td() #{rows[0].country}
                 div(class="area2")
                     div(class="title")
                         td() Introduce

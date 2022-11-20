@@ -9,10 +9,13 @@ var db = require('mysql');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var pageRouter = require('./routes/start');
+var ImageRouter = require('./routes/Image')
 var registerRouter = require('./routes/Register');
 var translater = require('./public/javascripts/translate');
 const { response, query } = require('express');
 const { MemoryStore } = require('express-session');
+const cors = require("cors");
+const fs = require("fs");
 
 var client_id = '7HK9tPsLi9yFUjvwDzx1';
 var client_secret = '6uWchEawHA';
@@ -45,6 +48,9 @@ app.use('/users', usersRouter);
 app.use('/start', pageRouter);
 app.use('/Register',registerRouter);
 app.use('/trans',translater);
+app.use(cors());
+app.use('/upload',express.static('upload'));
+app.post('/Image',ImageRouter);
 
 var db_info = {
   host : 'localhost',
@@ -90,6 +96,10 @@ io.on('connection', function(socket) {
 })
 http.listen(3000,function () {
   console.log('Server on port : 3300');
+  const dir = "./upload";
+  if(!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
 })
 app.get('/home/tutoringList/ChatTest',function(req,res) {
   var user_id = req.session.displayName.id;
@@ -170,7 +180,7 @@ app.get('/home/findPost/postDetail',function(req,res) {
 })
 app.get('/home/tutorList/',function(req, res) {
   var lang = req.session.user.country;
-  connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
+  connection.query('select A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
     if(err) throw err;
     res.render('tutorList', {rows:rows, lang : lang});
   })
@@ -179,7 +189,7 @@ app.get('/home/tutorList/',function(req, res) {
 app.get('/home/tutorList/tutorDetail', function(req, res) {
   const user_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
   var lang = req.session.user.country;
-  connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
+  connection.query('select A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
     if(err) throw err;
     res.render('tutorDetail',{rows:rows, lang : lang});
   })
@@ -488,7 +498,7 @@ app.get('/auth/SignUp',async function (request, response) {
     connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
       if(err) throw err;
       if(results.length <= 0) {
-        connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null",query.role], function(err, data){
+        connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,query.department,query.profileImage,query.role], function(err, data){
           status = 200;
           response.send({status : 200, message : "사용자 정보 생성 완료"});
         })
@@ -510,7 +520,7 @@ app.get('/auth/SignUp2',async function (request, response) {
   connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
     if(err) throw err;
     if(results.length <= 0) {
-      connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null",query.role], function(err, data){
+      connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,query.department,query.profileImage,query.role], function(err, data){
         status = 200;
 
       })

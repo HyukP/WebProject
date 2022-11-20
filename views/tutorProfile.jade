@@ -26,30 +26,9 @@ html
                             option(value="1") Vietnam
                             option(value="2") China
                             option(value="3") Korea
-                    div(class="tutorDates")
+                    div(class="dateSector")
                         h4 tutoringDate
-                        button(id="btn-modal" onClick="openModal()") Select Date
-                    div(id="modal" class="modal-overlay")
-                        div(class="modal-window")
-                            div(class="title")
-                                h2 날짜 설정
-                            div(class="close-area" onClick="closeModal()") X
-                            div(class="dateGroup")
-                                select(type="dateGroup")
-                                    option(value="0") Monday
-                                    option(value="1") Tuesday
-                                    option(value="2") Wednesday
-                                    option(value="3") Thursday
-                                    option(value="4") Friday
-                                    option(value="5") Saturday
-                                    option(value="6") Sunday
-                            div(class="title")
-                                h2 시간 설정
-                            div(class="timeGroup")
-                                input(id = "time1" type= "time")
-                                input(id = "time2" type= "time")
-                            div(class="timeSet")
-                                button(id="addtime") add time
+                        textarea(type="dateSector")
                     div(class="signUp")
                         button(id="signUpbtn" onClick="signUp()") SignUp
                         
@@ -74,11 +53,16 @@ html
             const nickname = qs[3];
             const country = qs[4];
             const role = qs[5];
+            var departmentValue = qs[6];
+            if(departmentValue.indexOf('%')) {
+                departmentValue = departmentValue.split('%20')[0] + " " + departmentValue.split('%20')[1];
+            }
+            const profileImage = qs[7].split('/')[3] + '/' + qs[7].split('/')[4];
             const Introduce = document.querySelector("div.Introduce textarea").value;
             const tutorSector = document.querySelector("div.tutorSector textarea").value;
             const country1 = document.getElementById("country1");
             const country2 = document.getElementById("country2")
-            const preferenceCountry = country1[country1.selectedIndex].text;
+            const preferenceCountry = country1[country1.selectedIndex].text + ',' + country2[country2.selectedIndex].text;
             const User = {
                 email : email,
                 password : password,
@@ -87,7 +71,7 @@ html
                 country : preferenceCountry,
                 role : role,
             }
-             axios.get('http://localhost:3000/auth/SignUp2',{
+            axios.get('http://localhost:3000/auth/SignUp2',{
                     method: 'POST',
                     params: {
                         email : User.email,
@@ -98,6 +82,8 @@ html
                         role : User.role,
                         Introduce : Introduce,
                         tutorSector : tutorSector,
+                        department : departmentValue,
+                        profileImage : profileImage,
                         preferenceCountry : preferenceCountry,
                     },
                     headers: {
@@ -106,7 +92,6 @@ html
                 }).then(response => {
                     if(response.data.status==200){
                         alert("가입 완료");
-                        document.location.href = '../start'
                     }
                 })
         }
