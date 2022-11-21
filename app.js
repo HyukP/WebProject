@@ -56,7 +56,7 @@ var db_info = {
   host : 'localhost',
   port : '3306',
   user : 'root',
-  password : '@ahtmxmwpem12',
+  password : '@Altmxpfl12',
   database : 'Autor'
 };
 var socketId;
@@ -124,7 +124,71 @@ app.get('/home/',function(req, res) {
   var lang = req.session.user.country;
   res.render('home',{lang : lang});
 })
-
+app.get('/home/myProfile/editProfile',function(req,res) {
+  var user = req.session.user;
+  res.render('editProfile',{user : user});
+})
+app.get('/home/myProfile/myTutorProfile',function(req,res) {
+  var user = req.session.user;
+  connection.query('SELECT * from tutorProfile where profileUser_id = ?',[user.id],function(err,results,field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      res.render('myTutorProfile',{tutorProfile : results[0], user : user});
+    } else {
+      res.render('myTutorProfile',{user : user});
+    }
+  })
+})
+app.get('/user/checkNickname',function(req,res) {
+  var nickname = req.query.nickname;
+  connection.query('SELECT * from user where nickname = ?',[nickname], function(err,results,field) {
+    if(err) throw err;
+    if(results.length <= 0) {
+      res.send({status : 200, message : "일치하는 유저 없음"});
+    } else {
+      res.send({status : 500, message : "일치하는 유저 있음"});
+    }
+  })
+})
+app.get('/user/updateProfile',function(req,res) {
+  var nickname = req.query.nickname;
+  var profileImage = req.query.profileImage;
+  var user = req.session.user;
+  connection.query('UPDATE user set nickname = ?, profileImage = ? where id = ?',[nickname, profileImage, user.id], function(err, results) {
+    if(err) throw err;
+    else {
+      req.session.user.nickname = nickname;
+      req.session.user.profileImage = profileImage;
+      res.send({status : 200, message : "프로필 수정 성공"});
+    }
+   }
+  )
+})
+app.get('/user/updateTutorProfile',function(req,res) {
+  var Introduce = req.query.Introduce;
+  var tutorSector = req.query.tutorSector;
+  var tutorDates = req.query.tutorDates;
+  var preferenceCountry = req.query.preferenceCountry;
+  var user = req.session.user;
+  connection.query('UPDATE tutorProfile set introduce = ?, tutorSector = ? , tutorDates = ? , preferenceCountry = ? where profileUser_id = ?',[Introduce, tutorSector, tutorDates, preferenceCountry, user.id], function(err, results) {
+    if(err) throw err;
+    else {
+      res.send({status : 200, message : "프로필 수정 성공"});
+    }
+   }
+  )
+})
+app.get('/home/myProfile/editTutorProfile',function(req,res) {
+  var user = req.session.user;
+  connection.query('SELECT * from tutorProfile where profileUser_id = ?',[user.id],function(err,results,field) {
+    if(err) throw err;
+    if(results.length > 0) {
+      res.render('editTutorProfile',{tutorProfile : results[0], user : user});
+    } else {
+      res.render('editTutorProfile',{user : user});
+    }
+  })
+})
 app.get('/home/post/',function(req, res) {
   var lang = req.session.user.country;
   connection.query('SELECT id, title, content, nickname, count FROM post', function(err, rows){

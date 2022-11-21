@@ -1,0 +1,90 @@
+html 
+    head 
+        title Edit Tutor Profile
+        link(rel='stylesheet', href='/stylesheets/editTutorProfile.css')
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    body
+       nav(class="nav")
+            ul(class="navbar__menu")
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="other")
+                        a(id="1" href="../tutorList/") 튜터 찾기
+                    div(class="other")
+                        a(id="2" href="../post/") 질문/답변
+                    div(class="other") 
+                        a(id="3" href="../findPost/") 찾아요
+                    div(class="other")
+                        a(id="4" href="../tutoringList/") 멘토링 목록
+                    div(class="other")
+                        a(id="5" href="../requestList/") 받은 요청
+                    div(class="other")
+                        a(id="6" href="../sendList/") 보낸 요청
+                    div(class="current")
+                        a(id="7" href=".") 내 프로필
+        div(class="profileBox")
+            div(class="profileArea")
+                div(class="Introduce")
+                    h4 소개
+                    textarea(id="introduceText")
+                div(class="tutorSector")
+                    h4 튜터 분야
+                    textarea(id="tutorSectorText")
+                div(class="tutorDates")
+                    h4 튜터 날짜
+                    textarea(id="tutorDatesText")
+                div(class="preferenceCountry")
+                        h4 preferenceCountry
+                        select(id="country1" type="preferenceCountry")
+                            option(value="0") Vietnam
+                            option(value="1") China
+                            option(value="2") Korea
+                        select(id="country2" type="preferenceCountry" style = "margin-left:10px;")
+                            option(value="0") Vietnam
+                            option(value="1") China
+                            option(value="2") Korea
+                div(class="editButton")
+                    button(id="editBtn" onClick="updateTutorProfile()")
+                        h4 수정
+    script(type="text/javascript").
+        var statusValue = false;
+        var statusValue2 = false;
+        const updateTutorProfile = () => {
+            var Introduce = document.getElementById("introduceText").value;
+            var tutorSector = document.getElementById("tutorSectorText").value;
+            var tutorDates = document.getElementById("tutorDatesText").value;
+            if(Introduce != "" && tutorSector != "" && tutorDates != ""){
+                statusValue = true;
+            }
+            const country1 = document.getElementById("country1");
+            const country2 = document.getElementById("country2")
+            var preferenceCountry = country1[country1.selectedIndex].text + ',' + country2[country2.selectedIndex].text;
+            if(country1 != country2){
+                statusValue2 = true;
+            }
+            if(statusValue!=false && statusValue2 != false)
+                axios.get('http://localhost:3000/user/updateTutorProfile',{
+                    method: 'POST',
+                        params: {
+                            Introduce : Introduce,
+                            tutorSector : tutorSector,
+                            tutorDates : tutorDates,
+                            preferenceCountry : preferenceCountry
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                }).then(response => {
+                    if(response.data.status==200 && statusValue) {
+                        alert("프로필 수정에 성공했습니다!");
+                        document.location.href = "../";
+                    } else {
+                        alert("프로필 수정에 실패했습니다");
+                    }
+            })
+            else
+                alert("빈 값이 없도록 제대로 입력해주세요.");
+        }
+                

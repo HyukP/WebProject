@@ -78,10 +78,9 @@ body {
   border-bottom-right-radius: 5px;
   display: flex;
   align-items: center;
-  flex-direction: row;
 }
 .profileArea {
-  width: 35%;
+  width: 25%;
   height: 800px;
   margin : auto;
   margin-top: 20px;
@@ -96,12 +95,13 @@ body {
   width: 100%;
   height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 .image {
   margin-top : 20px;
   margin-bottom : 20px;
-  margin-left : 30px;
+  margin-left : auto;
+  margin-right: auto;
   width : 128; 
   height : 128; 
   border : 0.5px solid lightgray;
@@ -115,19 +115,27 @@ body {
   width: 100%;
   height : auto;
   margin-left: auto;
+  display: flex;
   margin-right : auto;
 }
 .editProfile button {
-  width : 100px;
+  width : 200px;
+  height : 30px;
   margin-left: auto;
+  margin-right : auto;
+  margin-top: 20px;
+  border : 0px;
+  border-radius: 5px;
+}
+.editProfile button:hover {
+  background-color: lightgray;
 }
 .editProfile h4 {
   font-family: Jalnan;
   font-size: 15;
   margin-left: auto;
   margin-right: auto;
-  font-weight: lighter;
-  color: blue;
+  font-weight: bold;
 }
 .UserSector {
   margin-top : 30px;
@@ -137,8 +145,8 @@ body {
   flex-direction: column;
 }
 .nickname {
-  margin-top : 60px;
-  margin-left: 60px;
+  margin-left: auto;
+  margin-right: auto;
   width: auto;
   height: auto;
 }
@@ -152,15 +160,159 @@ body {
   height: auto;
   border-bottom: 1px solid lightgray;
 }
+.department h3 {
+  font-size: 14px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  color: darkgray;
+}
+.department h4 {
+  font-size: 16px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  margin-top : 10px;
+  margin-bottom: 20px;
+}
 .email {
-  margin-top : 30px;
+  margin-top : 10px;
   width: auto;
   height: auto;
   border-bottom: 1px solid lightgray;
+}
+.email h4 {
+  font-size: 16px;
+  font-family: Jalnan;
+  margin-left: 150px;
+  margin-bottom : 30px;
 }
 .name {
   margin-top : 30px;
   width: auto;
   height: auto;
+  display: flex;
+  flex-direction: column;
   border-bottom: 1px solid lightgray;
+}
+.name h3 {
+  font-size: 14px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  color: darkgray;
+}
+.name h4 {
+  font-size: 16px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  margin-top : 10px;
+  margin-bottom: 20px;
+}
+.userType {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid lightgray;
+}
+.tutorBtn {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.tutorBtn button {
+  width : 200px;
+  height : 30px;
+  margin-left: auto;
+  margin-right : auto;
+  margin-top: 20px;
+  border : 0px;
+  border-radius: 5px;
+}
+.tutorBtn button:hover {
+  background-color: lightgray;
+}
+.tutorBtn h4 {
+  font-family: Jalnan;
+  font-size: 15;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold;
+}
+.userType h3 {
+  font-size: 14px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  color: darkgray;
+}
+.userType h4 {
+  font-size: 16px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  margin-top : 10px;
+  margin-bottom: 20px;
+}
+.tutorDate {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid lightgray;
+}
+.tutorDate h3 {
+  font-size: 14px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  color: darkgray;
+}
+.tutorDate h4 {
+  font-size: 16px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  margin-top : 10px;
+  margin-bottom: 20px;
+}
+.tutorIntroduce {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid lightgray;
+}
+.tutorIntroduce h3 {
+  font-size: 14px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  color: darkgray;
+}
+.tutorIntroduce h4 {
+  font-size: 16px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  margin-top : 10px;
+  margin-bottom: 20px;
+}
+.tutorSector {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid lightgray;
+} 
+.tutorSector h3 {
+  font-size: 14px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  color: darkgray;
+}
+.tutorSector h4 {
+  font-size: 16px;
+  font-family: Jalnan;
+  margin-left: 10px;
+  margin-top : 10px;
+  margin-bottom: 20px;
 }

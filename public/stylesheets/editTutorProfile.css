@@ -1,0 +1,198 @@
+@font-face {
+    font-family : 'Jalnan';
+    font-style : 'normal';
+    font-weight: 200;
+    src : url(../fonts/RobotoMono-Light.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+body {
+    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
+}
+  a {
+		width: 10%;
+        text-decoration: none;
+        color: black;
+		text-align: center;
+		text-transform: capitalize;
+        font-family: Jalnan;
+        font-weight: bold;
+  }
+  .nav {
+    background: white;
+    margin-top : 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width:98%;
+    height : 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .home {
+    margin-left: 20px;
+    margin-top : 10px;
+    margin-bottom: 20px;
+    width: 15px;
+    height: 15px;
+  }
+  .menu_group {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 40px;
+    width: 80%;
+  }
+  
+.navbar__menu {
+    display: flex;
+    list-style: none;
+}
+.navbar__menu .current {
+    border-bottom: 4px solid rgb(58, 9, 170);
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other {
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other :hover {
+    border-bottom: 4px solid rgb(58, 9, 170);
+}
+
+.profileBox {
+  width: 98%;
+  height: auto;
+  margin : auto;
+  background-color: rgba(199, 187, 187, 0.4);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+.profileArea {
+  width: 25%;
+  height: 800px;
+  margin : auto;
+  margin-top: 20px;
+  margin-bottom : 20px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.editButton {
+    margin-left: auto;
+    margin-right : 40px;
+}
+.editButton h4 {
+    font-size: 15px;
+    font-family: Jalnan;
+    color: white;
+}
+.editButton button {
+    width: 100px;
+    height: 40px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    margin-left: 50px;
+    margin-top: 20px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    background-color: rgb(48, 137, 232);
+    outline: none;
+}
+.editButton button:hover {
+    background-color: lightgray;
+}
+.inputLine button h4 {
+    font-family: Jalnan;
+    font-size: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.Introduce {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 80%;    
+}
+.Introduce h4 {
+    font-family: Jalnan;
+    font-size: 15px;
+}
+.Introduce textarea {
+    width: 300px;
+    height: 200px;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 10px 10px;
+    border: 1px solid lightgray;
+    outline: none;
+    resize : none;
+}
+.tutorSector {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 80%;    
+}
+.tutorSector h4 {
+    font-family: Jalnan;
+    font-size: 15px;
+}
+.tutorSector textarea {
+    width: 250px;
+    height: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 10px 10px;
+    border: 1px solid lightgray;
+    outline: none;
+    resize : none;
+}
+
+.tutorDates {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 80%;    
+}
+.tutorDates h4 {
+    font-family: Jalnan;
+    font-size: 15px;
+}
+.tutorDates textarea {
+    width: 250px;
+    height: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 10px 10px;
+    border: 1px solid lightgray;
+    outline: none;
+    resize : none;
+}
+
+.preferenceCountry {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 80%;
+}
+.preferenceCountry h4 {
+    font-family: Jalnan;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+.preferenceCountry select {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+}

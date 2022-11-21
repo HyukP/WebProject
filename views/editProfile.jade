@@ -1,0 +1,106 @@
+html 
+    head 
+        title Edit Profile
+        link(rel='stylesheet', href='/stylesheets/editProfile.css')
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    body
+       nav(class="nav")
+            ul(class="navbar__menu")
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="other")
+                        a(id="1" href="../tutorList/") 튜터 찾기
+                    div(class="other")
+                        a(id="2" href="../post/") 질문/답변
+                    div(class="other") 
+                        a(id="3" href="../findPost/") 찾아요
+                    div(class="other")
+                        a(id="4" href="../tutoringList/") 멘토링 목록
+                    div(class="other")
+                        a(id="5" href="../requestList/") 받은 요청
+                    div(class="other")
+                        a(id="6" href="../sendList/") 보낸 요청
+                    div(class="current")
+                        a(id="7" href=".") 내 프로필
+        div(class="profileBox")
+            div(class="profileArea")
+                div(class="image")
+                    img(class = "mountImage" id="uploadedImg")
+                    form(id = "imgForm" method="POST" encType="multipart/form-data" action = "/Image")
+                        input(id = "inputImg" type="file" value="upload" name="file" accept='image/jpg, image/png, image/jpeg' class="imageUpload")
+                        input(type = "submit" value = "업로드" class = "submit")
+                div(class="editNickname")
+                    h4 닉네임 수정
+                    div(class="inputLine")
+                        input(id="editInput" placeholder="닉네임을 입력해주세요.")
+                        button(id="checkButton" value=false onClick="duplicateNickname(this.value)")
+                            h4 중복 확인
+                div(class="editButton")
+                    button(id="submitEdit" onClick="updateUser()")
+                        h4 수정
+
+    script(type="text/javascript").
+        var form = document.querySelector("form");
+        var statusValue = false;
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            var formData = new FormData();
+            formData.append("file", document.querySelector("#inputImg").files[0]);
+            axios.post("http://localhost:3000/Image",formData,{
+                headers : {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(response => {
+                console.log(response.data);
+                document.getElementById("uploadedImg").style.display = "flex";
+                document.getElementById("uploadedImg").src = "http://localhost:3000/upload/" + response.data.file.filename;
+            })
+        }
+        const duplicateNickname = (value) => {
+            var nickname = document.getElementById('editInput').value;
+            if(nickname!="")
+                axios.get('http://localhost:3000/user/checkNickname',{
+                    method: 'POST',
+                        params: {
+                            nickname : nickname
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                }).then(response => {
+                    if(response.data.status==200) {
+                        alert("중복되는 닉네임을 가진 유저가 없습니다.");
+                        statusValue = true;
+                    } else {
+                        alert("중복되는 닉네임을 가진 유저가 있습니다.");
+                        statusValue = false;
+                    }
+            })
+            else
+                alert("닉네임을 입력해주세요.");
+        }
+        const updateUser = () => {
+            var profileImage = document.querySelector('img.mountImage').src.split('3000/')[1];
+            var value = document.getElementById('checkButton').value;
+            var nickname = document.getElementById('editInput').value;
+            if(statusValue!=false && nickname != "")
+                axios.get('http://localhost:3000/user/updateProfile',{
+                    method: 'POST',
+                        params: {
+                            profileImage : profileImage,
+                            nickname : nickname
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                }).then(response => {
+                    if(response.data.status==200 && statusValue) {
+                        alert("프로필 수정에 성공했습니다!");
+                        document.location.href = "../";
+                    } else {
+                        alert("프로필 수정에 실패했습니다");
+                    }
+                })
+        }

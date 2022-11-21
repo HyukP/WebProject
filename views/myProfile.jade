@@ -1,6 +1,6 @@
 html 
     head 
-        title Chat Room
+        title My Profile
         link(rel='stylesheet', href='/stylesheets/myProfile.css')
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
     body
@@ -30,16 +30,47 @@ html
                     img(src="http://localhost:3000/"+"#{userData.profileImage}" class="image")
                     div(class="nickname")
                         h4 #{userData.nickname}
+                    div(class="email")
+                        h4 #{userData.email}
                 div(class="editProfile")
-                    button(id="editBtn")
+                    button(class="editBtn" onClick="editProfile()")
                         h4 프로필 수정
                 div(class="UserSector")
                     div(class="name")
+                        h3 이름
                         h4 #{userData.name}
                     div(class="department")
+                        h3 소속학부
                         h4 #{userData.department}
-                    div(class="email")
-                        h4 #{userData.email}
+                    div(class="userType")
+                        h3 가입 유형
+                        h4 #{userData.role}
+                    div(class="tutorBtn")
+                        button(onClick="openTutorProfile()") 
+                            h4 튜터 프로필 보기
                     
 
     script(type="text/javascript").
+        const editProfile = () => {
+            document.location.href = './editProfile';
+        }
+        if("#{userData.name}".indexOf('%20') != -1){
+            var newName = document.querySelector('div.name h4').textContent.split('%20');
+            document.querySelector('div.name h4').textContent = "";
+            for(var i = 0; i < newName.length;i++){
+                document.querySelector('div.name h4').textContent += newName[i] + " ";
+            }
+        }
+        if("#{userData.department}".indexOf('%20') != -1){
+            var newName = document.querySelector('div.department h4').textContent.split('%20');
+            document.querySelector('div.department h4').textContent = "";
+            for(var i = 0; i < newName.length;i++){
+                document.querySelector('div.department h4').textContent += newName[i] + " ";
+            }
+        }
+        if("#{userData.role}" != 'TUTOR'){
+            document.querySelector('div.tutorBtn').style.display = 'none';
+        }
+        const openTutorProfile = () => {
+            document.location.href = './myTutorProfile';
+        }
