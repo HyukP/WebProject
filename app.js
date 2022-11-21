@@ -9,10 +9,13 @@ var db = require('mysql');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var pageRouter = require('./routes/start');
+var ImageRouter = require('./routes/Image')
 var registerRouter = require('./routes/Register');
 var translater = require('./public/javascripts/translate');
 const { response, query } = require('express');
 const { MemoryStore } = require('express-session');
+const cors = require("cors");
+const fs = require("fs");
 
 var client_id = '7HK9tPsLi9yFUjvwDzx1';
 var client_secret = '6uWchEawHA';
@@ -45,6 +48,9 @@ app.use('/users', usersRouter);
 app.use('/start', pageRouter);
 app.use('/Register',registerRouter);
 app.use('/trans',translater);
+app.use(cors());
+app.use('/upload',express.static('upload'));
+app.post('/Image',ImageRouter);
 
 var db_info = {
   host : 'localhost',
@@ -53,6 +59,7 @@ var db_info = {
   password : '@ahtmxmwpem12',
   database : 'Autor'
 };
+var socketId;
 
 var connection = db.createConnection(db_info);
   connection.connect((err)=> {
@@ -64,6 +71,7 @@ var connection = db.createConnection(db_info);
   })
 io.on('connection', function(socket) {
   console.log(socket.id);
+  socketId = socket.id;
   socket.on('join',(room_id) => {
     socket.join(room_id);
     console.log(room_id);
@@ -74,8 +82,11 @@ io.on('connection', function(socket) {
     var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
     connection.query('Insert into Chat(chatUser_id,chatRoom_id,content,date) VALUES(?,?,?,?)',[sendUser, chatRoom_id, msg,current],function(err,data){
       if(err) throw err;
-      io.emit('message',msg);
+      io.emit('resultMessage',user_id, msg);
     })
+  })
+  socket.on('loadUser',function() {
+    console.log(socket.id);
   })
   socket.on('disconnect',function () {
     socket.rooms.forEach((room) => {
@@ -85,9 +96,14 @@ io.on('connection', function(socket) {
 })
 http.listen(3000,function () {
   console.log('Server on port : 3300');
+  const dir = "./upload";
+  if(!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
 })
 app.get('/home/tutoringList/ChatTest',function(req,res) {
-  var user_id = req.session.user.id;
+  var user_id = req.session.displayName.id;
+  console.log(socketId);
   if(req.query.chatroom_id=="null") {
     connection.query('')
   }
@@ -142,6 +158,33 @@ app.get('/home/post/postDetail',function(req,res) {
     })
   })
 })
+
+app.get('/home/post/deletePost',function(req,res){
+  var post_id = req.query.post_id;
+
+  connection.query('DELETE FROM post where id = ?',[post_id], function(err, rows){
+    if(err) throw err;
+    connection.query('DELETE from reply where post_id = ?',[post_id],function(err, rows) {
+      if(err) throw err;
+      else
+        res.send({status : 200, message : "삭제 성공!"});
+    })
+  })
+})
+
+app.get('/home/findPost/deletePost',function(req,res){
+  var post_id = req.query.post_id;
+
+  connection.query('DELETE FROM post2 where id = ?',[post_id], function(err, rows){
+    if(err) throw err;
+    connection.query('DELETE from reply2 where post_id = ?',[post_id],function(err, rows) {
+      if(err) throw err;
+      else
+        res.send({status : 200, message : "삭제 성공!"});
+    })
+  })
+})
+
 app.get('/home/findPost/postDetail',function(req,res) {
   var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
   var username = req.session.user.nickname;
@@ -150,7 +193,7 @@ app.get('/home/findPost/postDetail',function(req,res) {
   console.log(post_id);
   connection.query('SELECT id, title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
     if(err) throw err;
-    connection.query('SELECT * from reply where post_id = ?',[post_id], function(err, results2) {
+    connection.query('SELECT * from reply2 where post_id = ?',[post_id], function(err, results2) {
       if(err) throw err;
       
       if(results2.length > 0) {
@@ -164,7 +207,7 @@ app.get('/home/findPost/postDetail',function(req,res) {
 })
 app.get('/home/tutorList/',function(req, res) {
   var lang = req.session.user.country;
-  connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
+  connection.query('select A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
     if(err) throw err;
     res.render('tutorList', {rows:rows, lang : lang});
   })
@@ -173,7 +216,7 @@ app.get('/home/tutorList/',function(req, res) {
 app.get('/home/tutorList/tutorDetail', function(req, res) {
   const user_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
   var lang = req.session.user.country;
-  connection.query('select A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
+  connection.query('select A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
     if(err) throw err;
     res.render('tutorDetail',{rows:rows, lang : lang});
   })
@@ -255,6 +298,42 @@ app.get('/reply/write',function(req,res) {
     res.send({status : 200});
   })
 })
+app.get('/reply/delete',function(req,res) {
+  var reply_id = req.query.reply_id;
+
+  connection.query('Delete from reply where id = ?',[reply_id],function(err, rows) {
+    if(err) throw err;
+    else res.send({status : 200, message : "삭제 성공"});
+  })
+})
+
+app.get('/reply2/write',function(req,res) {
+  var post_id = req.query.post_id;
+  var username = req.session.user.nickname;
+  var currentTime = new Date();
+  var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
+  console.log(JSON.stringify(currentTime));
+  connection.query('INSERT INTO reply2 (content,date,nickname,post_id) VALUES(?,?,?,?)',[req.query.content, current, username, post_id], function(err,results,field) {
+    if(err) throw err;
+    res.send({status : 200});
+  })
+})
+
+app.get('/reply2/delete',function(req,res) {
+  var reply_id = req.query.reply_id;
+
+  connection.query('Delete from reply2 where id = ?',[reply_id],function(err, rows) {
+    if(err) throw err;
+    else res.send({status : 200, message : "삭제 성공"});
+  })
+})
+
+app.get('/home/myProfile',function(req,res) {
+  var user = req.session.user;
+  console.log(user);
+  res.render('myProfile',{userData : user});
+})
+
 
 app.get('/post/updateCount',function(req,res){
   var post_id = req.query.post_id;
@@ -482,7 +561,7 @@ app.get('/auth/SignUp',async function (request, response) {
     connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
       if(err) throw err;
       if(results.length <= 0) {
-        connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null",query.role], function(err, data){
+        connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,query.department,query.profileImage,query.role], function(err, data){
           status = 200;
           response.send({status : 200, message : "사용자 정보 생성 완료"});
         })
@@ -504,7 +583,7 @@ app.get('/auth/SignUp2',async function (request, response) {
   connection.query('SELECT * FROM user WHERE email = ?', [query.email], function(err, results, field) {
     if(err) throw err;
     if(results.length <= 0) {
-      connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,"null","null",query.role], function(err, data){
+      connection.query('INSERT INTO user (nickname, name, password, email, country, department, profileImage, role) VALUES(?,?,?,?,?,?,?,?)',[query.nickname, query.name, query.password, query.email, query.country,query.department,query.profileImage,query.role], function(err, data){
         status = 200;
 
       })
@@ -535,8 +614,10 @@ app.get('/auth/SignIn',async function (request, response) {
     if(err) throw err;
     if(results.length > 0) {
       request.session.user = results[0];
+      request.session.displayName = results[0];
+      request.session.save();
       response.send({status : 200, message : "로그인에 성공"});
-      console.log(request.session);
+        console.log(request.session);
     } else {
       response.send({status : 500, message : "로그인에 실패"});
     }

@@ -1,0 +1,45 @@
+html 
+    head 
+        title Chat Room
+        link(rel='stylesheet', href='/stylesheets/myProfile.css')
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    body
+       nav(class="nav")
+            ul(class="navbar__menu")
+                div(class="home")
+                    a(href="../")
+                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+                div(class="menu_group")
+                    div(class="other")
+                        a(id="1" href="../tutorList/") 튜터 찾기
+                    div(class="other")
+                        a(id="2" href="../post/") 질문/답변
+                    div(class="other") 
+                        a(id="3" href="../findPost/") 찾아요
+                    div(class="other")
+                        a(id="4" href="../tutoringList/") 멘토링 목록
+                    div(class="other")
+                        a(id="5" href="../requestList/") 받은 요청
+                    div(class="other")
+                        a(id="6" href="../sendList/") 보낸 요청
+                    div(class="current")
+                        a(id="7" href=".") 내 프로필
+        div(class="profileBox")
+            div(class="profileArea")
+                div(class="ImageSector")
+                    img(src="http://localhost:3000/"+"#{userData.profileImage}" class="image")
+                    div(class="nickname")
+                        h4 #{userData.nickname}
+                div(class="editProfile")
+                    button(id="editBtn")
+                        h4 프로필 수정
+                div(class="UserSector")
+                    div(class="name")
+                        h4 #{userData.name}
+                    div(class="department")
+                        h4 #{userData.department}
+                    div(class="email")
+                        h4 #{userData.email}
+                    
+
+    script(type="text/javascript").

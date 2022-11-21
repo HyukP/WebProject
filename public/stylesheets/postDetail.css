@@ -172,6 +172,22 @@ body {
     margin-top : 15px;
     font-family: Jalnan;
 }
+.delete {
+    margin-left: 100px;
+}
+.delete button {
+    width : 80px;
+    height : 30px;
+    background-color: rgb(240, 116, 118);
+    border : 0px;
+    font-family: Jalnan;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+.delete button:hover {
+    background-color: lightslategray;
+}
 .replyList h3 {
     font-size : 14px;
     padding: 10px;

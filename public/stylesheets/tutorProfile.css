@@ -26,32 +26,58 @@ h4 {
     width: 80%;    
 }
 .Introduce textarea {
-    width: 80%;
-    height: 60px;
+    width: 250px;
+    height: 100px;
     margin-top: 10px;
     border-radius: 5px;
     padding: 0px 10px;
     border: 1px solid lightgray;
-    outline: none; 
+    outline: none;
+    resize : none;
 }
 .tutorSector {
     margin-top: 0px;
     width: 80%;
 }
+.departmentSector {
+  margin-top: 0px;
+  width: 80%;
+}
+ .dateSector {
+  margin-top: 0px;
+  width: 80%;
+}
+.dateSector textarea {
+  width: 80%;
+  height: 100px;
+  margin-top: 10px;
+  border-radius: 5px;
+  padding: 0px 10px;
+  border: 1px solid lightgray;
+  outline: none; 
+  resize : none;
+}
 .tutorSector textarea {
     width: 80%;
-    height: 60px;
+    height: 100px;
     margin-top: 10px;
     border-radius: 5px;
     padding: 0px 10px;
     border: 1px solid lightgray;
-    outline: none; 
+    outline: none;
+    resize : none;
 }
 .preferenceCountry {
     margin-top: 0px;
     width: 80%;
 }
 .preferenceCountry select {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.departmentSector select {
     width: 100px;
     height: 30px;
     border-radius: 5px;
@@ -85,62 +111,6 @@ h4 {
     /* 숨기기 */
     z-index: -1;
     opacity: 0;
-}
-#modal.modal-overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-#modal .modal-window {
-  background: white;
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 13.5px );
-  -webkit-backdrop-filter: blur( 13.5px );
-  border-radius: 10px;
-  border: 1px solid rgba( 255, 255, 255, 0.18 );
-  width: 400px;
-  height: 500px;
-  position: relative;
-  flex-direction: row;
-  top: -100px;
-  padding: 10px;
-}
-#modal .title {
-  padding-left: 10px;
-  display: inline;
-  text-shadow: 1px 1px 2px gray;
-  color: black;
-  
-}
-#modal .title h2 {
-  display: inline;
-}
-#modal .close-area {
-  display: inline;
-  float: right;
-  padding-right: 10px;
-  cursor: pointer;
-  text-shadow: 1px 1px 2px gray;
-  color: black;
-}
-
-#modal .content {
-  margin-top: 20px;
-  padding: 0px 10px;
-  text-shadow: 1px 1px 2px gray;
-  color: black;
 }
 .dateGroup {
   flex-direction: row;

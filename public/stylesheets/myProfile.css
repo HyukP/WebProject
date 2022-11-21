@@ -1,0 +1,166 @@
+@font-face {
+    font-family : 'Jalnan';
+    font-style : 'normal';
+    font-weight: 200;
+    src : url(../fonts/RobotoMono-Light.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+body {
+    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
+}
+  a {
+		width: 10%;
+        text-decoration: none;
+        color: black;
+		text-align: center;
+		text-transform: capitalize;
+        font-family: Jalnan;
+        font-weight: bold;
+  }
+  .nav {
+    background: white;
+    margin-top : 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width:98%;
+    height : 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .home {
+    margin-left: 20px;
+    margin-top : 10px;
+    margin-bottom: 20px;
+    width: 15px;
+    height: 15px;
+  }
+  .menu_group {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 40px;
+    width: 80%;
+  }
+  
+.navbar__menu {
+    display: flex;
+    list-style: none;
+}
+.navbar__menu .current {
+    border-bottom: 4px solid rgb(58, 9, 170);
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other {
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar__menu .other :hover {
+    border-bottom: 4px solid rgb(58, 9, 170);
+}
+
+.profileBox {
+  width: 98%;
+  height: auto;
+  margin : auto;
+  background-color: rgba(199, 187, 187, 0.4);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.profileArea {
+  width: 35%;
+  height: 800px;
+  margin : auto;
+  margin-top: 20px;
+  margin-bottom : 20px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ImageSector {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+.image {
+  margin-top : 20px;
+  margin-bottom : 20px;
+  margin-left : 30px;
+  width : 128; 
+  height : 128; 
+  border : 0.5px solid lightgray;
+  display : flex;
+  border-radius: 70px;
+  -moz-border-radius: 70px;
+  -khtml-border-radius: 70px;
+  -webkit-border-radius: 70px;
+}
+.editProfile {
+  width: 100%;
+  height : auto;
+  margin-left: auto;
+  margin-right : auto;
+}
+.editProfile button {
+  width : 100px;
+  margin-left: auto;
+}
+.editProfile h4 {
+  font-family: Jalnan;
+  font-size: 15;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: lighter;
+  color: blue;
+}
+.UserSector {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.nickname {
+  margin-top : 60px;
+  margin-left: 60px;
+  width: auto;
+  height: auto;
+}
+.nickname h4 {
+  font-size: 14px;
+  font-family: Jalnan;
+}
+.department {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  border-bottom: 1px solid lightgray;
+}
+.email {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  border-bottom: 1px solid lightgray;
+}
+.name {
+  margin-top : 30px;
+  width: auto;
+  height: auto;
+  border-bottom: 1px solid lightgray;
+}

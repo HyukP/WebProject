@@ -73,6 +73,8 @@ a {
   margin-bottom: 30px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  flex-direction: row;
   height : 200px;
   width: 80%;
   border:1px solid silver;
@@ -268,4 +270,18 @@ a {
   padding: 0px 10px;
   text-shadow: 1px 1px 2px gray;
   color: black;
+}
+.mountImage {
+  margin-top : 20px;
+  margin-bottom : 20px;
+  width : 128; 
+  height : 128; 
+  margin-left : 60px;
+  margin-right : auto;
+  border : 0.5px solid lightgray;
+  display : flex;
+  border-radius: 70px;
+  -moz-border-radius: 70px;
+  -khtml-border-radius: 70px;
+  -webkit-border-radius: 70px;
 }
