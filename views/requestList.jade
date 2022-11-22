@@ -1,15 +1,14 @@
-html 
-    head 
-        title request List
-        link(rel='stylesheet', href='/stylesheets/requestList.css')
-        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-    body
+html
+    link(rel='stylesheet', href='/stylesheets/requestList.css')
+    head
+        title Post List
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    body 
         nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -19,11 +18,9 @@ html
                     div(class="other")
                         a(id="4" href="../tutoringList/") 멘토링 목록
                     div(class="current")
-                        a(id="5" href="./") 받은 요청
+                        a(id="5" href=".") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
         div(class="requestBox")
             -if(rows!=null) 
                 div(class="requestList")
@@ -48,6 +45,9 @@ html
                                     div(class="modal-bottom")
                                         button(id="acc #{i}" onClick="Accept(id)") Accept
                                         button(id="ign #{i}" onClick="Ignore(id)") Ignore
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
     script(type="text/javascript").
         const testLoad = (id) => {
             const modal = document.getElementById("modal");

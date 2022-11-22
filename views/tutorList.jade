@@ -5,11 +5,10 @@ html
         link(rel='stylesheet', href='/stylesheets/tutorList.css')
     body 
         nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="current")
                         a(id="1" href="./") 튜터 찾기
                     div(class="other")
@@ -22,47 +21,31 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
         div(class="profileBox")
-            div(class="profileArea")
-                div(class="searchTutor")
-                    h4 닉네임, 튜터 분야로 검색
-                    input(class="searchInput" placeholder="닉네임이나 튜터 분야를 입력해주세요." onkeyup="searchUser(this.value)")
-                    div(class="departmentOption")
-                        h4 소속 학부
-                        div(class="departments")
-                            input(type="checkbox" id="label1" onClick="checkBox(this.id)")
-                            label(class="label1") Social Sciences 
-                            input(type="checkbox" id="label2" onClick="checkBox(this.id)")
-                            label(class="label2") Computer Engineering
-                            input(type="checkbox" id="label3" onClick="checkBox(this.id)")
-                            label(class="label3") Mathematical
-                            input(type="checkbox" id="label4" onClick="checkBox(this.id)")
-                            label(class="label4") Human Sciences
-                    div(class="countryOption")
-                        h4 국가
-                        div(class="country")
-                            input(type="checkbox" id="label1#c" onClick="checkBox2(this.id)")
-                            label(class="label1#c") Korea
-                            input(type="checkbox" id="label2#c" onClick="checkBox2(this.id)") 
-                            label(class="label2#c") China
-                            input(type="checkbox" id="label3#c" onClick="checkBox2(this.id)") 
-                            label(class="label3#c") Vietnam
-
-                div(class="profiles")
-                    -for(var i = 0; i<rows.length;i++)
-                        button(id="#{rows[i].id}" class="profileCard" onClick="showDetailPage(this.id)")
-                            div(class="area1")
+            div(class="searchSector")
+                div(class="inputBox")
+                    h4 닉네임으로 검색
+                    input(class="searchInput" onkeyup="searchUser(this.value)")
+            div(class="profiles")
+                -if(rows!=null)
+                    -for(var i=0;i<rows.length;i++)
+                        div(id= "#{rows[i].id}" class="profileCard" onClick="showDetailPage(this.id)")
+                            div(class="topCard")
                                 img(src="http://localhost:3000/"+"#{rows[i].profileImage}" class="mountImage")
-                                div(class="nickname")
-                                    h4 nickname: #{rows[i].nickname}
-                                div(class="email")  
-                                    h4 email: #{rows[i].email}
-                                div(class="countryText")  
-                                    h4 country: #{rows[i].country}
-                                div(class="name")                       
-                                    h4 department: #{rows[i].department}
+                                div(class="UserSector")
+                                    div(class="nickname")
+                                        h4 #{rows[i].nickname}
+                                    div(class="email")
+                                        h4 #{rows[i].email}
+                            div(class="bottomCard")
+                                div(class="department")
+                                    h4 #{rows[i].department}
+                                div(class="countryText")
+                                    h4 #{rows[i].country}
+                            
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
 
     script(type="text/javascript").
         let id;
@@ -183,7 +166,7 @@ html
             var newlist = document.getElementsByClassName('profileCard');
             for(var i = 0;i<newlist.length;i++) {
                 var nickname = newlist[i].getElementsByClassName('nickname')
-                var searchResult = nickname[0].innerHTML.toLowerCase().split(': ')[1];
+                var searchResult = nickname[0].innerHTML.toLowerCase();
                 if(searchResult.indexOf(keyword) != -1) {
                     newlist[i].style.display = "flex";
                 } else {

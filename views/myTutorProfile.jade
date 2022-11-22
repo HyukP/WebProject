@@ -1,15 +1,15 @@
-html 
-    head 
-        title My Tutor Profile
-        link(rel='stylesheet', href='/stylesheets/myProfile.css')
-        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
-    body
-       nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+html
+    link(rel='stylesheet', href='/stylesheets/postDetail.css')
+    head
+        title Post List
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    body 
+        nav(class="nav")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -22,8 +22,6 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="current")
-                        a(id="7" href=".") 내 프로필
         div(class="profileBox")
             div(class="profileArea")
                 div(class="ImageSector")
@@ -48,6 +46,9 @@ html
                     div(class="userType")
                         h3 선호 언어
                         h4 #{tutorProfile.preferenceCountry}
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href=".") 내 프로필
     script(type="text/javascript").
         const editTutorProfile = () => {
             document.location.href = "./editTutorProfile";

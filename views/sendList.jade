@@ -1,15 +1,14 @@
-html 
-    head 
-        title Send List
-        link(rel='stylesheet', href='/stylesheets/requestList.css')
-        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-    body
+html
+    link(rel='stylesheet', href='/stylesheets/requestList.css')
+    head
+        title Post List
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    body 
         nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -21,9 +20,7 @@ html
                     div(class="other")
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="current")
-                        a(id="6" href="./") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
+                        a(id="6" href=".") 보낸 요청
         div(class="requestBox")
             -if(rows!=null)
                 div(class="requestList") 
@@ -38,6 +35,9 @@ html
                             div(id="Content #{i}" class="ContentArea")
                                 td 요청 사항 :  
                                 td #{rows[i].content}
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
     script(type="text/javascript").
         const testLoad = (id) => {
             const modal = document.getElementById("modal");

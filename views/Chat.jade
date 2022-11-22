@@ -12,13 +12,12 @@ html
             border-radius: 5px;
             margin-bottom : 10px;
         }
-    body
-       nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+    body 
+        nav(class="nav")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -26,15 +25,12 @@ html
                     div(class="other") 
                         a(id="3" href="../findPost/") 찾아요
                     div(class="current")
-                        a(id="4" href="./") 멘토링 목록
+                        a(id="4" href=".") 멘토링 목록
                     div(class="other")
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
-        div(class="ChatBox")
-            div(class="ChatList")
+        div(class="ChatList")
                 div(class="chatArea" style = "overflow:auto;")
                     -if(rows!=null)
                         for item in rows
@@ -47,9 +43,11 @@ html
                                     span(class="othermsg") #{item.content}
                                         h2 #{item.date}
                 div(class="inputArea")
-                    ul(id="messages")
                         form(aciton="")
-                            input(id = "m" placeholder="메세지를 입력해주세요." style="padding-bottom : 170px; padding-left : 10px;")
+                                input(id = "m" placeholder="메세지를 입력해주세요.")
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
     script(src="http://localhost:3000/socket.io/socket.io.js")
     script(type="text/javascript").
         var socket = io.connect('http://localhost:3000/');

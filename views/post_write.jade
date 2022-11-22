@@ -4,17 +4,16 @@ html
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    body
+    body 
         nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="current")
-                        a(id="2" href="./") 질문/답변
+                        a(id="2" href=".") 질문/답변
                     div(class="other") 
                         a(id="3" href="../findPost/") 찾아요
                     div(class="other")
@@ -23,8 +22,6 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
         div(class="postBox")
             div(class="writeBox")
                 div(class="boardLine")
@@ -32,9 +29,13 @@ html
                     div(class="write" onClick="writePost()")
                         h2 등록
                 div(class="title")
-                    textarea(name="", cols="30", rows="10" placeholder = "제목을 입력해주세요.")
+                    textarea(name="", cols="30", rows="10" placeholder = "Title")
                 div(class="content")
-                    textarea(name="", cols="30", rows="10" placeholder = "내용을 입력해주세요.")
+                    textarea(name="", cols="30", rows="10" placeholder = "Content")
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
+
     script(type="text/javascript").
         const writePost = () => {
             const title = document.querySelector("div.title textarea").value;
