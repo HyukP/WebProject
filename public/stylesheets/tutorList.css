@@ -189,8 +189,8 @@ body {
     margin-top : 10px;
 }
 .profileCard {
-    width : 220px;
-    height : 300px;
+    width : auto;
+    height : auto;
     padding: 10px 12px;
     border : 1px solid silver;
     margin-right : 100px;
@@ -206,4 +206,16 @@ body {
 .profileCard:hover {
     background-color: silver;
     border-radius: 5px;
+}
+.nickname {
+
+}
+.email {
+
+}
+.name {
+
+}
+.countryText {
+    
 }

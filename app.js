@@ -56,7 +56,7 @@ var db_info = {
   host : 'localhost',
   port : '3306',
   user : 'root',
-  password : '@ahtmxmwpem12',
+  password : '@Altmxpfl12',
   database : 'Autor'
 };
 var socketId;
@@ -92,7 +92,7 @@ io.on('connection', function(socket) {
     socket.rooms.forEach((room) => {
       socket.to(room).emit("퇴장하셨습니다.");
     })
-  })
+  }) 
 })
 http.listen(3000,function () {
   console.log('Server on port : 3300');
@@ -271,7 +271,7 @@ app.get('/home/findPost/postDetail',function(req,res) {
 })
 app.get('/home/tutorList/',function(req, res) {
   var lang = req.session.user.country;
-  connection.query('select A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
+  connection.query('select A.department, A.id, A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
     if(err) throw err;
     res.render('tutorList', {rows:rows, lang : lang});
   })
@@ -525,9 +525,9 @@ app.get('/detect', function (req, res) {
  });
 
 app.get('/user/getUserId', function(request, response) {
-  var email = request.query.email;
+  var user_id = request.query.id;
 
-  connection.query('SELECT id FROM user WHERE email = ?',[email], function(err, results, field) {
+  connection.query('SELECT id FROM user WHERE id = ?',[user_id], function(err, results, field) {
     if(err) throw err;
     if(results.length > 0) {
       response.send({status : 200, User_id : results[0].id});

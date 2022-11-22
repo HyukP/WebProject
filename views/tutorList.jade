@@ -32,42 +32,153 @@ html
                     div(class="departmentOption")
                         h4 소속 학부
                         div(class="departments")
-                            input(type="checkbox" id="label1")
-                            label() Social Sciences 
-                            input(type="checkbox" id="label2")
-                            label() Computer Engineering
-                            input(type="checkbox" id="label3")
-                            label() Mathematical
-                            input(type="checkbox" id="label4")
-                            label() Human Sciences
+                            input(type="checkbox" id="label1" onClick="checkBox(this.id)")
+                            label(class="label1") Social Sciences 
+                            input(type="checkbox" id="label2" onClick="checkBox(this.id)")
+                            label(class="label2") Computer Engineering
+                            input(type="checkbox" id="label3" onClick="checkBox(this.id)")
+                            label(class="label3") Mathematical
+                            input(type="checkbox" id="label4" onClick="checkBox(this.id)")
+                            label(class="label4") Human Sciences
                     div(class="countryOption")
                         h4 국가
                         div(class="country")
-                            input(type="checkbox" id="label1#c")
-                            label() Korea
-                            input(type="checkbox" id="label2#c") 
-                            label() China
-                            input(type="checkbox" id="label3#c") 
-                            label() Vietnam
+                            input(type="checkbox" id="label1#c" onClick="checkBox2(this.id)")
+                            label(class="label1#c") Korea
+                            input(type="checkbox" id="label2#c" onClick="checkBox2(this.id)") 
+                            label(class="label2#c") China
+                            input(type="checkbox" id="label3#c" onClick="checkBox2(this.id)") 
+                            label(class="label3#c") Vietnam
 
                 div(class="profiles")
                     -for(var i = 0; i<rows.length;i++)
-                        button(id="btn #{i}" class="profileCard" onClick="showDetailPage(id)")
+                        button(id="#{rows[i].id}" class="profileCard" onClick="showDetailPage(this.id)")
                             div(class="area1")
                                 img(src="http://localhost:3000/"+"#{rows[i].profileImage}" class="mountImage")
-                                tr()
-                                    div(class="nickname")
-                                        td() nickname: #{rows[i].nickname}
-                                    br()                           
-                                    td() name :  #{rows[i].name}
-                                    br()
-                                    td() email : #{rows[i].email}
-                                    br()
-                                    td() country : #{rows[i].country}
+                                div(class="nickname")
+                                    h4 nickname: #{rows[i].nickname}
+                                div(class="email")  
+                                    h4 email: #{rows[i].email}
+                                div(class="countryText")  
+                                    h4 country: #{rows[i].country}
+                                div(class="name")                       
+                                    h4 department: #{rows[i].department}
 
     script(type="text/javascript").
         let id;
-        console.log("#{rows[0].profileImage}");
+        const checkBox = (value) => {
+            var thisBox = document.getElementById(value);
+            var box2, box3, box4;
+            switch(value){
+                case "label1" : {
+                    box2 = document.getElementById('label2');
+                    box3 = document.getElementById('label3');
+                    box4 = document.getElementById('label4');
+                    break;
+                }
+                case "label2" : {
+                    box2 = document.getElementById('label1');
+                    box3 = document.getElementById('label3');
+                    box4 = document.getElementById('label4');
+                    break;
+                }
+                case "label3" : {
+                    box2 = document.getElementById('label2');
+                    box3 = document.getElementById('label1');
+                    box4 = document.getElementById('label4');
+                    break;
+                }
+                case "label4" : {
+                    box2 = document.getElementById('label2');
+                    box3 = document.getElementById('label3');
+                    box4 = document.getElementById('label1');
+                    break;
+                }
+            }
+
+            if(thisBox.checked==true) {
+                box2.checked = false;
+                box3.checked = false;
+                box4.checked = false;
+            }
+            var keyword = document.querySelector("div.departments").getElementsByClassName(value)[0].innerHTML.toLowerCase();
+            var currentlist = document.getElementsByClassName('profileCard');
+            if(thisBox.checked) {
+                var newlist = document.getElementsByClassName('profileCard');
+                for(var i = 0; i<newlist.length;i++) {
+                    var department = newlist[i].getElementsByClassName('name')[0].innerHTML;
+                    var searchResult = department.toLowerCase().split(': ')[1];
+                    console.log(searchResult)
+                        if(searchResult.indexOf(keyword) != -1) {
+                            newlist[i].style.display = "flex";
+                        } else {
+                            newlist[i].style.display = "none";
+                        }
+                }
+            } else {
+                for(var i = 0; i<currentlist.length;i++) {
+                    currentlist[i].style.display = "flex";
+                }
+            }
+        }
+
+        const checkBox2 = (value) => {
+            var thisBox = document.getElementById(value);
+            var box2, box3;
+            switch(value){
+                case "label1#c" : {
+                    box2 = document.getElementById('label2#c');
+                    box3 = document.getElementById('label3#c');
+                    break;
+                }
+                case "label2#c" : {
+                    box2 = document.getElementById('label1#c');
+                    box3 = document.getElementById('label3#c');
+                    break;
+                }
+                case "label3#c" : {
+                    box2 = document.getElementById('label2#c');
+                    box3 = document.getElementById('label1#c');
+                    break;
+                }
+            }
+
+            if(thisBox.checked==true) {
+                box2.checked = false;
+                box3.checked = false;
+            }
+            var keyword = document.querySelector("div.country").getElementsByClassName(value)[0].innerHTML.toLowerCase();
+            var currentlist = document.getElementsByClassName('profileCard');
+            if(thisBox.checked) {
+                var newlist = document.getElementsByClassName('profileCard');
+                for(var i = 0; i<newlist.length;i++) {
+                    var country = newlist[i].getElementsByClassName('countryText')[0].innerHTML;
+                    var searchResult = country.toLowerCase().split(': ')[1];
+                    console.log(searchResult)
+                        if(searchResult.indexOf(keyword) != -1) {
+                            newlist[i].style.display = "flex";
+                        } else {
+                            newlist[i].style.display = "none";
+                        }
+                }
+            } else {
+                for(var i = 0; i<currentlist.length;i++) {
+                    currentlist[i].style.display = "flex";
+                }
+            }
+        }
+
+        const validNameCheck = () => {
+            var name = document.querySelector('div.name h4').textContent;
+            if(name.indexOf('%20')!=-1){
+                var text = name.split(': ')[1].split('%20');
+                var newName = "";
+                for(var i = 0; i<text.length;i++){
+                    newName += text[i]+" ";
+                }
+                document.querySelector('div.name h4').textContent = name.split(': ')[0] + ': ' +newName;
+            }
+        }
         const searchUser = (keyword) => {
             var newlist = document.getElementsByClassName('profileCard');
             for(var i = 0;i<newlist.length;i++) {
@@ -81,21 +192,10 @@ html
             }
         }
         const showDetailPage = (id) => {
-            const btn = document.getElementById(id).querySelector("div.area1");
-            const data = btn.innerText.split('\n');
-            for(var i=0;i<data.length;i++){
-                data[i] = data[i].split(': ')[1];
-            }
-            const email = {
-                nickname : data[0],
-                name : data[1],
-                email : data[2],
-                country : data[3],
-            }
              axios.get('http://localhost:3000/user/getUserId',{
                     method: 'POST',
                     params: {
-                        email : email.email,
+                        id : id,
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -160,5 +260,6 @@ html
             }
         }
         testTrans();
+        validNameCheck();
 
             
