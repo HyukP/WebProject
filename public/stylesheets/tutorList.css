@@ -127,9 +127,61 @@ body {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-top : 100px;
     background-color: white;
+}
+.searchTutor h4 {
+    font-size: 15px;
+    font-family: Jalnan;
+    font-weight: lighter;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.searchInput {
+    width : 300px;
+    height : 30px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    outline : none;
+    padding-left: 10px;
+    border : 1px solid lightgray;
+}
+.departmentOption {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+.departmentOption input {
+    margin-right: 10px;
+}
+.departmentOption label {
+    font-family: Jalnan;
+    font-size: 15px;
+    margin-right: 10px;
+}
+.departments {
+    display: flex;
+    flex-direction: row;
+}
+.countryOption {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+.countryOption input{
+    margin-right: 10px;
+}
+.countryOption label {
+    font-family: Jalnan;
+    font-size: 15px;
+    margin-right: 10px;
+}
+.country {
+    display: flex;
+    flex-direction: row;
 }
 .searchTutor h2 {
     font-family: Jalnan;

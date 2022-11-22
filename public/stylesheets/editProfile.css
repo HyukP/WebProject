@@ -81,7 +81,7 @@ body {
 }
 .profileArea {
   width: 25%;
-  height: 400px;
+  height: auto;
   margin : auto;
   margin-top: 20px;
   margin-bottom : 20px;

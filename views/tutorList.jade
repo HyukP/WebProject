@@ -27,14 +27,37 @@ html
         div(class="profileBox")
             div(class="profileArea")
                 div(class="searchTutor")
-                    h2 검색 조건
+                    h4 닉네임, 튜터 분야로 검색
+                    input(class="searchInput" placeholder="닉네임이나 튜터 분야를 입력해주세요." onkeyup="searchUser(this.value)")
+                    div(class="departmentOption")
+                        h4 소속 학부
+                        div(class="departments")
+                            input(type="checkbox" id="label1")
+                            label() Social Sciences 
+                            input(type="checkbox" id="label2")
+                            label() Computer Engineering
+                            input(type="checkbox" id="label3")
+                            label() Mathematical
+                            input(type="checkbox" id="label4")
+                            label() Human Sciences
+                    div(class="countryOption")
+                        h4 국가
+                        div(class="country")
+                            input(type="checkbox" id="label1#c")
+                            label() Korea
+                            input(type="checkbox" id="label2#c") 
+                            label() China
+                            input(type="checkbox" id="label3#c") 
+                            label() Vietnam
+
                 div(class="profiles")
                     -for(var i = 0; i<rows.length;i++)
                         button(id="btn #{i}" class="profileCard" onClick="showDetailPage(id)")
                             div(class="area1")
                                 img(src="http://localhost:3000/"+"#{rows[i].profileImage}" class="mountImage")
                                 tr()
-                                    td() nickname : #{rows[i].nickname}
+                                    div(class="nickname")
+                                        td() nickname: #{rows[i].nickname}
                                     br()                           
                                     td() name :  #{rows[i].name}
                                     br()
@@ -45,6 +68,18 @@ html
     script(type="text/javascript").
         let id;
         console.log("#{rows[0].profileImage}");
+        const searchUser = (keyword) => {
+            var newlist = document.getElementsByClassName('profileCard');
+            for(var i = 0;i<newlist.length;i++) {
+                var nickname = newlist[i].getElementsByClassName('nickname')
+                var searchResult = nickname[0].innerHTML.toLowerCase().split(': ')[1];
+                if(searchResult.indexOf(keyword) != -1) {
+                    newlist[i].style.display = "flex";
+                } else {
+                    newlist[i].style.display = "none";
+                }
+            }
+        }
         const showDetailPage = (id) => {
             const btn = document.getElementById(id).querySelector("div.area1");
             const data = btn.innerText.split('\n');
