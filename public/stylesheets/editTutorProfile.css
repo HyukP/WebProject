@@ -105,7 +105,6 @@
   width: 98%;
   height: auto;
   margin : auto;
-  background-color: rgba(199, 187, 187, 0.4);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   display: flex;
@@ -113,7 +112,7 @@
 }
 .profileArea {
   width: 25%;
-  height: 800px;
+  height: auto;
   margin : auto;
   margin-top: 20px;
   margin-bottom : 20px;
@@ -129,6 +128,7 @@
 .editButton h4 {
     font-size: 15px;
     font-family: Jalnan;
+    margin:auto;
     color: white;
 }
 .editButton button {
@@ -139,6 +139,7 @@
     margin-left: 50px;
     margin-top: 20px;
     padding: 0px 20px;
+    display: flex;
     border: 1px solid lightgray;
     background-color: rgb(48, 137, 232);
     outline: none;
@@ -149,8 +150,6 @@
 .inputLine button h4 {
     font-family: Jalnan;
     font-size: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
     font-weight: bold;
 }
 .Introduce {

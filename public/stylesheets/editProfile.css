@@ -105,7 +105,6 @@ a {
   width: 98%;
   height: auto;
   margin : auto;
-  background-color: rgba(199, 187, 187, 0.4);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   display: flex;
@@ -168,6 +167,7 @@ a {
   height : 30px;
   margin-left: auto;
   margin-right : auto;
+  display: flex;
   margin-top: 20px;
   border : 0px;
   border-radius: 5px;
@@ -178,8 +178,7 @@ a {
 .editProfile h4 {
   font-family: Jalnan;
   font-size: 15;
-  margin-left: auto;
-  margin-right: auto;
+  margin:auto;
   font-weight: bold;
 }
 .editNickname {
@@ -216,6 +215,9 @@ a {
   border : 0px;
   border-radius: 5px;
 }
+.editbutton button h4 {
+  margin:auto;
+}
 .editButton {
     margin-left: auto;
     margin-right : 40px;
@@ -237,8 +239,7 @@ a {
 .inputLine button h4 {
     font-family: Jalnan;
     font-size: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin:auto;
     font-weight: bold;
 }
 .inputLine button:hover {

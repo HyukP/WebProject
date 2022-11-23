@@ -3,13 +3,12 @@ html
         title Edit Tutor Profile
         link(rel='stylesheet', href='/stylesheets/editTutorProfile.css')
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
-    body
-       nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+    body 
+        nav(class="nav")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -22,8 +21,6 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="current")
-                        a(id="7" href=".") 내 프로필
         div(class="profileBox")
             div(class="profileArea")
                 div(class="Introduce")
@@ -48,6 +45,9 @@ html
                 div(class="editButton")
                     button(id="editBtn" onClick="updateTutorProfile()")
                         h4 수정
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href=".") 내 프로필
     script(type="text/javascript").
         var statusValue = false;
         var statusValue2 = false;

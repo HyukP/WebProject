@@ -104,7 +104,6 @@ a {
   width: 98%;
   height: auto;
   margin : auto;
-  background-color: rgba(199, 187, 187, 0.4);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   display: flex;
@@ -112,7 +111,7 @@ a {
 }
 .profileArea {
   width: 25%;
-  height: 800px;
+  height: auto;
   margin : auto;
   margin-top: 20px;
   margin-bottom : 20px;
@@ -164,8 +163,7 @@ a {
 .editProfile h4 {
   font-family: Jalnan;
   font-size: 15;
-  margin-left: auto;
-  margin-right: auto;
+  margin:auto;
   font-weight: bold;
 }
 .UserSector {
@@ -257,7 +255,7 @@ a {
   height : 30px;
   margin-left: auto;
   margin-right : auto;
-  margin-top: 20px;
+  margin-bottom: 20px;
   border : 0px;
   border-radius: 5px;
 }
@@ -267,8 +265,7 @@ a {
 .tutorBtn h4 {
   font-family: Jalnan;
   font-size: 15;
-  margin-left: auto;
-  margin-right: auto;
+  margin:auto;
   font-weight: bold;
 }
 .userType h3 {
