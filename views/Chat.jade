@@ -47,7 +47,7 @@ html
                                 input(id = "m" placeholder="메세지를 입력해주세요.")
         div(class="myProfile")
             img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
-            a(id="7" href="./myProfile/") 내 프로필
+            a(id="7" href="../myProfile/") 내 프로필
     script(src="http://localhost:3000/socket.io/socket.io.js")
     script(type="text/javascript").
         var socket = io.connect('http://localhost:3000/');
