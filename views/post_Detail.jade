@@ -157,11 +157,12 @@ html
                var reply = document.querySelector('div.replyArea h2').innerText;
                var replyInput = document.querySelector('div.replybox input').placeholder;
                var replyBtn = document.querySelector('div.replybox button h4').innerText;
+               var myProfile = document.querySelector('div.myProfile a').innerText;
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn
+                        text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn + '\n' + myProfile
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -174,40 +175,19 @@ html
                     document.querySelector('div.replyArea h2').innerText = list[6];
                     document.querySelector('div.replybox input').placeholder = list[7];
                     document.querySelector('div.replybox button h4').innerText = list[8];
+                    document.querySelector('div.myProfile a').innerText = list[9];
                 })
-            } else if(lang=="French") {
-                var text = document.querySelector('div.menu_group').innerText;
-                var reply = document.querySelector('div.replyArea h2').innerText;
-                var replyInput = document.querySelector('div.replybox input').placeholder;
-                var replyBtn = document.querySelector('div.replybox button h4').innerText;
-                    axios.get('http://localhost:3000/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'fr',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText.split('\n');
-                        for(var i = 1; i<= 6; i++) {
-                            document.getElementById(i).textContent = list[i-1];
-                        }
-                        document.querySelector('div.replyArea h2').innerText = list[6];
-                        document.querySelector('div.replybox input').placeholder = list[7];
-                        document.querySelector('div.replybox button h4').innerText = list[8];
-                    })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var reply = document.querySelector('div.replyArea h2').innerText;
                 var replyInput = document.querySelector('div.replybox input').placeholder;
                 var replyBtn = document.querySelector('div.replybox button h4').innerText;
+                var myProfile = document.querySelector('div.myProfile a').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',
-                            text : text
+                            text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn + '\n' + myProfile
                         },
                         headers: {
                             'Content-Type': 'application/json',
@@ -220,6 +200,7 @@ html
                         document.querySelector('div.replyArea h2').innerText = list[6];
                         document.querySelector('div.replybox input').placeholder = list[7];
                         document.querySelector('div.replybox button h4').innerText = list[8];
+                        document.querySelector('div.myProfile a').innerText = list[9];
                     })
             }
         }

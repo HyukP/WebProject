@@ -87,4 +87,47 @@ html
             else
                 alert("빈 값이 없도록 제대로 입력해주세요.");
         }
+        const testTrans = () => {
+            var lang = "#{user.country}"
+            if(lang=="China") {
+               var text = document.querySelector('div.menu_group').innerText;
+               var text2 = document.querySelector('div.myProfile a').innerText;
+               console.log(text);
+                axios.get('http://localhost:3000/translate',{
+                    method: 'POST',
+                    params: {
+                        target : 'zh-CN',
+                        text : text +'\n' + text2
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response=> {
+                    var list = response.data.message.result.translatedText.split('\n');
+                    console.log(list);
+                    for(var i = 1; i<= 7; i++) {
+                        document.getElementById(i).textContent = list[i-1];
+                    }
+                })
+            }  else if(lang=="Vietnam") {
+                var text = document.querySelector('div.menu_group').innerText;
+                var text2 = document.querySelector('div.myProfile a').innerText;
+                    axios.get('http://localhost:3000/translate',{
+                        method: 'POST',
+                        params: {
+                            target : 'vi',
+                            text : text +'\n' + text2
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response=> {
+                        var list = response.data.message.result.translatedText.split('\n');
+                        for(var i = 1; i<= 7; i++) {
+                            document.getElementById(i).textContent = list[i-1];
+                        }
+                    })
+            }
+        }
+        testTrans();
                 

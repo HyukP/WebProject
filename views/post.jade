@@ -46,7 +46,7 @@ html
                                 img(id="#{item.id}" src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi(this.id)")
         div(class="myProfile")
             img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
-            a(id="7" href="./myProfile/") 내 프로필
+            a(id="7" href="../myProfile/") 내 프로필
         
                 
     script(type="text/javascript").
@@ -262,7 +262,7 @@ html
                         method: 'POST',
                         params: {
                             source : response.data.langCode,
-                            target : 'fr',
+                            target : 'en',
                             text : title + '\n' + text + '\n' + count + '\n' + writer
                         },
                         headers: {
@@ -291,7 +291,7 @@ html
                             method: 'POST',
                             params: {
                                 source : 'ko',
-                                target : 'fr',
+                                target : 'en',
                                 text : title + '\n' + text + '\n' + count + '\n' + writer
                             },
                             headers: {
@@ -314,11 +314,12 @@ html
             if(lang=="China") {
                var text = document.querySelector('div.menu_group').innerText;
                var writeBtn = document.querySelector('div.postAct button h2').innerText;
+               var myProfile = document.querySelector('div.myProfile a').innerText;
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text + '\n' + writeBtn
+                        text : text + '\n' + writeBtn + '\n' + myProfile
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -330,29 +331,12 @@ html
                         document.getElementById(i).textContent = list[i-1];
                     }
                     document.querySelector('div.postAct button h2').innerText = list[6];
+                    document.querySelector('div.myProfile a').innerText = list[7];
                 })
-            } else if(lang=="French") {
+            }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var writeBtn = document.querySelector('div.postAct button h2').innerText;
-                    axios.get('http://localhost:3000/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'fr',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText.split('\n');
-                        for(var i = 1; i<= 6; i++) {
-                            document.getElementById(i).textContent = list[i-1];
-                        }
-                        document.querySelector('div.postAct button h2').innerText = list[6];
-                    })
-            } else if(lang=="Vietnam") {
-                var text = document.querySelector('div.menu_group').innerText;
-                var writeBtn = document.querySelector('div.postAct button h2').innerText;
+                var myProfile = document.querySelector('div.myProfile a').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
@@ -368,6 +352,7 @@ html
                             document.getElementById(i).textContent = list[i-1];
                         }
                         document.querySelector('div.postAct button h2').innerText = list[6];
+                        document.querySelector('div.myProfile a').innerText = list[7];
                     })
             }
         }

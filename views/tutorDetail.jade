@@ -47,7 +47,7 @@ html
                         h4 #{rows[0].preferenceCountry}
         div(class="myProfile")
             img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
-            a(id="7" href="./myProfile/") 내 프로필
+            a(id="7" href="../myProfile/") 내 프로필
         div(id="modal" class="modal-overlay")
                 div(class="modal-window")
                     div(class="modal-top")
@@ -100,11 +100,12 @@ html
                var requestBtn = document.querySelector('div.request button h2').textContent;
                var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
                var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
+               var myProfile = document.querySelector('div.myProfile a').innerText;
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text + '\n' + requestBtn + '\n' + modaltext + '\n' + modalBtn
+                        text : text + '\n' + requestBtn + '\n' + modaltext + '\n' + modalBtn + '\n' + myProfile
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -117,17 +118,19 @@ html
                     requestBtn = document.querySelector('div.request button h2').textContent = list[6];
                     modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
                     modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
+                    document.querySelector('div.myProfile a').innerText = list[9];
                 })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var requestBtn = document.querySelector('div.request button').textContent;
                 var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
                 var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
+                var myProfile = document.querySelector('div.myProfile a').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',
-                            text : text
+                            text : text + '\n' + requestBtn + '\n' + modaltext + '\n' + modalBtn + '\n' + myProfile
                         },
                         headers: {
                             'Content-Type': 'application/json',
@@ -140,6 +143,7 @@ html
                         requestBtn = document.querySelector('div.request button h2').textContent = list[6];
                         modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
                         modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
+                        document.querySelector('div.myProfile a').innerText = list[9];
                     })
             }
         }

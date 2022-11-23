@@ -32,38 +32,42 @@ html
     
     script(type="text/javascript").
         const testTrans = () => {
-            var lang = "#{lang}"
+            var lang = "#{user.country}"
             if(lang=="China") {
                var text = document.querySelector('div.menu_group').innerText;
+               var text2 = document.querySelector('div.myProfile a').innerText;
+               console.log(text);
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text
+                        text : text +'\n' + text2
                     },
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }).then(response=> {
                     var list = response.data.message.result.translatedText.split('\n');
-                    for(var i = 1; i<= 6; i++) {
+                    console.log(list);
+                    for(var i = 1; i<= 7; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
                 })
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
+                var text2 = document.querySelector('div.myProfile a').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
-                            target : '',
-                            text : text
+                            target : 'vi',
+                            text : text +'\n' + text2
                         },
                         headers: {
                             'Content-Type': 'application/json',
                         },
                     }).then(response=> {
                         var list = response.data.message.result.translatedText.split('\n');
-                        for(var i = 1; i<= 6; i++) {
+                        for(var i = 1; i<= 7; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
                     })
