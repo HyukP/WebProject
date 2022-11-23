@@ -1,15 +1,14 @@
 html 
-    head 
-        title tutoring List
+    head
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        title tutor List
         link(rel='stylesheet', href='/stylesheets/requestList.css')
-        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
-    body
-       nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+    body 
+        nav(class="nav")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -17,35 +16,31 @@ html
                     div(class="other") 
                         a(id="3" href="../findPost/") 찾아요
                     div(class="current")
-                        a(id="4" href="./") 멘토링 목록
+                        a(id="4" href=".") 멘토링 목록
                     div(class="other")
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
         div(class="requestBox")
             -if(rows!=null)
                 div(class="requestList") 
                     -for(var i=0;i<rows.length;i++)
                         div(class="request")
                             div(id="UserArea #{i}" class="UserArea")
-                                td Tutee : 
-                                td #{rows[i].sendUser}
+                                h4 튜티 : #{rows[i].sendUser}
                                 br
-                                td Tutor : 
-                                td #{rows[i].targetUser}
+                                h4 튜터 : #{rows[i].targetUser}
                             div(id="Content #{i}" class="ContentArea")
-                                td Content : 
-                                td #{rows[i].content}
+                                h4 튜터링 요청사항 : #{rows[i].content}
                             div(id="btns #{i}" class="tutoringArea")
-                                button(class="tutoringButton") 
-                                    a(href="./meeting?meeting_id=#{rows[i].id}&targetUser_id=#{rows[i].targetUser}") 미팅 요청
+                                button(class="tutoringButton" id="meeting_id=#{rows[i].id}&targetUser_id=#{rows[i].targetUser}" onClick="meetingRequest(this.id)") 
+                                    h4 요청
                                 button(id="chatroom #{rows[i].chatroom_id}" class="tutoringButton" onClick="joinChatroom(id)") 채팅
                                 button(class="meeting" onClick="printData(#{rows[i].id})") 미팅 정보
-                div(class="meetingInfo")
+        div(id="modal" class="modal-overlay")
+            div(class="modal-window")
                     div(class="Place")
-                        img(src="" style="margin-left:80px;margin-right:auto;")
+                        img(src="" style="margin-left:auto;")
                         div(class="place2")
                             h4 장소 :   
                             h2 
@@ -63,15 +58,25 @@ html
                         button(id="tutorAccept" onClick="acceptMeeting()") 수락
                         button(id="tutorExit" onClick="endMeeting()") 종료
                         button(id="closeBtn" onClick="closeInfo()") 닫기
-                    
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
                                 
     script(type="text/javascript").
+        const meetingRequest = (id) => {
+            var targetUser = id.split('&')[1].split('=')[1];
+            if(targetUser=="#{user.id}") {
+                alert("튜터는 미팅을 요청할 수 없습니다!");
+            } else {
+                document.location.href = "./meeting?"+id;
+            }
+        }
         const joinChatroom = (id) => {
             var id = id.split(' ')[1];
             document.location.href="./ChatTest?chatroom_id="+id;
         }
         const closeInfo = () => {
-            document.querySelector("div.meetingInfo").style.display = "none";
+            document.getElementById("modal").style.display = "none";
         }
         const acceptMeeting = () => {
             var data = document.querySelector('div.User').value;
@@ -122,7 +127,7 @@ html
                 if(response.data.status==200) {
                     var meetingData = response.data.results[0];
                     document.querySelector('div.User').value = meetingData.tutoring_id;
-                    document.querySelector('div.meetingInfo').style.display = "flex";
+                    document.getElementById('modal').style.display = "flex";
                     document.querySelector('div.Place h2').textContent = document.querySelector('div.Place h2').textContent+ meetingData.meetingPlace;
                     document.querySelector('div.Date h2').textContent = document.querySelector('div.Date h2').textContent+ meetingData.meetingDate;
                     document.querySelector('div.Content h2').textContent = document.querySelector('div.Content h2').textContent+ meetingData.meetingContent;
@@ -139,6 +144,8 @@ html
                         document.getElementById('status').textContent = "진행중"
                         document.getElementById('tutorAccept').style.display = "none";
                     }
+                } else {
+                     document.getElementById('modal').style.display = "none";
                 }
             })
         }

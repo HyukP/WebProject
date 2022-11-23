@@ -1,15 +1,14 @@
 html 
-    head 
-        title meeting Page
-        link(rel='stylesheet', href='/stylesheets/meeting.css')
+    head
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-    body
-       nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
+        title tutor List
+        link(rel='stylesheet', href='/stylesheets/meeting.css')
+    body 
+        nav(class="nav")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -17,13 +16,11 @@ html
                     div(class="other") 
                         a(id="3" href="../findPost/") 찾아요
                     div(class="current")
-                        a(id="4" href="./") 멘토링 목록
+                        a(id="4" href=".") 멘토링 목록
                     div(class="other")
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
         div(class="requestBox")
             div(class="meetingBox")
                 div(id="place" value="")
@@ -42,14 +39,18 @@ html
                 div(class="buttonArea")
                     button(id="btn" onClick="sendMeeting()")
                         h4 미팅 신청
-            div(id="modal" class="modal-overlay")
-                div(class="modal-window")
-                    input(id="maps-search" class="searchMap" placeholder="장소를 검색하세요")
-                    div(id="map")
-                        script(async defer src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs&callback=initMap&region=kr&libraries=places")
-                    button(onClick="closeMaps()")
-                        h4 장소 선택
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
+        div(id="modal" class="modal-overlay")
+            div(class="modal-window")
+                input(id="maps-search" class="searchMap" placeholder="장소를 검색하세요")
+                div(id="map")
+                    script(async defer src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB2rc69gj7PhZRAnYJdbXap17G4CfIjhIs&callback=initMap&region=kr&libraries=places")
+                button(class="closeButton" onClick="closeMaps()")
+                    h4 장소 선택
     script(type='text/javascript').
+        var statusValue = false;
         document.getElementById('currentDate').value = document.getElementById('currentDate').min = new Date().toISOString().substring(0,10);
         var maxday = new Date();
         maxday.setDate(maxday.getDate() + 7);
@@ -125,7 +126,7 @@ html
         }
         const sendMeeting = () => {
             const meetingLocation = document.getElementById('place').value;
-            const meetingPlace = document.querySelector('div.modal-window input').value;
+            const meetingPlace = document.querySelector('div.meetingPlace input').value;
             const meetingDate = document.querySelector('div.meetingDate input').value;
             const meetingContent = document.querySelector('div.meetingContent textarea').value;
             console.log(meetingPlace, meetingContent);
@@ -133,23 +134,27 @@ html
             const qs = url.substring(url.indexOf('?')+1).split('&');
             const tutoring_id = qs[0].split('=')[1];
             const targetUser = qs[1].split('=')[1];
-            axios.get('http://localhost:3000/home/tutoring/meeting/sendMeeting',{
-                 method : 'POST',
-                    params: {
-                        meetingLocation : meetingLocation,
-                        meetingPlace : meetingPlace,
-                        meetingDate : meetingDate,
-                        meetingContent : meetingContent,
-                        targetUser : targetUser,
-                        tutoring_id : tutoring_id
-                    },
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }).then(response => {
-                    if(response.data.status==200) {
-                        alert(response.data.message);
-                        document.location.href = "./";
-                    }
-            })
+            if(meetingPlace == "" || meetingContent == "") {
+                alert("값을 제대로 입력해주세요.");
+            }
+            else
+                axios.get('http://localhost:3000/home/tutoring/meeting/sendMeeting',{
+                    method : 'POST',
+                        params: {
+                            meetingLocation : meetingLocation,
+                            meetingPlace : meetingPlace,
+                            meetingDate : meetingDate,
+                            meetingContent : meetingContent,
+                            targetUser : targetUser,
+                            tutoring_id : tutoring_id
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response => {
+                        if(response.data.status==200) {
+                            alert(response.data.message);
+                            document.location.href = "./";
+                        }
+                })
         }

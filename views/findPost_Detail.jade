@@ -3,13 +3,12 @@ html
     head
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-    body
+    body 
         nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="other")
@@ -22,8 +21,6 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
         div(class="Post")
             div(class="boardLine")
                 h4 #{rows[0].title}
@@ -47,12 +44,16 @@ html
                         button(id="replyBtn" onClick="replyWrite()") 
                             h4 등록
             -if(rows2)
-                for item in rows2
-                    div(class="replyList")
-                        div(class="bottomReply" style = "display:flex;flex-direction:row;")
-                            h4 #{item.nickname}
-                            h3 #{item.date}
-                        h2 #{item.content}
+                div(class="replyNext")
+                    for item in rows2
+                        div(class="replyList")
+                            div(class="bottomReply" style = "display:flex;flex-direction:row;")
+                                h4 #{item.nickname}
+                                h3 #{item.date}
+                            h4 #{item.content}
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
 
     script(type="text/javascript").
         const validUser = () => {

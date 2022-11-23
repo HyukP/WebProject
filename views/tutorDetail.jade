@@ -3,13 +3,12 @@ html
         title Tutor Profile Detail
         link(rel='stylesheet', href='/stylesheets/tutorDetail.css')
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-    body
+    body 
         nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="current")
                         a(id="1" href="./") 튜터 찾기
                     div(class="other")
@@ -22,37 +21,33 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
-        div(class="nextLine")
-            div(class="area")
-                div(class="request")
-                    button(id="requestBtn" onClick="openModal()") 
-                        h2 매칭 요청
-                div(class="area1")
-                    div(class="profileImage")
-                        img(src="http://localhost:3000/"+"#{rows[0].profileImage}" class="mountImage")
-                    div(class="userInformation")
-                        div(class="nickname")
-                            td() #{rows[0].nickname}
-                        div(class="email")
-                            td() email : 
-                            td() #{rows[0].email}
-                        div(class="country")
-                            td() country : 
-                            td() #{rows[0].country}
-                div(class="area2")
-                    div(class="title")
-                        td() Introduce
-                    br()
-                    div(class="Introduce")
-                        td() #{rows[0].Introduce}
-                div(class="area3")
-                    div(class="title")
-                        td() tutorSector
-                    br()
-                    div(class="Introduce")
-                        td() #{rows[0].tutorSector}
+        div(class="profileBox")
+            div(class="profileArea")
+                div(class="ImageSector")
+                    img(src="http://localhost:3000/"+"#{rows[0].profileImage}" class="image")
+                    div(class="nickname")
+                        h4 #{rows[0].nickname}
+                    div(class="email")
+                        h4 #{rows[0].email}
+                div(class="requestButton")
+                    button(onClick="openModal()") 
+                        h4 요청하기
+                div(class="UserSector")
+                    div(class="tutorIntroduce")
+                        h3 소개
+                        h4 #{rows[0].Introduce}
+                    div(class="department")
+                        h3 튜터 분야
+                        h4 #{rows[0].tutorSector}
+                    div(class="userType")
+                        h3 튜터링 날짜
+                        h4 #{rows[0].tutorDates}
+                    div(class="userType")
+                        h3 선호 언어
+                        h4 #{rows[0].preferenceCountry}
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
         div(id="modal" class="modal-overlay")
                 div(class="modal-window")
                     div(class="modal-top")
@@ -72,27 +67,30 @@ html
             const modal = document.getElementById("modal");
             modal.style.display = "none";
         }
-
         const sendMatching = () => {
             const targetUser = document.location.href.substring(document.location.href.indexOf('?')+1).split('=')[1];
             const comment = document.getElementById('modal-text').value;
-            axios.get('http://localhost:3000/tutoring/request',{
-                    method: 'POST',
-                    params: {
-                        targetUser : targetUser,
-                        comment : comment
-                    },
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-            }).then(response => {
-                if(response.data.status==200) {
-                    const modal = document.getElementById("modal");
-                    modal.style.display = "none";
-                    alert('send success!');
-                    document.location.href = './';
-                }
-            })
+            if(targetUser!="#{user.id}") {
+                axios.get('http://localhost:3000/tutoring/request',{
+                        method: 'POST',
+                        params: {
+                            targetUser : targetUser,
+                            comment : comment
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                }).then(response => {
+                    if(response.data.status==200) {
+                        const modal = document.getElementById("modal");
+                        modal.style.display = "none";
+                        alert('send success!');
+                        document.location.href = './';
+                    }
+                })
+            } else {
+                alert("Can't Send!");
+            }
         }
         const testTrans = () => {
             var lang = "#{lang}"
@@ -120,30 +118,6 @@ html
                     modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
                     modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
                 })
-            } else if(lang=="French") {
-                var text = document.querySelector('div.menu_group').innerText;
-                var requestBtn = document.querySelector('div.request button h2').textContent;
-                var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
-                var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
-                    axios.get('http://localhost:3000/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'fr',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText.split('\n');
-                        var requestBtn = document.querySelector('div.request button').textContent;
-                        for(var i = 1; i<= 6; i++) {
-                            document.getElementById(i).textContent = list[i-1];
-                        }
-                        requestBtn = document.querySelector('div.request button h2').textContent = list[6];
-                        modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
-                        modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
-                    })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var requestBtn = document.querySelector('div.request button').textContent;

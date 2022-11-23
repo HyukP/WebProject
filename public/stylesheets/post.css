@@ -1,78 +1,110 @@
 @font-face {
-    font-family : 'Jalnan';
+    font-family : 'Noto Sans KR';
     font-style : 'normal';
     font-weight: 200;
-    src : url(../fonts/RobotoMono-Light.ttf);
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    src : url(../fonts/NotoSansKR-Regular.otf);
+  }
+  
+  * {
     font-family: "Noto Sans KR", sans-serif;
   }
-body {
-    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
-}
+  body {
+    background: linear-gradient(to right, rgb(50, 82, 116), rgb(20, 47, 61));
+    width: auto;
+    height: auto;
+    display: flex;
+  }
   a {
-		width: 10%;
-        text-decoration: none;
-        color: black;
-		text-align: center;
-		text-transform: capitalize;
-        font-family: Jalnan;
-        font-weight: bold;
+    width: auto;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    text-transform: capitalize;
+    font-family: Jalnan;
+    font-weight: bold;
+    margin-left:auto;
   }
   .nav {
-    background: white;
-    margin-top : 10px;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
-    width:98%;
-    height : 50px;
-    margin-left: auto;
+    flex-direction: column;
+    display: flex;
     margin-right: auto;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    margin-left: 5%;
+    margin-top : auto;
+    margin-bottom: auto;
+    width: 10%;
+    height : 70%;
   }
   .home {
-    margin-left: 20px;
-    margin-top : 10px;
-    margin-bottom: 20px;
-    width: 15px;
-    height: 15px;
+    margin-left : auto;
+    margin-right : auto;
+    margin-top : auto;
+    margin-bottom : auto;
   }
   .menu_group {
     display: flex;
-    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+  }
+  .menu_group .current {
+    display: flex;
+    width : 100%;
+    height: auto;
+    margin-top : auto;
+    margin-bottom : auto;
+    border-radius: 5px;
+    background-color: gray;
+  }
+  .menu_group .other {
+    display: flex;
+    width : 100%;
+    height: auto;
+    margin-top : auto;
+    margin-bottom : auto;
+  }
+  .menu_group a {
+    font-family: Noto Sans KR;
+    font-size : 15px;
+    width: 100%;
+    height : auto;
+    margin-left : auto;
+    margin-right : auto;
+    color: lightgray
+  }
+  .menu_group .other :hover {
+    border-radius: 5px;
+    background-color: gray;
+  }
+  .myProfile {
+    display: flex;
+    width : 10%;
+    height : 10%;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+  .myProfile a {
+    font-family: Noto Sans KR;
+    font-size : 15px;
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 40px;
-    width: 80%;
+    margin-left: 10px;
+    margin-right: auto;
+    color: lightgray
   }
-  
-.navbar__menu {
-    display: flex;
-    list-style: none;
-}
-.navbar__menu .current {
-    border-bottom: 4px solid rgb(58, 9, 170);
-    margin-left: auto;
-    margin-right: auto;
-}
-.navbar__menu .other {
-    margin-left: auto;
-    margin-right: auto;
-}
-.navbar__menu .other :hover {
-    border-bottom: 4px solid rgb(58, 9, 170);
-}
+  .profileIcon {
+    width: 48px;
+    height: 48px;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 24px;
+  }
 
 .postBox {
     width: 98%;
-    height: auto;
+    height: 80%;
     margin : auto;
-    background-color: rgba(199, 187, 187, 0.4);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     display: flex;
@@ -82,7 +114,7 @@ body {
 .write {
     background: white;
     border-radius: 5px;
-    height: 50px;
+    height: auto;
     width : 100px;
     box-shadow: 1.5px 1.5px gray;
     border : 0;
@@ -90,16 +122,14 @@ body {
     margin-right : 60px;
 }
 .SearchAct {
-    width : 40%;
-    height : 50px;
-    align-items: center;
-    justify-content: center;
+    display: flex;
     border-radius: 5px;
     background-color: white;
 }
 .write h2 {
     font-family: Jalnan;
     font-size : 14px;
+    margin:auto;
 }
 .write:hover {
     background: silver;
@@ -147,27 +177,24 @@ body {
 .postList {
     width: auto;
     height: auto;
-    margin-bottom: 20px;
-    border-radius: 5px;
+    overflow-y: auto;
+    border-radius: 1px;
     box-shadow: 1.5px 1.5px gray;
     background: white;
+    border-bottom: 0.5px solid lightgray;
     display: flex;
-    align-items: center;
     flex-direction: row;
 }
 .search {
-    height: 70%;
-    width : 90%;
+    height: 30px;
     background: white;
     border-radius: 5px;
     border : 0px;
-    margin-bottom:auto;
+    margin-top: auto;
 }
 .postAct {
     height: 5%;
     width : 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     margin-right: auto;
@@ -176,14 +203,11 @@ body {
     margin-right : 20px;
     border-radius: 5px;
     margin-bottom: auto;
+    margin-top : 20px;
     width: 95%;
-    height: 80%;
+    height: auto;
 }
 .postList h2 {
-    font-family: Jalnan;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 15px;
 }
 .IndexArea {
     margin-right : 20px;
@@ -205,58 +229,41 @@ body {
 }
 .searchArea {
     background-color: rgba(72,122,180, 0.001);
-    width: 25%;
+    width: auto;
     padding : 10 12px;
-    height : 95%;
+    height : auto;
     border-radius: 5px;
-    margin-left: 20px;
-    margin-right: 20px;
 }
 .postTitle {
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-right: auto;
-    margin-left : 20px;
-    width: auto;
-    height: 50px;
+    margin-left: 2%;
 }
-.postTitle h1 {
-    font-family: Jalnan;
-    font-size: 20px;
-    font-weight: bold;
+.postTitle h4 {
+
 }
 .postOwner_Count {
-    border-radius: 5px;
-    margin-right: auto;
-    display: flex;
-    flex-direction: row;
-    margin-left: 20px;
-    margin-top: 10px;
-    width: 95%;
-    height: 70px;
+ display: flex;
+ flex-direction: row;
 }
 .postOwner {
-    border-radius: 5px;
-    margin-left: auto;
-    width: 400px;
-    margin-top: 40px;
-    height: 40px;
+    margin-left: 2%;
 }
 .postContent {
-    border-radius: 5px;
-    margin-right: auto;
-    margin-left: 20px;
-    margin-top: 10px;
-    width: auto;
-    height: 100px;
+    margin-left: 2%;
 }
 .postCount {
-    border-radius: 5px;
-    width: 100px;
-    margin-top: 40px;
-    height: 10px;
+    margin-left: 2%;
 }
 .postCount h2 {
     font-family: Jalnan;
     font-size: 12px;
+}
+.postList .postNext{
+    cursor: pointer;
+    width: 80%;
+}
+.translate {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: auto;
+    margin-top: auto;
 }

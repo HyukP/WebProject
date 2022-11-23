@@ -103,6 +103,7 @@ http.listen(3000,function () {
 })
 app.get('/home/tutoringList/ChatTest',function(req,res) {
   var user_id = req.session.displayName.id;
+  var user = req.session.user;
   console.log(socketId);
   if(req.query.chatroom_id=="null") {
     connection.query('')
@@ -110,9 +111,9 @@ app.get('/home/tutoringList/ChatTest',function(req,res) {
   connection.query('Select * from Chat where chatRoom_id = ?',[req.query.chatroom_id],function(err,results,field) {
     if(err) throw err;
     if(results.length > 0) {
-      res.render('Chat',{user_id : user_id, rows : results});
+      res.render('Chat',{user_id : user_id, rows : results, user});
     } else {
-      res.render('Chat',{user_id : user_id});
+      res.render('Chat',{user_id : user_id, user});
     }
   })
 })
@@ -122,7 +123,8 @@ app.get('/start', function(req, res) {
 })
 app.get('/home/',function(req, res) {
   var lang = req.session.user.country;
-  res.render('home',{lang : lang});
+  var user = req.session.user;
+  res.render('home',{lang : lang, user:user});
 })
 app.get('/home/myProfile/editProfile',function(req,res) {
   var user = req.session.user;
@@ -191,21 +193,25 @@ app.get('/home/myProfile/editTutorProfile',function(req,res) {
 })
 app.get('/home/post/',function(req, res) {
   var lang = req.session.user.country;
+  var user = req.session.user;
   connection.query('SELECT id, title, content, nickname, count FROM post', function(err, rows){
     if(err) throw err;
-    res.render('post', {rows:rows, lang : lang});
+    res.render('post', {rows:rows, lang : lang, user, length : rows.length-1, page_num:5, pass: true});
+    console.log(rows[0].id);
   })
 })
 app.get('/home/findPost/',function(req,res){
   var lang = req.session.user.country;
+  var user = req.session.user;
   connection.query('SELECT id, title, content, nickname, count FROM post2',function(err, rows){
     if(err) throw err;
-    res.render('findPost',{rows:rows, lang : lang});
+    res.render('findPost',{rows:rows, lang : lang, user : user});
   })
 })
 app.get('/home/post/postDetail',function(req,res) {
   var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
   var username = req.session.user.nickname;
+  var user = req.session.user;
   var lang = req.session.user.country;
   console.log(post_id);
   connection.query('SELECT id, title, content, nickname, count FROM post WHERE id = ?',[post_id], function(err, rows){
@@ -215,9 +221,9 @@ app.get('/home/post/postDetail',function(req,res) {
       
       if(results2.length > 0) {
         console.log(rows);
-        res.render('post_Detail',{rows:rows, username : username, lang : lang, rows2 : results2});
+        res.render('post_Detail',{rows:rows, username : username, lang : lang, rows2 : results2, user : user});
       } else {
-        res.render('post_Detail',{rows:rows, username : username, lang : lang});
+        res.render('post_Detail',{rows:rows, username : username, lang : lang, user : user});
       }
     })
   })
@@ -253,6 +259,7 @@ app.get('/home/findPost/postDetail',function(req,res) {
   var post_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
   var username = req.session.user.nickname;
   var lang = req.session.user.country;
+  var user = req.session.user;
   console.log(username);
   console.log(post_id);
   connection.query('SELECT id, title, content, nickname, count FROM post2 WHERE id = ?',[post_id], function(err, rows){
@@ -262,27 +269,29 @@ app.get('/home/findPost/postDetail',function(req,res) {
       
       if(results2.length > 0) {
         console.log(rows);
-        res.render('findPost_Detail',{rows:rows, username : username, lang : lang, rows2 : results2});
+        res.render('findPost_Detail',{rows:rows, username : username, lang : lang, rows2 : results2, user : user});
       } else {
-        res.render('findPost_Detail',{rows:rows, username : username, lang : lang});
+        res.render('findPost_Detail',{rows:rows, username : username, lang : lang, user : user});
       }
     })
   })
 })
 app.get('/home/tutorList/',function(req, res) {
   var lang = req.session.user.country;
+  var user = req.session.user;
   connection.query('select A.department, A.id, A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR"', function(err, rows){
     if(err) throw err;
-    res.render('tutorList', {rows:rows, lang : lang});
+    res.render('tutorList', {rows:rows, lang : lang, user:user});
   })
 })
 
 app.get('/home/tutorList/tutorDetail', function(req, res) {
   const user_id = req.url.substring(req.url.indexOf('?')+1).split('=')[1];
+  var user = req.session.user;
   var lang = req.session.user.country;
-  connection.query('select A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
+  connection.query('select A.profileImage, A.nickname, A.name, A.email, A.country ,B.Introduce, B.tutorSector, B.tutorDates, preferenceCountry from user A inner join tutorProfile B on A.id = B.profileUser_id where A.role = "TUTOR" AND A.id = ?',[user_id],function(err,rows){
     if(err) throw err;
-    res.render('tutorDetail',{rows:rows, lang : lang});
+    res.render('tutorDetail',{rows:rows, lang : lang, user: user});
   })
 })
 
@@ -300,16 +309,19 @@ app.get('/user/checkGmail',function(req,res) {
 
 app.get('/home/post/write',function(req, res) {
   var lang = req.session.user.country;
-  res.render('post_write',{lang : lang});
+  var user = req.session.user;
+  res.render('post_write',{lang : lang, user : user});
 })
 app.get('/home/findPost/write',function(req, res) {
   var lang = req.session.user.country;
-  res.render('findPost_write',{lang : lang});
+  var user = req.session.user;
+  res.render('findPost_write',{lang : lang, user : user});
 })
 
 app.get('/home/tutoringList/meeting',function(req, res) {
   var lang = req.session.user.country;
-  res.render('meetingPage',{lang : lang});
+  var user = req.session.user;
+  res.render('meetingPage',{lang : lang, user : user});
 })
 
 app.get('/Register', function(req, res) {
@@ -319,12 +331,13 @@ app.get('/Register', function(req, res) {
 app.get('/home/sendList/',function(req,res) {
   var user_id = req.session.user.id;
   var lang = req.session.user.country;
+  var user = req.session.user;
   connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoringRequest A join user B on A.targetUser_id = B.id join user C on A.sendUser_id = C.id where A.sendUser_id = ?',[user_id],function(err,results,field){
     if(err) throw err;
     if(results.length > 0) {
-      res.render('sendList',{rows:results, lang : lang});
+      res.render('sendList',{rows:results, lang : lang, user : user});
     } else {
-      res.render('sendList',{lang : lang});
+      res.render('sendList',{lang : lang, user : user});
     }
   })
 })
@@ -339,14 +352,15 @@ app.get('/trans', function (req, res) {
 
 app.get('/home/requestList/',function(req,res) {
   var user_id = req.session.user.id;
+  var user = req.session.user;
   var lang = req.session.user.country;
   console.log(user_id);
   connection.query('select B.nickname as targetUser, C.nickname as sendUser, A.content from tutoringRequest A join user B on A.targetUser_id = B.id join user C on A.sendUser_id = C.id where A.targetUser_id = ?',[user_id],function(err,results,field){
     if(err) throw err;
     if(results.length > 0) {
-      res.render('requestList',{rows:results,lang : lang});
+      res.render('requestList',{rows:results,lang : lang,user : user});
     } else {
-      res.render('requestList',{lang : lang});
+      res.render('requestList',{lang : lang, user : user});
     }
   })
 })
@@ -394,7 +408,6 @@ app.get('/reply2/delete',function(req,res) {
 
 app.get('/home/myProfile',function(req,res) {
   var user = req.session.user;
-  console.log(user);
   res.render('myProfile',{userData : user});
 })
 
@@ -425,12 +438,13 @@ app.get('/home/tutoringList/',function(req,res){
   var user_id = req.session.user.id;
   var username = req.session.user.nickname;
   var lang = req.session.user.country;
+  var user = req.session.user;
   connection.query('select A.chatroom_id, A.id as id, A.tutorUser_id as targetUser, B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
     if(err) throw err;
     if(results.length>0) {
-          res.render('tutoringList',{rows:results, lang : lang, username : username});
+          res.render('tutoringList',{rows:results, lang : lang, username : username, user : user});
     } else {
-      res.render('tutoringList',{lang : lang , username : username});
+      res.render('tutoringList',{lang : lang , username : username, user : user});
     }
   })
 })
@@ -444,21 +458,7 @@ app.get('/home/tutoringList/getMeeting',function(req,res) {
     }
   })
 })
-app.get('/searchPost',function(req,res) {
-  var keyword = req.query.keyword;
-  console.log(keyword);
-  var lang = req.session.user.country;
-  connection.query('SELECT id, title, content, nickname, count FROM post where title like ? OR content like ?;',["%"+keyword+"%","%"+keyword+"%"], function(err, results){
-    if(err) throw err;
-    if(results.length > 0){
-      app.get('/home/post',function(req2,res2) {
-        res.render('post', {rows:results, lang : lang});
-      })
-    }
-    else
-      res.render('post',{lang : lang});
-  })
-})
+
 app.get('/home/tutoringList/deleteMeeting',function(req,res) {
   connection.query('delete from meeting WHERE tutoring_id = ?',[req.query.id], function(err,results) {
     if(err) throw err;
@@ -558,7 +558,7 @@ app.get('/tutoring/request/accept', function(request, response){
     if(err) throw err;
     if(results.length > 0){
       console.log(targetUser, results[0].id, request.query.content);
-      connection.query('INSERT INTO tutoring (tutorUser_id, tuteeUser_id, content, chatroom_id, meeting_id, startDate) VALUES(?,?,?,?,?,?)',[targetUser, results[0].id, request.query.content,results.length+1, results.length+1, current], function(err, data){
+      connection.query('INSERT INTO tutoring (tutorUser_id, tuteeUser_id, content, chatroom_id, meeting_id, startDate) VALUES(?,?,?,?,?,?)',[targetUser, results[0].id, request.query.content,results[0].id+ targetUser, results[0].id+ targetUser, current], function(err, data){
         if(err) throw err;
         status = 200;
         connection.query('DELETE FROM tutoringRequest WHERE targetUser_id = ?',[targetUser]);

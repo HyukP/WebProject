@@ -1,72 +1,104 @@
 @font-face {
-    font-family : 'Jalnan';
-    font-style : 'normal';
-    font-weight: 200;
-    src : url(../fonts/RobotoMono-Light.ttf);
+  font-family : 'Noto Sans KR';
+  font-style : 'normal';
+  font-weight: 200;
+  src : url(../fonts/NotoSansKR-Regular.otf);
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Noto Sans KR", sans-serif;
-  }
+  font-family: "Noto Sans KR", sans-serif;
+}
 body {
-    background: linear-gradient(to left, rgb(48, 137, 232), rgb(194, 227, 247));
+  background: linear-gradient(to right, rgb(50, 82, 116), rgb(20, 47, 61));
+  width: auto;
+  height: auto;
+  display: flex;
 }
-  a {
-		width: 10%;
-        text-decoration: none;
-        color: black;
-		text-align: center;
-		text-transform: capitalize;
-        font-family: Jalnan;
-        font-weight: bold;
-  }
-  .nav {
-    background: white;
-    margin-top : 10px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    width:98%;
-    height : 50px;
-    margin-left: auto;
-    margin-right: auto;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-  .home {
-    margin-left: 20px;
-    margin-top : 10px;
-    margin-bottom: 20px;
-    width: 15px;
-    height: 15px;
-  }
-  .menu_group {
-    display: flex;
-    flex-direction: row;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 40px;
-    width: 80%;
-  }
-  
-.navbar__menu {
-    display: flex;
-    list-style: none;
+a {
+  width: auto;
+  text-decoration: none;
+  color: black;
+  text-align: center;
+  text-transform: capitalize;
+  font-family: Jalnan;
+  font-weight: bold;
+  margin-left:auto;
 }
-.navbar__menu .current {
-    border-bottom: 4px solid rgb(58, 9, 170);
-    margin-left: auto;
-    margin-right: auto;
+.nav {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+  margin-right: auto;
+  margin-left: 5%;
+  margin-top : auto;
+  margin-bottom: auto;
+  width: 10%;
+  height : 70%;
 }
-.navbar__menu .other {
-    margin-left: auto;
-    margin-right: auto;
+.home {
+  margin-left : auto;
+  margin-right : auto;
+  margin-top : auto;
+  margin-bottom : auto;
 }
-.navbar__menu .other :hover {
-    border-bottom: 4px solid rgb(58, 9, 170);
+.menu_group {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+.menu_group .current {
+  display: flex;
+  width : 100%;
+  height: auto;
+  margin-top : auto;
+  margin-bottom : auto;
+  border-radius: 5px;
+  background-color: gray;
+}
+.menu_group .other {
+  display: flex;
+  width : 100%;
+  height: auto;
+  margin-top : auto;
+  margin-bottom : auto;
+}
+.menu_group a {
+  font-family: Noto Sans KR;
+  font-size : 15px;
+  width: 100%;
+  height : auto;
+  margin-left : auto;
+  margin-right : auto;
+  color: lightgray
+}
+.menu_group .other :hover {
+  border-radius: 5px;
+  background-color: gray;
+}
+.myProfile {
+  display: flex;
+  width : 10%;
+  height : 10%;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+.myProfile a {
+  font-family: Noto Sans KR;
+  font-size : 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+  margin-right: auto;
+  color: lightgray
+}
+.profileIcon {
+  width: 48px;
+  height: 48px;
+  margin-top: auto;
+  margin-bottom: auto;
+  border-radius: 24px;
 }
 
 .profileBox {

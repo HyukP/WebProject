@@ -3,17 +3,16 @@ html
     head
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
-    body
+    body 
         nav(class="nav")
-            ul(class="navbar__menu")
-                div(class="home")
-                    a(href="../")
-                        img(src="https://i.ibb.co/mzbZKrX/home-page.png" alt="home" style="width:30px;height:30px;")
                 div(class="menu_group")
+                    div(class="home")
+                        a(href="../")
+                            img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
                     div(class="current")
-                        a(id="2" href="./") 질문/답변
+                        a(id="2" href=".") 질문/답변
                     div(class="other") 
                         a(id="3" href="../findPost/") 찾아요
                     div(class="other")
@@ -22,37 +21,54 @@ html
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-                    div(class="other")
-                        a(id="7" href="../myProfile/") 내 프로필
         div(class="postBox")
             div(style="display:flex;flex-direction:column; width:80%; height:100%; margin-left:auto;margin-right:auto;")
                 div(class="postAct")
-                    div(class="SearchAct")
-                        input(class="search" onkeyup="searchPost()")
+                    input(class="search" onkeyup="searchPost()")
                     button(class="write" onClick="postWrite()")
                         h2 글쓰기
                 div(class="postArea")
                     for item in rows
-                        div(id = "post #{item.id}" class="postList")
-                            a(style= "display:flex;flex-direction:column;width:auto;height:100%;margin-right : auto;" href='./postDetail?post_id=#{item.id}')
+                        div(class="postList")
+                            div(id = "post #{item.id}" class="postNext" onClick="onPostDetail(this.id)")
                                 div(class="postTitle")
-                                    h1 #{item.title}
+                                    h4 #{item.title}
                                 div(class="postContent")
-                                    h2 #{item.content}
+                                    h4 #{item.content}
                                 div(class="postOwner_Count")
                                     div(class="postCount")
-                                        h2 조회 수: #{item.count}
+                                        h4 조회 수: #{item.count}
                                     div(class="postOwner")
-                                        h2 작성자: #{item.nickname}
+                                        h4 작성자: #{item.nickname}
                             div(class="translate" style="margin-left:auto;")
                                 img(id="#{item.id}" src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR(this.id)")
                                 img(id="#{item.id}" src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN(this.id)")
                                 img(id="#{item.id}" src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi(this.id)")
+        div(class="myProfile")
+            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="./myProfile/") 내 프로필
+        
                 
     script(type="text/javascript").
         var lang = 'ko';
+        const onPostDetail = (id) => {
+            var post_id = id.split(' ')[1];
+            axios.get('http://localhost:3000/post/updateCount',{
+                    method : 'POST',
+                    params: {
+                        post_id : post_id
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    console.log(response.data);
+                })
+            document.location.href = "./postDetail?post_id="+id.split(' ')[1];
+            document.location.href="./postDetail?post_id="+post_id;
+        }
         const searchPost = () => {
-            var keyword = document.querySelector('div.SearchAct input').value;
+            var keyword = document.querySelector('div.postAct input').value;
             var newlist = document.getElementsByClassName('postList');
             for(var i = 0;i<newlist.length;i++) {
                 var title = newlist[i].getElementsByClassName('postTitle')
@@ -83,10 +99,10 @@ html
         }
             const transToCN = (id) => {
                 var postList = document.getElementById('post '+id);
-                var title = postList.querySelector('div.postTitle h1').textContent;
-                var text = postList.querySelector('div.postContent h2').textContent;
-                var count = postList.querySelector('div.postCount h2').textContent.split(':')[0];
-                var writer = postList.querySelector('div.postOwner h2').textContent.split(':')[0];
+                var title = postList.querySelector('div.postTitle h4').textContent;
+                var text = postList.querySelector('div.postContent h4').textContent;
+                var count = postList.querySelector('div.postCount h4').textContent.split(':')[0];
+                var writer = postList.querySelector('div.postOwner h4').textContent.split(':')[0];
                 axios.get('http://localhost:3000/detect',{
                     method: 'POST',
                     params: {
@@ -109,10 +125,10 @@ html
                         },
                     }).then(response2=> {
                         var list = response2.data.message.result.translatedText.split('\n');
-                        postList.querySelector('div.postTitle h1').textContent = list[0];
-                        postList.querySelector('div.postContent h2').textContent = list[1];
-                        postList.querySelector('div.postCount h2').textContent = list[2] + ':' + document.querySelector('div.postCount h2').textContent.split(':')[1];
-                        postList.querySelector('div.postOwner h2').textContent = list[3] + ':' + document.querySelector('div.postOwner h2').textContent.split(':')[1];
+                        postList.querySelector('div.postTitle h4').textContent = list[0];
+                        postList.querySelector('div.postContent h4').textContent = list[1];
+                        postList.querySelector('div.postCount h4').textContent = list[2] + ':' + document.querySelector('div.postCount h4').textContent.split(':')[1];
+                        postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + document.querySelector('div.postOwner h4').textContent.split(':')[1];
                     })
                     } else {
                         console.log(response.data.langCode)
@@ -128,10 +144,10 @@ html
                             },
                         }).then(response3=> {
                             var list = response3.data.message.result.translatedText.split('\n');
-                            title =  postList.querySelector('div.postTitle h1').textContent = list[0];
-                            text = postList.querySelector('div.postContent h2').textContent = list[1];
-                            count = postList.querySelector('div.postCount h2').textContent = list[2] + ':' + postList.querySelector('div.postCount h2').textContent.split(':')[1];
-                            writer = postList.querySelector('div.postOwner h2').textContent = list[3] + ':' + postList.querySelector('div.postOwner h2').textContent.split(':')[1];
+                            title =  postList.querySelector('div.postTitle h4').textContent = list[0];
+                            text = postList.querySelector('div.postContent h4').textContent = list[1];
+                            count = postList.querySelector('div.postCount h4').textContent = list[2] + ':' + postList.querySelector('div.postCount h4').textContent.split(':')[1];
+                            writer = postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                             axios.get('http://localhost:3000/innerTranslate',{
                             method: 'POST',
                             params: {
@@ -144,10 +160,10 @@ html
                             },
                         }).then(response4=> {
                             var list = response4.data.message.result.translatedText.split('\n');
-                            postList.querySelector('div.postTitle h1').textContent = list[0];
-                            postList.querySelector('div.postContent h2').textContent = list[1];
-                            postList.querySelector('div.postCount h2').textContent = list[2];
-                            postList.querySelector('div.postOwner h2').textContent = list[3];
+                            postList.querySelector('div.postTitle h4').textContent = list[0];
+                            postList.querySelector('div.postContent h4').textContent = list[1];
+                            postList.querySelector('div.postCount h4').textContent = list[2];
+                            postList.querySelector('div.postOwner h4').textContent = list[3];
                         })
                         })
                         
@@ -156,10 +172,10 @@ html
             }
             const transToVi = (id) => {
                 var postList = document.getElementById('post '+id);
-                var title = postList.querySelector('div.postTitle h1').textContent;
-                var text = postList.querySelector('div.postContent h2').textContent;
-                var count = postList.querySelector('div.postCount h2').textContent.split(':')[0];
-                var writer = postList.querySelector('div.postOwner h2').textContent.split(':')[0];
+                var title = postList.querySelector('div.postTitle h4').textContent;
+                var text = postList.querySelector('div.postContent h4').textContent;
+                var count = postList.querySelector('div.postCount h4').textContent.split(':')[0];
+                var writer = postList.querySelector('div.postOwner h4').textContent.split(':')[0];
                axios.get('http://localhost:3000/detect',{
                     method: 'POST',
                     params: {
@@ -182,10 +198,10 @@ html
                         },
                     }).then(response2=> {
                         var list = response2.data.message.result.translatedText.split('\n');
-                        postList.querySelector('div.postTitle h1').textContent = list[0];
-                        postList.querySelector('div.postContent h2').textContent = list[1];
-                        postList.querySelector('div.postCount h2').textContent = list[2] + ':' + postList.querySelector('div.postCount h2').textContent.split(':')[1];
-                        postList.querySelector('div.postOwner h2').textContent = list[3] + ':' + postList.querySelector('div.postOwner h2').textContent.split(':')[1];
+                        postList.querySelector('div.postTitle h4').textContent = list[0];
+                        postList.querySelector('div.postContent h4').textContent = list[1];
+                        postList.querySelector('div.postCount h4').textContent = list[2] + ':' + postList.querySelector('div.postCount h4').textContent.split(':')[1];
+                        postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                     })
                     } else {
                         axios.get('http://localhost:3000/innerTranslate',{
@@ -200,10 +216,10 @@ html
                             },
                         }).then(response3=> {
                             var list = response3.data.message.result.translatedText.split('\n');
-                            title =  postList.querySelector('div.postTitle h1').textContent = list[0];
-                            text = postList.querySelector('div.postContent h2').textContent = list[1];
-                            count = postList.querySelector('div.postCount h2').textContent = list[2] + ':' + document.querySelector('div.postCount h2').textContent.split(':')[1];
-                            writer = postList.querySelector('div.postOwner h2').textContent = list[3] + ':' + postList.querySelector('div.postOwner h2').textContent.split(':')[1];
+                            title =  postList.querySelector('div.postTitle h4').textContent = list[0];
+                            text = postList.querySelector('div.postContent h4').textContent = list[1];
+                            count = postList.querySelector('div.postCount h4').textContent = list[2] + ':' + document.querySelector('div.postCount h4').textContent.split(':')[1];
+                            writer = postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                             axios.get('http://localhost:3000/innerTranslate',{
                             method: 'POST',
                             params: {
@@ -216,10 +232,10 @@ html
                             },
                         }).then(response4=> {
                             var list = response4.data.message.result.translatedText.split('\n');
-                            postList.querySelector('div.postTitle h1').textContent = list[0];
-                            postList.querySelector('div.postContent h2').textContent = list[1];
-                            postList.querySelector('div.postCount h2').textContent = list[2];
-                            postList.querySelector('div.postOwner h2').textContent = list[3];
+                            postList.querySelector('div.postTitle h4').textContent = list[0];
+                            postList.querySelector('div.postContent h4').textContent = list[1];
+                            postList.querySelector('div.postCount h4').textContent = list[2];
+                            postList.querySelector('div.postOwner h4').textContent = list[3];
                         })
                         })
                         
@@ -228,10 +244,10 @@ html
             }
         const transToFR = (id) => {
             var postList = document.getElementById('post '+id);
-            var title = postList.querySelector('div.postTitle h1').textContent;
-            var text = postList.querySelector('div.postContent h2').textContent;
-            var count = postList.querySelector('div.postCount h2').textContent.split(':')[0];
-            var writer = postList.querySelector('div.postOwner h2').textContent.split(':')[0];
+            var title = postList.querySelector('div.postTitle h4').textContent;
+            var text = postList.querySelector('div.postContent h4').textContent;
+            var count = postList.querySelector('div.postCount h4').textContent.split(':')[0];
+            var writer = postList.querySelector('div.postOwner h4').textContent.split(':')[0];
             axios.get('http://localhost:3000/detect',{
                     method: 'POST',
                     params: {
@@ -254,10 +270,10 @@ html
                         },
                     }).then(response2=> {
                         var list = response2.data.message.result.translatedText.split('\n');
-                        postList.querySelector('div.postTitle h1').textContent = list[0];
-                        postList.querySelector('div.postContent h2').textContent = list[1];
-                        postList.querySelector('div.postCount h2').textContent = list[2] + ':' + postList.querySelector('div.postCount h2').textContent.split(':')[1];
-                        postList.querySelector('div.postOwner h2').textContent = list[3] + ':' + postList.querySelector('div.postOwner h2').textContent.split(':')[1];
+                        postList.querySelector('div.postTitle h4').textContent = list[0];
+                        postList.querySelector('div.postContent h4').textContent = list[1];
+                        postList.querySelector('div.postCount h4').textContent = list[2] + ':' + postList.querySelector('div.postCount h4').textContent.split(':')[1];
+                        postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                     })
                     } else {
                         axios.get('http://localhost:3000/innerTranslate',{
@@ -283,10 +299,10 @@ html
                             },
                         }).then(response4=> {
                             var list = response4.data.message.result.translatedText.split('\n');
-                            postList.querySelector('div.postTitle h1').textContent = list[0];
-                            postList.querySelector('div.postContent h2').textContent = list[1];
-                            postList.querySelector('div.postCount h2').textContent = list[2];
-                            postList.querySelector('div.postOwner h2').textContent = list[3];
+                            postList.querySelector('div.postTitle h4').textContent = list[0];
+                            postList.querySelector('div.postContent h4').textContent = list[1];
+                            postList.querySelector('div.postCount h4').textContent = list[2];
+                            postList.querySelector('div.postOwner h4').textContent = list[3];
                         })
                         })
                         
