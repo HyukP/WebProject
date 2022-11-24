@@ -49,10 +49,10 @@ html
         div(class="myProfile")
             img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
-    script(type = "socket.io/socket.io.js" src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous")
+    script(src="https://cdn.socket.io/4.4.1/socket.io.min.js")
     script(type="text/javascript").
-        var socket = io.connect('http://ajoring.kr:3000/');
-        var room_id = document.location.href.split('=')[1];
+        var socket = io("https://ajoring.kr",{secure : true});
+        var room_id = document.location.href.split('=')[1].split('&')[0];
         var currentUser = "#{user_id}";
         console.log(socket)
         console.log(socket.on('loadUser'));
