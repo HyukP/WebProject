@@ -154,24 +154,27 @@
 }
 .mymsg {
     display: inline-block;
-    border-radius: 15px;
+    border-radius: 5px;
     padding: 7px 15px;
     margin-bottom: 10px;
     margin-top : 5px;
+    margin-right: 10px;
 }
 .newmsg {
     display: inline-block;
-    border-radius: 15px;
+    border-radius: 5px;
     padding: 7px 15px;
     margin-bottom: 10px;
     margin-top : 5px;
+    margin-right: 10px;
 }
 .othermsg {
     display: inline-block;
-    border-radius: 15px;
+    border-radius: 5px;
     padding: 7px 15px;
     margin-bottom: 10px;
     margin-top : 5px;
+    margin-left: 10px;
 }
 .ChatBubble {
     width : auto;
@@ -179,6 +182,8 @@
 }
 .ChatBubble2 {
     text-align: left;
+    display: flex;
+    flex-direction: row;
 }
 .ChatBubble2 > .othermsg {
     background-color: #f1f0f0;
@@ -190,7 +195,7 @@
 .newBubble {
    text-align: right;
 }
-.newBubble > .newmsg {
+.newBubble > .mymsg {
     background-color: #0084FF;
     color: #fff;
 }
@@ -207,4 +212,18 @@
     margin-top : 15px;
     margin-left: 200px;
     margin-right: 5px;
+}
+.translateButton {
+   width: 30px;
+   height: 30px;
+   margin-top : auto;
+   margin-bottom: auto;
+   margin-left : 10px;
+}
+.translateButton:hover {
+  box-shadow: 1px 1px 1px lightgray;
+}
+.translateButton img {
+  width: 30px;
+   height: 30px;
 }

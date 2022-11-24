@@ -24,7 +24,7 @@ html
         div(class="profileBox")
             div(class="profileArea")
                 div(class="ImageSector")
-                    img(src="http://localhost:3000/"+"#{rows[0].profileImage}" class="image")
+                    img(src="https://ajoring.kr/"+"#{rows[0].profileImage}" class="image")
                     div(class="nickname")
                         h4 #{rows[0].nickname}
                     div(class="email")
@@ -46,7 +46,7 @@ html
                         h3 선호 언어
                         h4 #{rows[0].preferenceCountry}
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
         div(id="modal" class="modal-overlay")
                 div(class="modal-window")
@@ -71,7 +71,7 @@ html
             const targetUser = document.location.href.substring(document.location.href.indexOf('?')+1).split('=')[1];
             const comment = document.getElementById('modal-text').value;
             if(targetUser!="#{user.id}") {
-                axios.get('http://localhost:3000/tutoring/request',{
+                axios.get('https://ajoring.kr/tutoring/request',{
                         method: 'POST',
                         params: {
                             targetUser : targetUser,
@@ -100,11 +100,12 @@ html
                var requestBtn = document.querySelector('div.request button h2').textContent;
                var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
                var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
+               var myProfile = document.querySelector('div.myProfile a').innerText;
                 axios.get('http://localhost:3000/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text + '\n' + requestBtn + '\n' + modaltext + '\n' + modalBtn
+                        text : text + '\n' + requestBtn + '\n' + modaltext + '\n' + modalBtn + '\n' + myProfile
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -117,17 +118,19 @@ html
                     requestBtn = document.querySelector('div.request button h2').textContent = list[6];
                     modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
                     modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
+                    document.querySelector('div.myProfile a').innerText = list[9];
                 })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var requestBtn = document.querySelector('div.request button').textContent;
                 var modaltext  = document.querySelector('div.modal-textarea h4').textContent;
                 var modalBtn  = document.querySelector('div.modal-bottom button h2').textContent;
+                var myProfile = document.querySelector('div.myProfile a').innerText;
                     axios.get('http://localhost:3000/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',
-                            text : text
+                            text : text + '\n' + requestBtn + '\n' + modaltext + '\n' + modalBtn + '\n' + myProfile
                         },
                         headers: {
                             'Content-Type': 'application/json',
@@ -140,6 +143,7 @@ html
                         requestBtn = document.querySelector('div.request button h2').textContent = list[6];
                         modaltext  = document.querySelector('div.modal-textarea h4').textContent = list[7];
                         modalBtn  = document.querySelector('div.modal-bottom button h2').textContent = list[8];
+                        document.querySelector('div.myProfile a').innerText = list[9];
                     })
             }
         }

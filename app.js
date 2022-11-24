@@ -16,11 +16,13 @@ const { response, query } = require('express');
 const { MemoryStore } = require('express-session');
 const cors = require("cors");
 const fs = require("fs");
+const { Http2ServerRequest } = require('http2');
 
 var client_id = '7HK9tPsLi9yFUjvwDzx1';
 var client_secret = '6uWchEawHA';
 var app = express();
 let status = 0;
+var https = require('https');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var sessionObject = {
@@ -43,7 +45,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionObject));
-app.use('/', indexRouter);
+app.use('/', (req,res,next) => {
+  if(req.secure) {
+    next();
+  } else {
+    const to = `https://${req.hostname}${req.url}`;
+    res.redirect(to);
+  }
+});
 app.use('/users', usersRouter);
 app.use('/start', pageRouter);
 app.use('/Register',registerRouter);
@@ -53,10 +62,14 @@ app.use('/upload',express.static('upload'));
 app.post('/Image',ImageRouter);
 
 var db_info = {
-  host : 'localhost',
+  host : '127.0.0.1',
   port : '3306',
   user : 'root',
+<<<<<<< HEAD
   password : '@ahtmxmwpem12',
+=======
+  password : 'altmxpfl12',
+>>>>>>> ece0c83549219281f05a3bfafd8ab739cc6b1e5a
   database : 'Autor'
 };
 var socketId;
@@ -69,6 +82,14 @@ var connection = db.createConnection(db_info);
     }
     console.log("my sql connected");
   })
+
+  const keyOption = {
+    key: fs.readFileSync('./rootca.key'),
+    cert : fs.readFileSync('./rootca.crt')
+  };
+ const httpServer = https.createServer(keyOption, app).listen(443);
+  http.listen(3000);
+
 io.on('connection', function(socket) {
   console.log(socket.id);
   socketId = socket.id;
@@ -80,7 +101,7 @@ io.on('connection', function(socket) {
     var sendUser = user_id;
     var currentTime = new Date();
     var current = currentTime.getFullYear() + '/' + currentTime.getMonth() + '/' + currentTime.getDate() + '/' + currentTime.getDay();
-    connection.query('Insert into Chat(chatUser_id,chatRoom_id,content,date) VALUES(?,?,?,?)',[sendUser, chatRoom_id, msg,current],function(err,data){
+    connection.query('Insert into chat(chatUser_id,chatRoom_id,content,date) VALUES(?,?,?,?)',[sendUser, chatRoom_id, msg,current],function(err,data){
       if(err) throw err;
       io.emit('resultMessage',user_id, msg);
     })
@@ -94,21 +115,15 @@ io.on('connection', function(socket) {
     })
   }) 
 })
-http.listen(3000,function () {
-  console.log('Server on port : 3300');
-  const dir = "./upload";
-  if(!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-  }
-})
 app.get('/home/tutoringList/ChatTest',function(req,res) {
   var user_id = req.session.displayName.id;
   var user = req.session.user;
-  console.log(socketId);
+  console.log(
+    socketId);
   if(req.query.chatroom_id=="null") {
     connection.query('')
   }
-  connection.query('Select * from Chat where chatRoom_id = ?',[req.query.chatroom_id],function(err,results,field) {
+  connection.query('Select * from chat where chatRoom_id = ?',[req.query.chatroom_id],function(err,results,field) {
     if(err) throw err;
     if(results.length > 0) {
       res.render('Chat',{user_id : user_id, rows : results, user});
@@ -194,10 +209,9 @@ app.get('/home/myProfile/editTutorProfile',function(req,res) {
 app.get('/home/post/',function(req, res) {
   var lang = req.session.user.country;
   var user = req.session.user;
-  connection.query('SELECT id, title, content, nickname, count FROM post', function(err, rows){
+  connection.query('SELECT * FROM post', function(err, rows){
     if(err) throw err;
-    res.render('post', {rows:rows, lang : lang, user, length : rows.length-1, page_num:5, pass: true});
-    console.log(rows[0].id);
+      res.render('post', {rows:rows, lang : lang, user : user, length : rows.length-1, page_num:5, pass: true});
   })
 })
 app.get('/home/findPost/',function(req,res){

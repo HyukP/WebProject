@@ -9,7 +9,7 @@ html
      script(type="text/javascript").
         function test(request, response) {
                 let input = document.getElementsByClassName("TestText")[0];
-           axios.get('http://localhost:3000/translate',{
+           axios.get('https://ajoring.kr/translate',{
                 method: 'POST',
                 params: {
                         text : input.innerText,
@@ -27,7 +27,7 @@ html
         }
         function test2(request, response) {
                 let input = document.getElementsByClassName("TestText")[0];
-           axios.get('http://localhost:3000/detect',{
+           axios.get('https://ajoring.kr/detect',{
                 method: 'POST',
                 params : {
                     text : input.innetText

@@ -3,7 +3,6 @@ html
     head
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-        meta(name="viewport" content="width=device-width, initial-scale=1.0")
     body 
         nav(class="nav")
                 div(class="menu_group")
@@ -12,95 +11,80 @@ html
                             img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
-                    div(class="current")
-                        a(id="2" href=".") 질문/답변
-                    div(class="other") 
-                        a(id="3" href="../findPost/") 찾아요
+                    div(class="other")
+                        a(id="2" href="../post/") 질문/답변
+                    div(class="current") 
+                        a(id="3" href="./") 찾아요
                     div(class="other")
                         a(id="4" href="../tutoringList/") 멘토링 목록
                     div(class="other")
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
+                    
         div(class="postBox")
             div(class="writeBox")
                 div(class="boardLine")
-                    h2 질문 게시글 작성
+                    h2 튜터/튜티 찾기 게시글 작성
                     div(class="write" onClick="writePost()")
                         h2 등록
                 div(class="title")
-                    textarea(name="", cols="30", rows="10" placeholder = "Title")
+                    textarea(name="", cols="30", rows="10" placeholder = "제목을 입력해주세요.")
                 div(class="content")
-                    textarea(name="", cols="30", rows="10" placeholder = "Content")
+                    textarea(name="", cols="30", rows="10" placeholder = "내용을 입력해주세요.")
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
-
     script(type="text/javascript").
         const writePost = () => {
             const title = document.querySelector("div.title textarea").value;
             const content = document.querySelector("div.content textarea").value;
-            if(title!=null && content != null) {
-                axios.get('http://localhost:3000/board/write',{
-                    method: 'POST',
-                    params: {
-                        title : title,
-                        content : content,
-                    },
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }).then(response => {
-                    if(response.data.status==200) {
-                        alert(response.data.message);
-                        document.location.href = "./"
-                    } else alert(response.data.message);
-                })
-            }
+            axios.get('https://ajoring.kr/board2/write',{
+                method: 'POST',
+                params: {
+                    title : title,
+                    content : content,
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                if(response.data.status==200) {
+                    alert(response.data.message);
+                    document.location.href = "./"
+                } else alert(response.data.message);
+            })
         }
         const testTrans = () => {
             var lang = "#{lang}"
             if(lang=="China") {
                var text = document.querySelector('div.menu_group').innerText;
-                axios.get('http://localhost:3000/translate',{
+               var myProfile = document.querySelector('div.myProfile a').innerText;
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text
+                        text : text + '\n' + myProfile
                     },
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }).then(response=> {
                     var list = response.data.message.result.translatedText.split('\n');
+                    console.log(list);
                     for(var i = 1; i<= 6; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
+                    document.querySelector('div.myProfile a').innerText = list[6];
                 })
-            } else if(lang=="French") {
+            }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
-                    axios.get('http://localhost:3000/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'fr',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText.split('\n');
-                        for(var i = 1; i<= 6; i++) {
-                            document.getElementById(i).textContent = list[i-1];
-                        }
-                    })
-            } else if(lang=="Vietnam") {
-                var text = document.querySelector('div.menu_group').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                var myProfile = document.querySelector('div.myProfile a').innerText;
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',
-                            text : text
+                            text : text + '\n' + myProfile
                         },
                         headers: {
                             'Content-Type': 'application/json',
@@ -110,6 +94,7 @@ html
                         for(var i = 1; i<= 6; i++) {
                             document.getElementById(i).textContent = list[i-1];
                         }
+                        document.querySelector('div.myProfile a').innerText = list[6];
                     })
             }
         }

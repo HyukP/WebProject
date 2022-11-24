@@ -3,6 +3,7 @@ html
     head
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
     body 
         nav(class="nav")
                 div(class="menu_group")
@@ -11,17 +12,17 @@ html
                             img(src="https://i.ibb.co/ZSJQwCr/home-page.pngg" alt="home" style="width:30px;height:30px;")
                     div(class="other")
                         a(id="1" href="../tutorList/") 튜터 찾기
-                    div(class="other")
-                        a(id="2" href="../post/") 질문/답변
-                    div(class="current") 
-                        a(id="3" href="./") 찾아요
+                    div(class="current")
+                        a(id="2" href=".") 질문/답변
+                    div(class="other") 
+                        a(id="3" href="../findPost/") 찾아요
                     div(class="other")
                         a(id="4" href="../tutoringList/") 멘토링 목록
                     div(class="other")
                         a(id="5" href="../requestList/") 받은 요청
                     div(class="other")
                         a(id="6" href="../sendList/") 보낸 요청
-        div(class="Post")
+        div(id = "post #{rows[0].id}" class="Post")
             div(class="boardLine")
                 h4 #{rows[0].title}
                 div(class="otherArea")
@@ -43,7 +44,7 @@ html
                         input(id="reply" placeholder="댓글을 입력해주세요.")
                         button(id="replyBtn" onClick="replyWrite()") 
                             h4 등록
-            -if(rows2)
+            -if(rows2!=null)
                 div(class="replyNext")
                     for item in rows2
                         div(class="replyList")
@@ -52,7 +53,7 @@ html
                                 h3 #{item.date}
                             h4 #{item.content}
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
 
     script(type="text/javascript").
@@ -64,7 +65,7 @@ html
             }
         }
         const deletePost = (id) => {
-            axios.get('http://localhost:3000/home/findPost/deletePost',{
+            axios.get('https://ajoring.kr/home/post/deletePost',{
                  method: 'POST',
                     params: {
                         post_id : id
@@ -84,7 +85,7 @@ html
             console.log(id);
             var content = document.getElementById('reply').value;
             console.log(content);
-                axios.get('http://localhost:3000/reply2/write',{
+                axios.get('https://ajoring.kr/reply/write',{
                 method : 'POST',
                 params : {
                     content : content,
@@ -101,56 +102,52 @@ html
             })
         }
         const transToCN = () => {
-                var text = document.querySelector('div.contentArea h4').innerText;
-                console.log(text);
-                    axios.get('http://localhost:3000/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'zh-CN',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText;
-                        document.querySelector('div.contentArea h4').innerText = list;
-                })
-            }
-            const transToVi = () => {
-                var text = document.querySelector('div.contentArea h4').innerText;
-                    axios.get('http://localhost:3000/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'vi',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText;
-                        document.querySelector('div.contentArea h4').innerText = list;
-                })
-            }
-        const transToFR = () => {
-            var title = document.querySelector('div.boardLine h4').innerText;
             var text = document.querySelector('div.contentArea h4').innerText;
-            var fullText = title + '\n' + text;
-                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+            console.log(text);
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
-                        target : 'fr',
-                        text : fullText
+                        target : 'zh-CN',
+                        text : text
                     },
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }).then(response=> {
-                    var list = response.data.message.result.translatedText.split('\n');
-                    document.querySelector('div.boardLine h4').innerText = list[0];
-                    document.querySelector('div.contentArea h4').innerText = list[1];
+                    var list = response.data.message.result.translatedText;
+                    document.querySelector('div.contentArea h4').innerText = list;
+            })
+        }
+        const transToVi = () => {
+            var text = document.querySelector('div.contentArea h4').innerText;
+                axios.get('https://ajoring.kr/translate',{
+                    method: 'POST',
+                    params: {
+                        target : 'vi',
+                        text : text
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response=> {
+                    var list = response.data.message.result.translatedText;
+                    document.querySelector('div.contentArea h4').innerText = list;
+            })
+        }
+        const transToFR = () => {
+            var text = document.querySelector('div.contentArea h4').innerText;
+                axios.get('https://ajoring.kr/translate',{
+                    method: 'POST',
+                    params: {
+                        target : 'fr',
+                        text : text
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response=> {
+                    var list = response.data.message.result.translatedText;
+                    document.querySelector('div.contentArea h4').innerText = list;
             })
         }
         const testTrans = () => {
@@ -160,11 +157,12 @@ html
                var reply = document.querySelector('div.replyArea h2').innerText;
                var replyInput = document.querySelector('div.replybox input').placeholder;
                var replyBtn = document.querySelector('div.replybox button h4').innerText;
-                axios.get('http://localhost:3000/translate',{
+               var myProfile = document.querySelector('div.myProfile a').innerText;
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
-                        text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn
+                        text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn + '\n' + myProfile
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -177,40 +175,19 @@ html
                     document.querySelector('div.replyArea h2').innerText = list[6];
                     document.querySelector('div.replybox input').placeholder = list[7];
                     document.querySelector('div.replybox button h4').innerText = list[8];
+                    document.querySelector('div.myProfile a').innerText = list[9];
                 })
-            } else if(lang=="French") {
-                var text = document.querySelector('div.menu_group').innerText;
-                var reply = document.querySelector('div.replyArea h2').innerText;
-                var replyInput = document.querySelector('div.replybox input').placeholder;
-                var replyBtn = document.querySelector('div.replybox button h4').innerText;
-                    axios.get('http://localhost:3000/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'fr',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText.split('\n');
-                        for(var i = 1; i<= 6; i++) {
-                            document.getElementById(i).textContent = list[i-1];
-                        }
-                        document.querySelector('div.replyArea h2').innerText = list[6];
-                        document.querySelector('div.replybox input').placeholder = list[7];
-                        document.querySelector('div.replybox button h4').innerText = list[8];
-                    })
             } else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var reply = document.querySelector('div.replyArea h2').innerText;
                 var replyInput = document.querySelector('div.replybox input').placeholder;
                 var replyBtn = document.querySelector('div.replybox button h4').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                var myProfile = document.querySelector('div.myProfile a').innerText;
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',
-                            text : text
+                            text : text + '\n' + reply + '\n' + replyInput + '\n' + replyBtn + '\n' + myProfile
                         },
                         headers: {
                             'Content-Type': 'application/json',
@@ -223,6 +200,7 @@ html
                         document.querySelector('div.replyArea h2').innerText = list[6];
                         document.querySelector('div.replybox input').placeholder = list[7];
                         document.querySelector('div.replybox button h4').innerText = list[8];
+                        document.querySelector('div.myProfile a').innerText = list[9];
                     })
             }
         }

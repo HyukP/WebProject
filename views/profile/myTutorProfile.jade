@@ -25,7 +25,7 @@ html
         div(class="profileBox")
             div(class="profileArea")
                 div(class="ImageSector")
-                    img(src="http://localhost:3000/"+"#{user.profileImage}" class="image")
+                    img(src="https://ajoring.kr/"+"#{user.profileImage}" class="image")
                     div(class="nickname")
                         h4 #{user.nickname}
                     div(class="email")
@@ -47,10 +47,52 @@ html
                         h3 선호 언어
                         h4 #{tutorProfile.preferenceCountry}
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href=".") 내 프로필
     script(type="text/javascript").
         const editTutorProfile = () => {
             document.location.href = "./editTutorProfile";
         }
-        
+        const testTrans = () => {
+            var lang = "#{user.country}"
+            if(lang=="China") {
+               var text = document.querySelector('div.menu_group').innerText;
+               var text2 = document.querySelector('div.myProfile a').innerText;
+               console.log(text);
+                axios.get('https://ajoring.kr/translate',{
+                    method: 'POST',
+                    params: {
+                        target : 'zh-CN',
+                        text : text +'\n' + text2
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response=> {
+                    var list = response.data.message.result.translatedText.split('\n');
+                    console.log(list);
+                    for(var i = 1; i<= 7; i++) {
+                        document.getElementById(i).textContent = list[i-1];
+                    }
+                })
+            }  else if(lang=="Vietnam") {
+                var text = document.querySelector('div.menu_group').innerText;
+                var text2 = document.querySelector('div.myProfile a').innerText;
+                    axios.get('https://ajoring.kr/translate',{
+                        method: 'POST',
+                        params: {
+                            target : 'vi',
+                            text : text +'\n' + text2
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response=> {
+                        var list = response.data.message.result.translatedText.split('\n');
+                        for(var i = 1; i<= 7; i++) {
+                            document.getElementById(i).textContent = list[i-1];
+                        }
+                    })
+            }
+        }
+        testTrans();
