@@ -21,10 +21,10 @@ const { Http2ServerRequest } = require('http2');
 var client_id = '7HK9tPsLi9yFUjvwDzx1';
 var client_secret = '6uWchEawHA';
 var app = express();
+var app2 = express();
 let status = 0;
 var https = require('https');
-var http = require('http').Server(app);
-var io = require('socket.io')(https);
+var http = require('http');
 var sessionObject = {
   secret : 'Jello',
   resave : false,
@@ -44,15 +44,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'post')));
 app.use(session(sessionObject));
 app.use('/', (req,res,next) => {
-  if(req.secure) {
-    next();
-  } else {
-    const to = `https://${req.hostname}${req.url}`;
-    res.redirect(to);
-  }
+	if(req.secure) {
+		next();
+} else {
+	const to = `https://${req.hostname}$(req.url}`;
+	res.redirect(to);
+
+}
 });
 app.use('/users', usersRouter);
 app.use('/start', pageRouter);
@@ -84,10 +84,14 @@ var connection = db.createConnection(db_info);
     key: fs.readFileSync('./rootca.key'),
     cert : fs.readFileSync('./rootca.crt')
   };
+
+const httpServer = http.createServer(app);
+httpServer.listen(3000);
+const httpsserver = https.createServer(keyOption, app).listen(443);
+
+var io = require('socket.io')(httpsserver);
 io.on('connection', function(socket) {
-  console.log(socket.id);
-  socketId = socket.id;
-  socket.on('join',(room_id) => {
+  socket.on('join',(room_id) => { 
     socket.join(room_id);
     console.log(room_id);
   })
@@ -109,23 +113,38 @@ io.on('connection', function(socket) {
     })
   }) 
 })
-const httpServer = https.createServer(keyOption, app).listen(443);
-http.listen(3000);
-
 app.get('/home/tutoringList/ChatTest',function(req,res) {
   var user_id = req.session.displayName.id;
   var user = req.session.user;
-  console.log(
-    socketId);
+  console.log(req.query);
   if(req.query.chatroom_id=="null") {
     connection.query('')
   }
-  connection.query('Select * from chat where chatRoom_id = ?',[req.query.chatroom_id],function(err,results,field) {
+  connection.query('Select * from chatRoom where id = ?',[req.query.chatroom_id],function(err,results,field) {
     if(err) throw err;
-    if(results.length > 0) {
-      res.render('Chat',{user_id : user_id, rows : results, user});
+    if(results.length <=0) {
+        connection.query('Insert into chatRoom(user1_id, user2_id, chatroom_id) values(?,?,?)',[req.query.user1, req.query.user2,req.query.chatroom_id], function(err,results2,field) {
+            if(err) throw err;
+            else {
+              connection.query('Select * from chat where chatRoom_id = ?',[req.query.chatroom_id],function(err,results,field) {
+                if(err) throw err;
+                if(results.length > 0) {
+                  res.render('Chat',{user_id : user_id, rows : results, user});
+                } else {
+                  res.render('Chat',{user_id : user_id, user});
+                }
+              })
+            }
+        })
     } else {
-      res.render('Chat',{user_id : user_id, user});
+      connection.query('Select * from chat where chatRoom_id = ?',[req.query.chatroom_id],function(err,results,field) {
+        if(err) throw err;
+        if(results.length > 0) {
+          res.render('Chat',{user_id : user_id, rows : results, user});
+        } else {
+          res.render('Chat',{user_id : user_id, user});
+        }
+      })
     }
   })
 })
@@ -450,7 +469,7 @@ app.get('/home/tutoringList/',function(req,res){
   var username = req.session.user.nickname;
   var lang = req.session.user.country;
   var user = req.session.user;
-  connection.query('select A.chatroom_id, A.id as id, A.tutorUser_id as targetUser, B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
+  connection.query('select A.chatroom_id, A.id as id, A.tutorUser_id as targetUser_id, A.tuteeUser_id as sendUser_id, B.nickname as targetUser, C.nickname as sendUser, A.content from tutoring A left join user B on A.tutorUser_id = B.id left join user C on A.tuteeUser_id = C.id WHERE ? = B.id or ? = C.id or ? = B.id or ? = C.id;',[user_id,user_id,user_id,user_id], function(err,results,field){
     if(err) throw err;
     if(results.length>0) {
           res.render('tutoringList',{rows:results, lang : lang, username : username, user : user});
