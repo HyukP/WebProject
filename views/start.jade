@@ -2,7 +2,8 @@ html
     head
         title 홈 화면
         link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
     body
       div(class="wrap")
         div(class="login")
@@ -29,17 +30,18 @@ html
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
            }).join(''));
            console.log(result);
-           axios.get('http://localhost:3000/user/checkGmail',{
+           axios.get('https://ajoring.kr/user/checkGmail',{
             method : 'POST',
             params: {
                     email : JSON.parse(result).email
                 },
                 headers: {
                     'Content-Type': 'application/json',
+                     'Access-Control-Allow-Credentials' : true
                 },
             }).then(response2 => {
                 if(response2.data.status == 200) {
-                    axios.get('http://localhost:3000/auth/SignIn',{
+                    axios.get('https://ajoring.kr/auth/SignIn',{
                         method: 'POST',
                         params: {
                             email : JSON.parse(result).email,
@@ -62,7 +64,7 @@ html
             const email = document.querySelector("div.login_id input").value;
             const password = document.querySelector("div.login_pw input").value;
             console.log(email, password);
-            axios.get('http://localhost:3000/auth/SignIn',{
+            axios.get('https://ajoring.kr/auth/SignIn',{
                 method: 'POST',
                 params: {
                     email : email,

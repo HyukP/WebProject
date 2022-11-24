@@ -46,7 +46,7 @@ html
                     button(id="editBtn" onClick="updateTutorProfile()")
                         h4 수정
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href=".") 내 프로필
     script(type="text/javascript").
         var statusValue = false;
@@ -65,7 +65,7 @@ html
                 statusValue2 = true;
             }
             if(statusValue!=false && statusValue2 != false)
-                axios.get('http://localhost:3000/user/updateTutorProfile',{
+                axios.get('https://ajoring.kr/user/updateTutorProfile',{
                     method: 'POST',
                         params: {
                             Introduce : Introduce,
@@ -93,7 +93,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var text2 = document.querySelector('div.myProfile a').innerText;
                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -112,7 +112,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

@@ -33,13 +33,13 @@ html
                 div(class="content")
                     textarea(name="", cols="30", rows="10" placeholder = "내용을 입력해주세요.")
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
-            a(id="7" href="./myProfile/") 내 프로필
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="../myProfile/") 내 프로필
     script(type="text/javascript").
         const writePost = () => {
             const title = document.querySelector("div.title textarea").value;
             const content = document.querySelector("div.content textarea").value;
-            axios.get('http://localhost:3000/board2/write',{
+            axios.get('https://ajoring.kr/board2/write',{
                 method: 'POST',
                 params: {
                     title : title,
@@ -60,7 +60,7 @@ html
             if(lang=="China") {
                var text = document.querySelector('div.menu_group').innerText;
                var myProfile = document.querySelector('div.myProfile a').innerText;
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -80,7 +80,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var myProfile = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

@@ -40,8 +40,8 @@ html
                     button(id="btn" onClick="sendMeeting()")
                         h4 미팅 신청
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
-            a(id="7" href="./myProfile/") 내 프로필
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="../myProfile/") 내 프로필
         div(id="modal" class="modal-overlay")
             div(class="modal-window")
                 input(id="maps-search" class="searchMap" placeholder="장소를 검색하세요")
@@ -138,7 +138,7 @@ html
                 alert("값을 제대로 입력해주세요.");
             }
             else
-                axios.get('http://localhost:3000/home/tutoring/meeting/sendMeeting',{
+                axios.get('https://ajoring.kr/home/tutoring/meeting/sendMeeting',{
                     method : 'POST',
                         params: {
                             meetingLocation : meetingLocation,

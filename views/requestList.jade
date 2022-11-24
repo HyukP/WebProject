@@ -27,16 +27,13 @@ html
                     -for(var i=0;i<rows.length;i++)
                         div(class="request")
                             div(id="UserArea #{i}" class="UserArea")
-                                td 요청자 : 
-                                td #{rows[i].sendUser}
-                                br
-                                td 요청 대상 : 
-                                td #{rows[i].targetUser}
+                                h4 요청자 : #{rows[i].sendUser}
+                                h4 요청 대상 : #{rows[i].targetUser}
                             div(id="Content #{i}" class="ContentArea")
-                                td 요청 사항 : 
-                                td #{rows[i].content}
+                                h4 요청 사항 : #{rows[i].content}
                             div(class="buttonArea")
-                                button(id="" onClick='testLoad(id)') Detail 
+                                button(id="" onClick='testLoad(id)') 
+                                    h4 수락하기 
                         div(id="modal" class="modal-overlay")
                                 div(class="modal-window")
                                     div(class="modal-top")
@@ -46,8 +43,8 @@ html
                                         button(id="acc #{i}" onClick="Accept(id)") Accept
                                         button(id="ign #{i}" onClick="Ignore(id)") Ignore
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
-            a(id="7" href="./myProfile/") 내 프로필
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
+            a(id="7" href="../myProfile/") 내 프로필
     script(type="text/javascript").
         const testLoad = (id) => {
             const modal = document.getElementById("modal");
@@ -64,7 +61,7 @@ html
             }
             const content = document.getElementById('Content '+id.split(' ')[1]).innerText.split('\n');
             console.log(content[0].split(': ')[1]);
-            axios.get('http://localhost:3000/tutoring/request/accept',{
+            axios.get('https://ajoring.kr/tutoring/request/accept',{
                     method: 'POST',
                     params: {
                         sendUser : sendUser[0],
@@ -95,7 +92,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var text2 = document.querySelector('div.myProfile a').innerText;
                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -114,7 +111,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

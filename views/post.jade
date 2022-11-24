@@ -3,6 +3,7 @@ html
     head
         title Post List
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
     body 
         nav(class="nav")
                 div(class="menu_group")
@@ -28,24 +29,25 @@ html
                     button(class="write" onClick="postWrite()")
                         h2 글쓰기
                 div(class="postArea")
-                    for item in rows
-                        div(class="postList")
-                            div(id = "post #{item.id}" class="postNext" onClick="onPostDetail(this.id)")
-                                div(class="postTitle")
-                                    h4 #{item.title}
-                                div(class="postContent")
-                                    h4 #{item.content}
-                                div(class="postOwner_Count")
-                                    div(class="postCount")
-                                        h4 조회 수: #{item.count}
-                                    div(class="postOwner")
-                                        h4 작성자: #{item.nickname}
-                            div(class="translate" style="margin-left:auto;")
-                                img(id="#{item.id}" src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR(this.id)")
-                                img(id="#{item.id}" src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN(this.id)")
-                                img(id="#{item.id}" src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi(this.id)")
+                    if(rows!=null)
+                        for item in rows
+                            div(class="postList")
+                                div(id = "post #{item.id}" class="postNext" onClick="onPostDetail(this.id)")
+                                    div(class="postTitle")
+                                        h4 #{item.title}
+                                    div(class="postContent")
+                                        h4 #{item.content}
+                                    div(class="postOwner_Count")
+                                        div(class="postCount")
+                                            h4 조회 수: #{item.count}
+                                        div(class="postOwner")
+                                            h4 작성자: #{item.nickname}
+                                div(class="translate" style="margin-left:auto;")
+                                    img(id="#{item.id}" src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR(this.id)")
+                                    img(id="#{item.id}" src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN(this.id)")
+                                    img(id="#{item.id}" src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi(this.id)")
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
         
                 
@@ -53,7 +55,7 @@ html
         var lang = 'ko';
         const onPostDetail = (id) => {
             var post_id = id.split(' ')[1];
-            axios.get('http://localhost:3000/post/updateCount',{
+            axios.get('https://ajoring.kr/post/updateCount',{
                     method : 'POST',
                     params: {
                         post_id : post_id
@@ -81,7 +83,7 @@ html
             }
         }
         const showDetail = (id) => {
-                axios.get('http://localhost:3000/post/updateCount',{
+                axios.get('https://ajoring.kr/post/updateCount',{
                     method : 'POST',
                     params: {
                         post_id : id.split(' ')[1]
@@ -103,7 +105,7 @@ html
                 var text = postList.querySelector('div.postContent h4').textContent;
                 var count = postList.querySelector('div.postCount h4').textContent.split(':')[0];
                 var writer = postList.querySelector('div.postOwner h4').textContent.split(':')[0];
-                axios.get('http://localhost:3000/detect',{
+               axios.get('https://ajoring.kr/detect',{
                     method: 'POST',
                     params: {
                         text : text
@@ -113,7 +115,7 @@ html
                     },
                 }).then(response=> {
                     if(response.data.langCode=='ko') {
-                        axios.get('http://localhost:3000/innerTranslate',{
+                        axios.get('https://ajoring.kr/innerTranslate',{
                         method: 'POST',
                         params: {
                             source : response.data.langCode,
@@ -127,12 +129,11 @@ html
                         var list = response2.data.message.result.translatedText.split('\n');
                         postList.querySelector('div.postTitle h4').textContent = list[0];
                         postList.querySelector('div.postContent h4').textContent = list[1];
-                        postList.querySelector('div.postCount h4').textContent = list[2] + ':' + document.querySelector('div.postCount h4').textContent.split(':')[1];
-                        postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + document.querySelector('div.postOwner h4').textContent.split(':')[1];
+                        postList.querySelector('div.postCount h4').textContent = list[2] + ':' + postList.querySelector('div.postCount h4').textContent.split(':')[1];
+                        postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                     })
                     } else {
-                        console.log(response.data.langCode)
-                        axios.get('http://localhost:3000/innerTranslate',{
+                        axios.get('https://ajoring.kr/innerTranslate',{
                             method: 'POST',
                             params: {
                                 source : response.data.langCode,
@@ -146,7 +147,7 @@ html
                             var list = response3.data.message.result.translatedText.split('\n');
                             title =  postList.querySelector('div.postTitle h4').textContent = list[0];
                             text = postList.querySelector('div.postContent h4').textContent = list[1];
-                            count = postList.querySelector('div.postCount h4').textContent = list[2] + ':' + postList.querySelector('div.postCount h4').textContent.split(':')[1];
+                            count = postList.querySelector('div.postCount h4').textContent = list[2] + ':' + document.querySelector('div.postCount h4').textContent.split(':')[1];
                             writer = postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                             axios.get('http://localhost:3000/innerTranslate',{
                             method: 'POST',
@@ -176,7 +177,7 @@ html
                 var text = postList.querySelector('div.postContent h4').textContent;
                 var count = postList.querySelector('div.postCount h4').textContent.split(':')[0];
                 var writer = postList.querySelector('div.postOwner h4').textContent.split(':')[0];
-               axios.get('http://localhost:3000/detect',{
+               axios.get('https://ajoring.kr/detect',{
                     method: 'POST',
                     params: {
                         text : text
@@ -186,7 +187,7 @@ html
                     },
                 }).then(response=> {
                     if(response.data.langCode=='ko') {
-                        axios.get('http://localhost:3000/innerTranslate',{
+                        axios.get('https://ajoring.kr/innerTranslate',{
                         method: 'POST',
                         params: {
                             source : response.data.langCode,
@@ -204,7 +205,7 @@ html
                         postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                     })
                     } else {
-                        axios.get('http://localhost:3000/innerTranslate',{
+                        axios.get('https://ajoring.kr/innerTranslate',{
                             method: 'POST',
                             params: {
                                 source : response.data.langCode,
@@ -248,7 +249,7 @@ html
             var text = postList.querySelector('div.postContent h4').textContent;
             var count = postList.querySelector('div.postCount h4').textContent.split(':')[0];
             var writer = postList.querySelector('div.postOwner h4').textContent.split(':')[0];
-            axios.get('http://localhost:3000/detect',{
+            axios.get('https://ajoring.kr/detect',{
                     method: 'POST',
                     params: {
                         text : text
@@ -258,7 +259,7 @@ html
                     },
                 }).then(response=> {
                     if(response.data.langCode=='ko') {
-                        axios.get('http://localhost:3000/innerTranslate',{
+                        axios.get('https://ajoring.kr/innerTranslate',{
                         method: 'POST',
                         params: {
                             source : response.data.langCode,
@@ -276,7 +277,7 @@ html
                         postList.querySelector('div.postOwner h4').textContent = list[3] + ':' + postList.querySelector('div.postOwner h4').textContent.split(':')[1];
                     })
                     } else {
-                        axios.get('http://localhost:3000/innerTranslate',{
+                        axios.get('https://ajoring.kr/innerTranslate',{
                             method: 'POST',
                             params: {
                                 source : response.data.langCode,
@@ -287,7 +288,7 @@ html
                                 'Content-Type': 'application/json',
                             },
                         }).then(response3=> {
-                            axios.get('http://localhost:3000/innerTranslate',{
+                            axios.get('https://ajoring.kr/innerTranslate',{
                             method: 'POST',
                             params: {
                                 source : 'ko',
@@ -315,7 +316,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var writeBtn = document.querySelector('div.postAct button h2').innerText;
                var myProfile = document.querySelector('div.myProfile a').innerText;
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -337,7 +338,7 @@ html
                 var text = document.querySelector('div.menu_group').innerText;
                 var writeBtn = document.querySelector('div.postAct button h2').innerText;
                 var myProfile = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

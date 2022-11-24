@@ -26,7 +26,7 @@ html
             h4 Welcome
             div(class="MainPage")
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="./myProfile/") 내 프로필
                 
     
@@ -37,7 +37,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var text2 = document.querySelector('div.myProfile a').innerText;
                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -56,7 +56,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

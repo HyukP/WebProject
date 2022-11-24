@@ -59,7 +59,7 @@ html
                         button(id="tutorExit" onClick="endMeeting()") 종료
                         button(id="closeBtn" onClick="closeInfo()") 닫기
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
                                 
     script(type="text/javascript").
@@ -81,7 +81,7 @@ html
         const acceptMeeting = () => {
             var data = document.querySelector('div.User').value;
             console.log(data);
-            axios.get('http://localhost:3000/home/tutoringList/updateMeeting',{
+            axios.get('https://ajoring.kr/home/tutoringList/updateMeeting',{
                 method: 'POST',
                     params: {
                         id : data
@@ -98,7 +98,7 @@ html
         }
         const endMeeting = () => {
             var data = document.querySelector('div.User').value;
-            axios.get('http://localhost:3000/home/tutoringList/deleteMeeting',{
+            axios.get('https://ajoring.kr/home/tutoringList/deleteMeeting',{
                 method: 'POST',
                     params: {
                         id : data
@@ -115,7 +115,7 @@ html
             document.querySelector('div.Place h2').textContent = "";
             document.querySelector('div.Date h2').textContent = "";
             document.querySelector('div.Content h2').textContent = "";
-            axios.get('http://localhost:3000/home/tutoringList/getMeeting',{
+            axios.get('https:/ajoring.kr/home/tutoringList/getMeeting',{
                 method: 'POST',
                     params: {
                         id : data
@@ -155,7 +155,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var text2 = document.querySelector('div.myProfile a').innerText;
                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -174,7 +174,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

@@ -31,7 +31,7 @@ html
                     -for(var i=0;i<rows.length;i++)
                         div(id= "#{rows[i].id}" class="profileCard" onClick="showDetailPage(this.id)")
                             div(class="topCard")
-                                img(src="http://localhost:3000/"+"#{rows[i].profileImage}" class="mountImage")
+                                img(src="https://ajoring.kr/"+"#{rows[i].profileImage}" class="mountImage")
                                 div(class="UserSector")
                                     div(class="nickname")
                                         h4 #{rows[i].nickname}
@@ -44,7 +44,7 @@ html
                                     h4 #{rows[i].country}
                             
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
 
     script(type="text/javascript").
@@ -175,7 +175,7 @@ html
             }
         }
         const showDetailPage = (id) => {
-             axios.get('http://localhost:3000/user/getUserId',{
+             axios.get('https://ajoring.kr/user/getUserId',{
                     method: 'POST',
                     params: {
                         id : id,
@@ -193,7 +193,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var text2 = document.querySelector('div.myProfile a').innerText;
                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -212,7 +212,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

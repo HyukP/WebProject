@@ -47,11 +47,11 @@ html
                         form(aciton="")
                                 input(id = "m" placeholder="메세지를 입력해주세요.")
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
-    script(src="http://localhost:3000/socket.io/socket.io.js")
+    script(src="https://ajoring.kr/socket.io/socket.io.js")
     script(type="text/javascript").
-        var socket = io.connect('http://localhost:3000/');
+        var socket = io.connect('https://ajoring.kr/');
         var room_id = document.location.href.split('=')[1];
         var currentUser = "#{user_id}";
         console.log(socket)
@@ -95,7 +95,7 @@ html
             var lang = "#{user.country}";
             if(lang=='China') lang = 'zh-CN';
             if(lang=='Vietnam') lang = 'vi';
-            axios.get('http://localhost:3000/detect',{
+            axios.get('https://ajoring.kr/detect',{
                     method: 'POST',
                     params: {
                         text : text
@@ -105,7 +105,7 @@ html
                     },
             }).then(response=> { 
                 if(response.data.langCode=='ko'){
-                    axios.get('http://localhost:3000/innerTranslate',{
+                    axios.get('https://ajoring.kr/innerTranslate',{
                         method: 'POST',
                         params: {
                             source : 'ko',
@@ -119,7 +119,7 @@ html
                         data.parentElement.getElementsByClassName("othermsg")[0].innerText = response2.data.message.result.translatedText;
                     })
                 } else {
-                    axios.get('http://localhost:3000/innerTranslate',{
+                    axios.get('https://ajoring.kr/innerTranslate',{
                         method: 'POST',
                         params: {
                             source : response.data.langCode,
@@ -132,7 +132,7 @@ html
                     }).then(response2=>{
                         data.parentElement.getElementsByClassName("othermsg")[0].innerText = response2.data.message.result.translatedText;
                         console.log(data.parentElement.getElementsByClassName("othermsg")[0].innerText);
-                        axios.get('http://localhost:3000/innerTranslate',{
+                        axios.get('https://ajoring.kr/innerTranslate',{
                         method: 'POST',
                         params: {
                             source : 'ko',
@@ -155,7 +155,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var text2 = document.querySelector('div.myProfile a').innerText;
                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -174,7 +174,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

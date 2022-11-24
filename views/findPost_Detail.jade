@@ -52,7 +52,7 @@ html
                                 h3 #{item.date}
                             h4 #{item.content}
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
 
     script(type="text/javascript").
@@ -64,7 +64,7 @@ html
             }
         }
         const deletePost = (id) => {
-            axios.get('http://localhost:3000/home/findPost/deletePost',{
+            axios.get('https://ajoring.kr/home/findPost/deletePost',{
                  method: 'POST',
                     params: {
                         post_id : id
@@ -84,7 +84,7 @@ html
             console.log(id);
             var content = document.getElementById('reply').value;
             console.log(content);
-                axios.get('http://localhost:3000/reply2/write',{
+                axios.get('https://ajoring.kr/reply2/write',{
                 method : 'POST',
                 params : {
                     content : content,
@@ -103,7 +103,7 @@ html
         const transToCN = () => {
                 var text = document.querySelector('div.contentArea h4').innerText;
                 console.log(text);
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'zh-CN',
@@ -119,7 +119,7 @@ html
             }
             const transToVi = () => {
                 var text = document.querySelector('div.contentArea h4').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',
@@ -138,7 +138,7 @@ html
             var text = document.querySelector('div.contentArea h4').innerText;
             var fullText = title + '\n' + text;
                 console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'fr',
@@ -161,7 +161,7 @@ html
                var replyInput = document.querySelector('div.replybox input').placeholder;
                var replyBtn = document.querySelector('div.replybox button h4').innerText;
                var myProfile = document.querySelector('div.myProfile a').innerText;
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -186,7 +186,7 @@ html
                 var replyInput = document.querySelector('div.replybox input').placeholder;
                 var replyBtn = document.querySelector('div.replybox button h4').innerText;
                 var myProfile = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',

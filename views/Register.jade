@@ -39,16 +39,19 @@ html
                 div(class="departmentSector")
                     h4 department
                     select(id="department" type="department")
-                        option(value="0") Social Science
-                        option(value="1") Computer Engineering
-                        option(value="2") Mathematical
+                        option(value="0") Engineering
+                        option(value="1") Information and Technology
+                        option(value="2") Computings and Informatics
+                        option(value="2") Natural Sciences
+                        option(value="2") Business
+                        option(value="2") Humanities
+                        option(value="2") Social Science
                 div(class="country")
                     h4 country
                     select(type="country")
-                        option(value="0") French
-                        option(value="1") Vietnam
-                        option(value="2") China
-                        option(value="3") Korea
+                        option(value="0") Vietnam
+                        option(value="1") China
+                        option(value="2") Korea
                 div(class="signUp")
                     button(onClick="testLoad(tutorState, tuteeState)") SignUp
     script(type = "text/javascript").
@@ -57,7 +60,7 @@ html
             e.preventDefault();
             var formData = new FormData();
             formData.append("file", document.querySelector("#inputImg").files[0]);
-            axios.post("http://localhost:3000/Image",formData,{
+            axios.post("https://ajoring.kr/Image",formData,{
                 headers : {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -108,7 +111,7 @@ html
                 role : role
             }
             if(role=="TUTEE") {
-                axios.get('http://localhost:3000/auth/SignUp',{
+                axios.get('https://ajoring.kr/auth/SignUp',{
                     method: 'POST',
                     params: {
                         email : User.email,

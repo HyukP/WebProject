@@ -24,7 +24,7 @@ html
         div(class="profileBox")
             div(class="profileArea")
                 div(class="ImageSector")
-                    img(src="http://localhost:3000/"+"#{rows[0].profileImage}" class="image")
+                    img(src="https://ajoring.kr/"+"#{rows[0].profileImage}" class="image")
                     div(class="nickname")
                         h4 #{rows[0].nickname}
                     div(class="email")
@@ -46,7 +46,7 @@ html
                         h3 선호 언어
                         h4 #{rows[0].preferenceCountry}
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{user.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
         div(id="modal" class="modal-overlay")
                 div(class="modal-window")
@@ -71,7 +71,7 @@ html
             const targetUser = document.location.href.substring(document.location.href.indexOf('?')+1).split('=')[1];
             const comment = document.getElementById('modal-text').value;
             if(targetUser!="#{user.id}") {
-                axios.get('http://localhost:3000/tutoring/request',{
+                axios.get('https://ajoring.kr/tutoring/request',{
                         method: 'POST',
                         params: {
                             targetUser : targetUser,

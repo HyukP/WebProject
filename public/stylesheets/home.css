@@ -74,10 +74,10 @@ a {
 }
 .myProfile {
   display: flex;
-  width : 10%;
+  width : auto;
   height : 10%;
   margin-top: 10px;
-  margin-right: 20px;
+  margin-right: auto;
 }
 .myProfile a {
   font-family: Noto Sans KR;

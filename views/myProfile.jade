@@ -25,7 +25,7 @@ html
         div(class="profileBox")
             div(class="profileArea")
                 div(class="ImageSector")
-                    img(src="http://localhost:3000/"+"#{userData.profileImage}" class="image")
+                    img(src="https://ajoring.kr/"+"#{userData.profileImage}" class="image")
                     div(class="nickname")
                         h4 #{userData.nickname}
                     div(class="email")
@@ -47,7 +47,7 @@ html
                         button(onClick="openTutorProfile()") 
                             h4 튜터 프로필 보기
         div(class="myProfile")
-            img(src="http://localhost:3000/"+"#{userData.profileImage}" class="profileIcon")
+            img(src="https://ajoring.kr/"+"#{userData.profileImage}" class="profileIcon")
             a(id="7" href=".") 내 프로필
     script(type="text/javascript").
         const editProfile = () => {
@@ -79,7 +79,7 @@ html
                var text = document.querySelector('div.menu_group').innerText;
                var text2 = document.querySelector('div.myProfile a').innerText;
                console.log(text);
-                axios.get('http://localhost:3000/translate',{
+                axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
                         target : 'zh-CN',
@@ -98,7 +98,7 @@ html
             }  else if(lang=="Vietnam") {
                 var text = document.querySelector('div.menu_group').innerText;
                 var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('http://localhost:3000/translate',{
+                    axios.get('https://ajoring.kr/translate',{
                         method: 'POST',
                         params: {
                             target : 'vi',
