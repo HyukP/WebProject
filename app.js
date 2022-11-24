@@ -24,7 +24,7 @@ var app = express();
 let status = 0;
 var https = require('https');
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io')(https);
 var sessionObject = {
   secret : 'Jello',
   resave : false,
