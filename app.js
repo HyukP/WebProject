@@ -84,9 +84,6 @@ var connection = db.createConnection(db_info);
     key: fs.readFileSync('./rootca.key'),
     cert : fs.readFileSync('./rootca.crt')
   };
- const httpServer = https.createServer(keyOption, app).listen(443);
-  http.listen(3000);
-
 io.on('connection', function(socket) {
   console.log(socket.id);
   socketId = socket.id;
@@ -112,6 +109,9 @@ io.on('connection', function(socket) {
     })
   }) 
 })
+const httpServer = https.createServer(keyOption, app).listen(443);
+http.listen(3000);
+
 app.get('/home/tutoringList/ChatTest',function(req,res) {
   var user_id = req.session.displayName.id;
   var user = req.session.user;
