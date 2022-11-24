@@ -81,8 +81,8 @@ var connection = db.createConnection(db_info);
   })
 
   const keyOption = {
-    key: fs.readFileSync('./rootca.key'),
-    cert : fs.readFileSync('./rootca.crt')
+    key: fs.readFileSync('./keys/rootca.key'),
+    cert : fs.readFileSync('./keys/rootca.crt')
   };
 
 const httpServer = http.createServer(app);
