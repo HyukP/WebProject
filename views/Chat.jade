@@ -49,7 +49,7 @@ html
         div(class="myProfile")
             img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="../myProfile/") 내 프로필
-    script(src="https://ajoring.kr/socket.io/socket.io.js")
+    script(type = "socket.io/socket.io.js" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js")
     script(type="text/javascript").
         var socket = io.connect('https://ajoring.kr/');
         var room_id = document.location.href.split('=')[1];
