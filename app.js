@@ -44,6 +44,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'post')));
 app.use(session(sessionObject));
 app.use('/', (req,res,next) => {
   if(req.secure) {
@@ -65,11 +66,7 @@ var db_info = {
   host : '127.0.0.1',
   port : '3306',
   user : 'root',
-<<<<<<< HEAD
-  password : '@ahtmxmwpem12',
-=======
   password : 'altmxpfl12',
->>>>>>> ece0c83549219281f05a3bfafd8ab739cc6b1e5a
   database : 'Autor'
 };
 var socketId;
