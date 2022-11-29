@@ -155,7 +155,32 @@ app.get('/start', function(req, res) {
 app.get('/home/',function(req, res) {
   var lang = req.session.user.country;
   var user = req.session.user;
-  res.render('home',{lang : lang, user:user});
+  connection.query('SELECT * from post where nickname = ?',[user.nickname],function(err,results,field) {
+    if(err) throw err;
+    connection.query('SELECT * from post2 where nickname = ?',[user.nickname], function(err, results2, field) {
+      if(err) throw err;
+      connection.query('SELECT * from tutoring where tutorUser_id = ? OR tuteeUser_id = ?',[user.id, user.id], function(err, results3, field) {
+        if(err) throw err;
+        if(results.length > 0 && results2.length > 0 && results3.length > 0) {
+          res.render('home',{lang : lang, user:user, post1 : results, post2 : results2, tutoring : results3});
+        }
+        else if(results.length <= 0 && results2.length > 0 && results3.length > 0) {
+          res.render('home',{lang : lang, user:user, post2 : results2, tutoring : results3});
+        }
+        else if(results.length <= 0 && results2.length <= 0 && results3.length > 0) {
+          res.render('home',{lang : lang, tutoring : results3});
+        }
+        else if(results.length > 0 && results2.length <= 0 && results3.length > 0) {
+          res.render('home',{lang : lang, user:user, post1 : results, tutoring : results3});
+        }
+        else if(results.length > 0 && results2.length > 0 && results3.length <= 0) {
+          res.render('home',{lang : lang, user:user, post1 : results, post2 : results2});
+        } else {
+          res.render('home',{lang : lang, user:user});
+        }
+      })
+    })
+  })
 })
 app.get('/home/myProfile/editProfile',function(req,res) {
   var user = req.session.user;

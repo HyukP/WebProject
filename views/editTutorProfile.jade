@@ -33,7 +33,7 @@ html
                     h4 튜터 날짜
                     textarea(id="tutorDatesText")
                 div(class="preferenceCountry")
-                        h4 preferenceCountry
+                        h4 선호 언어
                         select(id="country1" type="preferenceCountry")
                             option(value="0") Vietnam
                             option(value="1") China
@@ -89,15 +89,21 @@ html
         }
         const testTrans = () => {
             var lang = "#{user.country}"
-            if(lang=="China") {
-               var text = document.querySelector('div.menu_group').innerText;
-               var text2 = document.querySelector('div.myProfile a').innerText;
-               console.log(text);
+            var text = document.querySelector('div.menu_group').innerText;
+            var text2 = document.querySelector('div.myProfile a').innerText;
+            var introduce = document.querySelector('div.Introduce h4').innerHTML;
+            var department = document.querySelector('div.tutorSector h4').innerHTML;
+            var userType = document.querySelector('div.tutorDates h4').innerHTML;
+            var userType2 = document.querySelector('div.preferenceCountry h4').innerHTML;
+            var editBtn = document.querySelector('div.editButton button h4').innerText;
+            if(lang=="China") lang = "zh-CN";
+            else if(lang=="Vietnam") lang = "vi";
+               
                 axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
-                        target : 'zh-CN',
-                        text : text +'\n' + text2
+                        target : lang,
+                        text : text + '\n' + text2 + '\n' + introduce + '\n' + department + '\n' + userType + '\n' + userType2 + '\n' + editBtn
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -108,26 +114,12 @@ html
                     for(var i = 1; i<= 7; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
+                    document.querySelector('div.Introduce h4').innerHTML = list[7];
+                    document.querySelector('div.tutorSector h4').innerHTML = list[8];
+                    document.querySelector('div.tutorDates h4').innerHTML = list[9];
+                    document.querySelector('div.preferenceCountry h4').innerHTML = list[10];
+                    document.querySelector('div.editButton button h4').innerText = list[11];
                 })
-            }  else if(lang=="Vietnam") {
-                var text = document.querySelector('div.menu_group').innerText;
-                var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('https://ajoring.kr/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'vi',
-                            text : text +'\n' + text2
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText.split('\n');
-                        for(var i = 1; i<= 7; i++) {
-                            document.getElementById(i).textContent = list[i-1];
-                        }
-                    })
-            }
         }
         testTrans();
                 

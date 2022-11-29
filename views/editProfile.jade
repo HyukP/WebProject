@@ -106,15 +106,21 @@ html
         }
         const testTrans = () => {
             var lang = "#{user.country}"
-            if(lang=="China") {
-               var text = document.querySelector('div.menu_group').innerText;
-               var text2 = document.querySelector('div.myProfile a').innerText;
-               console.log(text);
+            var text = document.querySelector('div.menu_group').innerText;
+            var text2 = document.querySelector('div.myProfile a').innerText;
+            var upload = document.querySelector('form').getElementsByClassName('submit')[0].value;
+            var nickName = document.querySelector('div.editNickname h4').innerText;
+            var placeholder = document.querySelector('div.inputLine input').placeholder;
+            var checkBtn = document.querySelector('div.inputLine button h4').innerText;
+            var editBtn = document.querySelector('div.editButton button h4').innerText;
+            if(lang=="China") lang = "zh-CN";
+            else if(lang=="Vietnam") lang = "vi";
+               
                 axios.get('https://ajoring.kr/translate',{
                     method: 'POST',
                     params: {
-                        target : 'zh-CN',
-                        text : text +'\n' + text2
+                        target : lang,
+                        text : text + '\n' + text2 + '\n' + upload + '\n' + nickName + '\n' + placeholder + '\n' + checkBtn + '\n' + editBtn
                     },
                     headers: {
                         'Content-Type': 'application/json',
@@ -125,25 +131,11 @@ html
                     for(var i = 1; i<= 7; i++) {
                         document.getElementById(i).textContent = list[i-1];
                     }
+                    document.querySelector('form').getElementsByClassName('submit')[0].value = list[7];
+                    document.querySelector('div.editNickname h4').innerText= list[8];
+                    document.querySelector('div.inputLine input').placeholder= list[9];
+                    document.querySelector('div.inputLine button h4').innerText= list[10];
+                    document.querySelector('div.editButton button h4').innerText= list[11];
                 })
-            }  else if(lang=="Vietnam") {
-                var text = document.querySelector('div.menu_group').innerText;
-                var text2 = document.querySelector('div.myProfile a').innerText;
-                    axios.get('https://ajoring.kr/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'vi',
-                            text : text +'\n' + text2
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText.split('\n');
-                        for(var i = 1; i<= 7; i++) {
-                            document.getElementById(i).textContent = list[i-1];
-                        }
-                    })
-            }
         }
         testTrans();

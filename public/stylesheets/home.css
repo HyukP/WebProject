@@ -107,3 +107,72 @@ a {
   margin-left: auto;
   margin-right: auto;
 }
+.mainPage {
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: auto;
+}
+.postPage {
+  display: flex;
+  flex-direction: row;
+}
+.MyPost {
+  margin-left: 2%;
+  width : 40%;
+}
+.MyPost2 {
+  margin-left: auto;
+  width : 50%;
+}
+.listPage {
+  display: flex;
+  flex-direction: row;
+}
+.myTutoring{
+  margin-left: auto;
+  margin-right: auto;
+}
+.postList {
+  width: 100%;
+  height: auto;
+  overflow-y: auto;
+  border-radius: 1px;
+  box-shadow: 1.5px 1.5px gray;
+  background: white;
+  border-bottom: 0.5px solid lightgray;
+  display: flex;
+  flex-direction: row;
+}
+.postList h4 {
+  color: black;
+}
+.postList h2 {
+}
+.postTitle {
+  margin-left: 2%;
+}
+.postTitle h4 {
+
+}
+.postOwner_Count {
+display: flex;
+flex-direction: row;
+}
+.postOwner {
+  margin-left: 2%;
+}
+.postContent {
+  margin-left: 2%;
+}
+.postCount {
+  margin-left: 2%;
+}
+.postCount h2 {
+  font-family: Jalnan;
+  font-size: 12px;
+}
+.postList .postNext{
+  cursor: pointer;
+  width: auto;
+}

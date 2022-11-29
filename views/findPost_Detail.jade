@@ -27,9 +27,9 @@ html
                 div(class="otherArea")
                     h2 #{rows[0].nickname}
                     div(class="translate" style="margin-left:50%;")
-                        img(src="https://i.ibb.co/ypQQV2L/france.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToFR()")
-                        img(src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToCN()")
-                        img(src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transToVi()")
+                        img(id = "zh-CN" src="https://i.ibb.co/ws69Xdc/united-states-of-america.png" style="margin-right:10px;width:25px;height:25px;" onClick="transTo('en')")
+                        img(src="https://i.ibb.co/6JY4t20/china.png" style="margin-right:10px;width:25px;height:25px;" onClick="transTo('zh-CN')")
+                        img(src="https://i.ibb.co/yp5C8MF/vietnam.png" style="margin-right:10px;width:25px;height:25px;" onClick="transTo('vi')")
                     div(class="delete")
                         button(id="#{rows[0].id}" class="deleteBtn" onClick="deletePost(this.id)")
                             h4 삭제
@@ -100,58 +100,67 @@ html
                 }
             })
         }
-        const transToCN = () => {
-                var text = document.querySelector('div.contentArea h4').innerText;
-                console.log(text);
-                    axios.get('https://ajoring.kr/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'zh-CN',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText;
-                        document.querySelector('div.contentArea h4').innerText = list;
-                })
-            }
-            const transToVi = () => {
-                var text = document.querySelector('div.contentArea h4').innerText;
-                    axios.get('https://ajoring.kr/translate',{
-                        method: 'POST',
-                        params: {
-                            target : 'vi',
-                            text : text
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then(response=> {
-                        var list = response.data.message.result.translatedText;
-                        document.querySelector('div.contentArea h4').innerText = list;
-                })
-            }
-        const transToFR = () => {
-            var title = document.querySelector('div.boardLine h4').innerText;
-            var text = document.querySelector('div.contentArea h4').innerText;
-            var fullText = title + '\n' + text;
-                console.log(text);
-                axios.get('https://ajoring.kr/translate',{
+        const transTo = (target) => {
+            var title = document.querySelector('div.boardLine h4').textContent;
+            var content = document.querySelector('div.contentArea h4').textContent;
+            axios.get('https://ajoring.kr/detect',{
                     method: 'POST',
                     params: {
-                        target : 'fr',
-                        text : fullText
+                        text : title
                     },
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }).then(response=> {
-                    var list = response.data.message.result.translatedText.split('\n');
-                    document.querySelector('div.boardLine h4').innerText = list[0];
-                    document.querySelector('div.contentArea h4').innerText = list[1];
-            })
+                    if(response.data.langCode=='ko') {
+                        axios.get('https://ajoring.kr/innerTranslate',{
+                        method: 'POST',
+                        params: {
+                            source : response.data.langCode,
+                            target : target,
+                            text : title + '\n' +content
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response2=> {
+                        var list = response2.data.message.result.translatedText.split('\n');
+                        document.querySelector('div.boardLine h4').textContent = list[0];
+                        document.querySelector('div.contentArea h4').textContent = list[1];
+                    })
+                    } else {
+                        axios.get('https://ajoring.kr/innerTranslate',{
+                            method: 'POST',
+                            params: {
+                                source : response.data.langCode,
+                                target : 'ko',
+                                text : title + '\n' +content
+                            },
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }).then(response3=> {
+                            var list = response3.data.message.result.translatedText.split('\n');
+                            document.querySelector('div.boardLine h4').textContent = list[0];
+                            document.querySelector('div.contentArea h4').textContent = list[1];
+                            axios.get('https://ajoring.kr/innerTranslate',{
+                            method: 'POST',
+                            params: {
+                                source : 'ko',
+                                target : target,
+                                text : title + '\n' +content
+                            },
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }).then(response4=> {
+                            var list = response4.data.message.result.translatedText.split('\n');
+                            document.querySelector('div.boardLine h4').textContent = list[0];
+                            document.querySelector('div.contentArea h4').textContent = list[1];
+                        })
+                        }) 
+                    }
+                })
         }
         const testTrans = () => {
             var lang = "#{lang}"

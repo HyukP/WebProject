@@ -225,6 +225,19 @@
     margin-top : 10px;
     margin-bottom: 20px;
   }
+  .userType2 h3 {
+    font-size: 14px;
+    font-family: Noto Sans KR;
+    margin-left: 10px;
+    color: darkgray;
+  }
+  .userType2 h4 {
+    font-size: 16px;
+    font-family: Jalnan;
+    margin-left: 10px;
+    margin-top : 10px;
+    margin-bottom: 20px;
+  }
   .tutorDate {
     margin-top : 30px;
     width: auto;

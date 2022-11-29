@@ -24,13 +24,80 @@ html
                         a(id="6" href="./sendList/") 보낸 요청
         div(class="mainHome")
             h4 Welcome
-            div(class="MainPage")
+            div(class="mainPage")
+                div(class="postPage")
+                    div(class="MyPost")
+                        h4 나의 질문 게시글
+                        -if(post1!=null)
+                            for item in post1
+                                div(class="postList")
+                                    div(id = "post #{item.id}" class="postNext" onClick="onPostDetail(this.id)")
+                                        div(class="postTitle")
+                                            h4 #{item.title}
+                                        div(class="postContent")
+                                            h4 #{item.content}
+                                        div(class="postOwner_Count")
+                                            div(class="postCount")
+                                                h4 조회 수: #{item.count}
+                                            div(class="postOwner")
+                                                h4 작성자: #{item.nickname}
+                    div(class="MyPost2")
+                        h4 나의 찾아요 게시글
+                        -if(post2!=null)
+                            for item in post2
+                                div(class="postList")
+                                    div(id = "post2 #{item.id}" class="postNext" onClick="onPostDetail(this.id)")
+                                        div(class="postTitle")
+                                            h4 #{item.title}
+                                        div(class="postContent")
+                                            h4 #{item.content}
+                                        div(class="postOwner_Count")
+                                            div(class="postCount")
+                                                h4 조회 수: #{item.count}
+                                            div(class="postOwner")
+                                                h4 작성자: #{item.nickname}
+                div(class="listPage")
+                    div(class="myTutoring")
+                        h4 나의 튜터링 리스트
+                        -if(tutoring!=null)
+                            h4 #{tutoring[0].content}
         div(class="myProfile")
             img(src="https://ajoring.kr/"+"#{user.profileImage}" class="profileIcon")
             a(id="7" href="./myProfile/") 내 프로필
                 
     
     script(type="text/javascript").
+        const onPostDetail = (id) => {
+            var post_id = id.split(' ')[1];
+            var postType = id.split(' ')[0];
+            if(postType=="post") {
+                axios.get('https://ajoring.kr/post/updateCount',{
+                        method : 'POST',
+                        params: {
+                            post_id : post_id
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response => {
+                        console.log(response.data);
+                    })
+                document.location.href="./post/postDetail?post_id="+post_id;
+            } else {
+                axios.get('https://ajoring.kr/findPost/updateCount',{
+                        method : 'POST',
+                        params: {
+                            post_id : post_id
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response => {
+                        console.log(response.data);
+                    })
+                document.location.href="./findPost/postDetail?post_id="+post_id;
+            }
+        }
         const testTrans = () => {
             var lang = "#{user.country}"
             if(lang=="China") {
