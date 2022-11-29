@@ -23,9 +23,40 @@ html
                         a(id="6" href="../sendList/") 보낸 요청
         div(class="profileBox")
             div(class="searchSector")
+                h4 College
                 div(class="inputBox")
-                    h4 닉네임으로 검색
-                    input(class="searchInput" onkeyup="searchUser(this.value)")
+                    div(class="inputDiv")
+                        input(type="checkBox" id="label1" onClick="checkBox(this.id)")
+                        label(class="label1") Engineering
+                    div(class="inputDiv")
+                        input(type="checkBox" id="label2" onClick="checkBox(this.id)")
+                        label(class="label2") Information and Technology
+                    div(class="inputDiv")
+                        input(type="checkBox" id="label3" onClick="checkBox(this.id)")
+                        label(class="label3") Computings and Informatics
+                    div(class="inputDiv")
+                        input(type="checkBox" id="label4" onClick="checkBox(this.id)")
+                        label(class="label4") Natural Sciences
+                    div(class="inputDiv")
+                        input(type="checkBox" id="label5" onClick="checkBox(this.id)")
+                        label(class="label5") Business
+                    div(class="inputDiv")
+                        input(type="checkBox" id="label6" onClick="checkBox(this.id)")
+                        label(class="label6") Humanities
+                    div(class="inputDiv")
+                        input(type="checkBox" id="label7" onClick="checkBox(this.id)")
+                        label(class="label7") Social Science
+                h4 Country
+                div(class="inputBox")
+                    div(class="inputDiv2")
+                        input(type="checkBox" id="label1#c" onClick="checkBox2(this.id)")
+                        label(class="label1#c") Korea
+                    div(class="inputDiv2")
+                        input(type="checkBox" id="label2#c" onClick="checkBox2(this.id)")
+                        label(class="label2#c") Vietnam
+                    div(class="inputDiv2")
+                        input(type="checkBox" id="label3#c" onClick="checkBox2(this.id)")
+                        label(class="label3#c") China
             div(class="profiles")
                 -if(rows!=null)
                     -for(var i=0;i<rows.length;i++)
@@ -51,46 +82,89 @@ html
         let id;
         const checkBox = (value) => {
             var thisBox = document.getElementById(value);
-            var box2, box3, box4;
+            var box2, box3, box4, box5, box6, box7;
             switch(value){
                 case "label1" : {
                     box2 = document.getElementById('label2');
                     box3 = document.getElementById('label3');
                     box4 = document.getElementById('label4');
+                    box5 = document.getElementById('label5');
+                    box6 = document.getElementById('label6');
+                    box7 = document.getElementById('label7');
                     break;
                 }
                 case "label2" : {
                     box2 = document.getElementById('label1');
                     box3 = document.getElementById('label3');
                     box4 = document.getElementById('label4');
+                    box5 = document.getElementById('label5');
+                    box6 = document.getElementById('label6');
+                    box7 = document.getElementById('label7');
                     break;
                 }
                 case "label3" : {
                     box2 = document.getElementById('label2');
                     box3 = document.getElementById('label1');
                     box4 = document.getElementById('label4');
+                    box5 = document.getElementById('label5');
+                    box6 = document.getElementById('label6');
+                    box7 = document.getElementById('label7');
                     break;
                 }
                 case "label4" : {
                     box2 = document.getElementById('label2');
                     box3 = document.getElementById('label3');
                     box4 = document.getElementById('label1');
+                    box5 = document.getElementById('label5');
+                    box6 = document.getElementById('label6');
+                    box7 = document.getElementById('label7');
                     break;
                 }
+                case "label5" : {
+                    box2 = document.getElementById('label1');
+                    box3 = document.getElementById('label3');
+                    box4 = document.getElementById('label4');
+                    box5 = document.getElementById('label1');
+                    box6 = document.getElementById('label6');
+                    box7 = document.getElementById('label7');
+                    break;
+                }
+                case "label6" : {
+                    box2 = document.getElementById('label2');
+                    box3 = document.getElementById('label1');
+                    box4 = document.getElementById('label4');
+                    box5 = document.getElementById('label5');
+                    box6 = document.getElementById('label1');
+                    box7 = document.getElementById('label7');
+                    break;
+                }
+                case "label7" : {
+                    box2 = document.getElementById('label2');
+                    box3 = document.getElementById('label3');
+                    box4 = document.getElementById('label1');
+                    box5 = document.getElementById('label5');
+                    box6 = document.getElementById('label6');
+                    box7 = document.getElementById('label1');
+                    break;
+                }
+                
             }
 
             if(thisBox.checked==true) {
                 box2.checked = false;
                 box3.checked = false;
                 box4.checked = false;
+                box5.checked = false;
+                box6.checked = false;
+                box7.checked = false;
             }
-            var keyword = document.querySelector("div.departments").getElementsByClassName(value)[0].innerHTML.toLowerCase();
+            var keyword = document.querySelector("div.searchSector").getElementsByClassName(value)[0].innerHTML.toLowerCase();
             var currentlist = document.getElementsByClassName('profileCard');
             if(thisBox.checked) {
                 var newlist = document.getElementsByClassName('profileCard');
                 for(var i = 0; i<newlist.length;i++) {
-                    var department = newlist[i].getElementsByClassName('name')[0].innerHTML;
-                    var searchResult = department.toLowerCase().split(': ')[1];
+                    var department = newlist[i].getElementsByClassName('department')[0].innerHTML;
+                    var searchResult = department.toLowerCase();
                     console.log(searchResult)
                         if(searchResult.indexOf(keyword) != -1) {
                             newlist[i].style.display = "flex";
@@ -130,14 +204,13 @@ html
                 box2.checked = false;
                 box3.checked = false;
             }
-            var keyword = document.querySelector("div.country").getElementsByClassName(value)[0].innerHTML.toLowerCase();
+            var keyword = document.querySelector("div.searchSector").getElementsByClassName(value)[0].innerHTML.toLowerCase();
             var currentlist = document.getElementsByClassName('profileCard');
             if(thisBox.checked) {
                 var newlist = document.getElementsByClassName('profileCard');
                 for(var i = 0; i<newlist.length;i++) {
                     var country = newlist[i].getElementsByClassName('countryText')[0].innerHTML;
-                    var searchResult = country.toLowerCase().split(': ')[1];
-                    console.log(searchResult)
+                    var searchResult = country.toLowerCase();
                         if(searchResult.indexOf(keyword) != -1) {
                             newlist[i].style.display = "flex";
                         } else {
@@ -148,18 +221,6 @@ html
                 for(var i = 0; i<currentlist.length;i++) {
                     currentlist[i].style.display = "flex";
                 }
-            }
-        }
-
-        const validNameCheck = () => {
-            var name = document.querySelector('div.name h4').textContent;
-            if(name.indexOf('%20')!=-1){
-                var text = name.split(': ')[1].split('%20');
-                var newName = "";
-                for(var i = 0; i<text.length;i++){
-                    newName += text[i]+" ";
-                }
-                document.querySelector('div.name h4').textContent = name.split(': ')[0] + ': ' +newName;
             }
         }
         const searchUser = (keyword) => {
@@ -230,6 +291,5 @@ html
             }
         }
         testTrans();
-        validNameCheck();
 
             

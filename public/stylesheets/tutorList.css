@@ -144,18 +144,53 @@
 }
 .searchSector {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+}
+.searchSector h4 {
+    font-family: Noto Sans KR;
+    font-size: 15px;
+    margin-left: 20px;
 }
 .inputBox {
     display: flex;
-    flex-direction: column;
-    margin-left: 50px;
+    flex-direction: row;
+    width: auto;
+    height: auto;
 }
 .ckBox {
     display: flex;
     margin-left: 100px;
     margin-right: auto;
 }
+.inputDiv {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    margin : auto;
+}
+.inputDiv label {
+    width: auto;
+    margin-left: 10px;
+}
+.inputDiv input {
+    margin-left: 10px;
+}
+
+.inputDiv2 {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+}
+.inputDiv2 label {
+    width: auto;
+    margin-left: 10px;
+}
+.inputDiv2 input {
+    margin-left: 10px;
+}
+
 .search {
     margin-left:10px;
     border-radius: 2px;
