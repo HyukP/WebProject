@@ -54,20 +54,6 @@ app.use('/', (req,res,next) => {
 
 }
 });
-var isServiceWorkerSupported = 'serviceWorker' in navigator;
-if (isServiceWorkerSupported)
-{
-  //브라우저에 Service Worker를 등록
-  navigator.serviceWorker.register('service-worker.js', { scope: '/'})
-    .then(function(registration)
-    {
-       console.log('[ServiceWorker] 등록 성공: ', registration.scope);
-    })
-    .catch(function(err) 
-    {
-       console.log('[ServiceWorker] 등록 실패: ', err);
-    });
-}
 app.use('/users', usersRouter);
 app.use('/start', pageRouter);
 app.use('/Register',registerRouter);
